@@ -2,9 +2,16 @@
 
 import java.awt.CardLayout;
 import java.awt.Toolkit;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+
 
 
 
@@ -21,28 +28,36 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class erp_frame extends JFrame {
     private CardLayout nowLayout;
+    private EmptyPanel empty;
     private Employee employee;
     private Attendance attendance;
     private PayRoll payRoll;
     private Achievement achievement;
     private Material material;
     
+    private myTableModel tableModel;
+    public LinkedList<String[]> data;
+    String[] fields;
+    String[] employeeFields = {"員工編號","姓名","地址","電話","性別","生日","職等","部門","備註"};
+    String path = null;
     public erp_frame() {
         initComponents();
         init();
+        empty = new EmptyPanel();
         employee = new Employee();
         attendance = new Attendance();
         payRoll = new PayRoll();
         achievement = new Achievement();
         material = new Material();
-        
+        panel_dataInput.add("empty",empty);
         panel_dataInput.add("employee",employee);
         panel_dataInput.add("attendance", attendance);
         panel_dataInput.add("payRoll", payRoll);
         panel_dataInput.add("achievement", achievement);
         panel_dataInput.add("material", material);
 //       setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        
+        data = new LinkedList<>();
+        tableModel = new myTableModel(employeeFields);
     }
     private void init(){
         setResizable(false);
@@ -56,11 +71,6 @@ public class erp_frame extends JFrame {
         
         nowLayout = new CardLayout();       
         panel_dataInput.setLayout(nowLayout);
-
-        
-        
-        
-
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -172,7 +182,7 @@ public class erp_frame extends JFrame {
 
         panel_dataShow.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         panel_dataShow.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
+        
         table_firmData.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
         table_firmData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -190,9 +200,20 @@ public class erp_frame extends JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_firmData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_firmDataMouseClicked(evt);
+            }
+        });
+        
         jScrollPane3.setViewportView(table_firmData);
 
         panel_dataShow.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 980, 460));
+        text_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                text_searchKeyReleased(evt);
+            }
+        });
         panel_dataShow.add(text_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 150, 25));
 
         label_search.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
@@ -314,30 +335,127 @@ public class erp_frame extends JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }
     
-    private void btnFirstDataMouseClicked(java.awt.event.MouseEvent evt) {                                          
-        System.out.println("FirstData");
+    class myTableModel extends DefaultTableModel{
+    	public myTableModel(String[] fields){
+    		super(fields,0);
+    	}
+    	
+    	 @Override
+         public int getRowCount() {
+            return data.size();
+         }
+
+         @Override
+         public int getColumnCount() {
+           return employeeFields.length;
+         }
+         
+         @Override
+         public void fireTableCellUpdated(int row, int column) {
+         	super.fireTableCellUpdated(row, column);
+         	System.out.println("fireTableCell");
+         }
+         
+         @Override
+         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+         	System.out.println(rowIndex + "x" + columnIndex + "x" + aValue);
+         }
+
+         @Override
+         public Object getValueAt(int rowIndex, int columnIndex) {
+             return data.get(rowIndex)[columnIndex];
+         }
+         
+          @Override
+         public boolean isCellEditable(int row, int col){
+            return false;
+             
+         }
+    }
+	
+    
+    private void btnFirstDataMouseClicked(java.awt.event.MouseEvent evt) {
+    	switch(path){
+    	case "員工資料表":
+    			employee.setInputValue(tableSelData(0));
+    			break;
+    	}
+    	
     }                                         
 
     private void btnPreDataMouseClicked(java.awt.event.MouseEvent evt) {                                        
-    	System.out.println("PreData");
+    	switch(path){
+    	case "員工資料表":
+    			if(table_firmData.getSelectedRow()-1 >= 0){
+    				employee.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+    			}
+    			break;
+    	}
     }                                       
 
-    private void btnNextDataMouseClicked(java.awt.event.MouseEvent evt) {                                         
-    	System.out.println("NextData");
+    private void btnNextDataMouseClicked(java.awt.event.MouseEvent evt) {
+    	// Some Problem not resolve
+    	switch(path){
+    	case "員工資料表":
+    		if(table_firmData.getSelectedRow() < table_firmData.getRowCount()){
+    			employee.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+				System.out.println("Rowcount" + table_firmData.getSelectedRow());
+    		}
+    		break;
+    	}
     }                                        
 
-    private void btnInsertMouseClicked(java.awt.event.MouseEvent evt) {                                       
-    	System.out.println("Insert");
+    private void btnInsertMouseClicked(java.awt.event.MouseEvent evt) {
+    	int isInsert = 0;
+    	if(path != null){
+    		switch(path){
+    			case "員工資料表":
+    				isInsert = employee.insertData();
+    				data = employee.queryData();
+    				tableModel.fireTableDataChanged();
+    				break;
+    		}
+    		if(isInsert == 1 ){
+    			JOptionPane.showMessageDialog(rootPane, "新增資料成功");
+    		}
+    		else{
+    			JOptionPane.showMessageDialog(rootPane, "新增資料失敗");
+    		}
+    	}
+  
     }                                      
 
-    private void btnModifyMouseClicked(java.awt.event.MouseEvent evt) {                                       
-    	System.out.println("Modify");
-    }                                      
-
+    private void btnModifyMouseClicked(java.awt.event.MouseEvent evt) { 
+    	int isUpdate = 0;
+    	if(path != null){
+    		switch(path){
+           	case "員工資料表":
+           		isUpdate = employee.updateData();
+           		data = employee.queryData();
+           		tableModel.fireTableDataChanged();
+        		break;
+        	}
+    	}
+    	if(isUpdate == 1){
+    		JOptionPane.showMessageDialog(rootPane, "更新資料成功");
+    	}
+    	else{
+    		JOptionPane.showMessageDialog(rootPane, "更新資料失敗");
+    	}
+    	
+    }
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {                                      
-    	System.out.println("Clear");
+    	if(path != null){
+    		switch(path){
+           	case "員工資料表":
+           		employee.clearInput();
+        		break;
+        	}
+    	}
     }                                     
 
     private void btnExportMouseClicked(java.awt.event.MouseEvent evt) {                                       
@@ -345,19 +463,43 @@ public class erp_frame extends JFrame {
     }                                      
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {                                       
-    	System.out.println("Delete");
+    	int isDel = 0;
+    	if(path != null){
+    		if(JOptionPane.showConfirmDialog(JToolBar, "確定刪除此筆資料")==0){
+    			switch(path){
+               	case "員工資料表":
+               		isDel = employee.delData();
+               		data = employee.queryData();
+               		tableModel.fireTableDataChanged();
+            		break;
+            	}
+    			if(isDel == 1){
+            		JOptionPane.showMessageDialog(rootPane, "刪除資料成功");
+            	}
+            	else{
+            		JOptionPane.showMessageDialog(rootPane, "刪除資料失敗");
+            	}
+        	}
+        	
+    		}
+    		
     }                                      
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {                                       
     	System.out.println("Logout");
+    	
     }            
     
     private void treeFolderValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeFolderValueChanged
-        // TODO add your handling code here:
+        
     	if(treeFolder.getSelectionPath().getLastPathComponent().toString()!=null){
-    		String path = treeFolder.getSelectionPath().getLastPathComponent().toString();
+    		path = treeFolder.getSelectionPath().getLastPathComponent().toString();
     		if(path.equals("員工資料表")){
     			nowLayout.show(panel_dataInput, "employee");
+    			
+    			table_firmData.setModel(tableModel);
+    			data = employee.queryData();
+				tableModel.fireTableDataChanged();
     		}
     		else if (path.equals("出缺勤表")){
     			nowLayout.show(panel_dataInput, "attendance");
@@ -371,16 +513,50 @@ public class erp_frame extends JFrame {
     		else if (path.equals("原料庫存資料表")){
     			nowLayout.show(panel_dataInput, "material");
     		}
-            System.out.println(path);
+            
+    	}
+   
+    }
+    
+    private void table_firmDataMouseClicked(java.awt.event.MouseEvent evt) {                                            
+    	switch(path){
+    	case "員工資料表":
+    			employee.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+    			break;
+    	}
+    }
+    
+    private void text_searchKeyReleased(java.awt.event.KeyEvent evt) {                                        
+        //System.out.println(text_search.getText());
+        if(path != null){
+    		switch(path){
+           	case "員工資料表":
+           		if(text_search.getText()!=""){
+           			data = employee.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data = employee.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
+           		
+        		break;
+        	}
     	}
         
-        
-        
-        	//
-       
-        	
-        
-    }//GEN-LAST:event_treeFolderValueChanged
+     }   
+    
+    protected  HashMap<Integer, String > tableSelData (int selRow){
+    	HashMap<Integer, String>tableData = new HashMap<>();
+    	
+    	for(int i=0; i <table_firmData.getColumnCount(); i++ ){
+    		String data = (String) table_firmData.getValueAt(selRow,i);
+    		tableData.put(i , data);
+    	}
+    	return tableData;
+    }
+    
+    //protected static HashMap<Integer, String > forOtherPanel = new HashMap<>();
     
     /**
      * @param args the command line arguments
