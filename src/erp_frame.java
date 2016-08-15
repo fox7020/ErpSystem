@@ -39,6 +39,7 @@ public class erp_frame extends JFrame {
     public LinkedList<String[]> data;
     String[] fields;
     String[] employeeFields = {"員工編號","姓名","地址","電話","性別","生日","職等","部門","備註"};
+    String[] attendanceFields = {"員工編號","上班打卡","下班打卡","假別","部門","備註"};
     String path = null;
     public erp_frame() {
         initComponents();
@@ -57,7 +58,7 @@ public class erp_frame extends JFrame {
         panel_dataInput.add("material", material);
 //       setExtendedState(JFrame.MAXIMIZED_BOTH); 
         data = new LinkedList<>();
-        tableModel = new myTableModel(employeeFields);
+        
     }
     private void init(){
         setResizable(false);
@@ -349,7 +350,18 @@ public class erp_frame extends JFrame {
 
          @Override
          public int getColumnCount() {
-           return employeeFields.length;
+        	 int length = 0;
+        	 if(path != null){
+        		 switch(path){
+                	case "員工資料表":
+                		length = employeeFields.length;
+             		break;
+                	case "出缺勤表":
+                		length = attendanceFields.length;
+                		break;
+             	}
+        	 }
+           return length;
          }
          
          @Override
@@ -381,6 +393,9 @@ public class erp_frame extends JFrame {
     	case "員工資料表":
     			employee.setInputValue(tableSelData(0));
     			break;
+    	case "出缺勤表":
+    			attendance.setInputValue(tableSelData(0));
+    			break;
     	}
     	
     }                                         
@@ -393,6 +408,12 @@ public class erp_frame extends JFrame {
     				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
     			}
     			break;
+    	case "出缺勤表":
+    			if(table_firmData.getSelectedRow()-1 >= 0){
+    				attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+    			}
+    			break;
     	}
     }                                       
 
@@ -400,22 +421,34 @@ public class erp_frame extends JFrame {
     	// Some Problem not resolve
     	switch(path){
     	case "員工資料表":
-    		if(table_firmData.getSelectedRow() < table_firmData.getRowCount()){
+    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
     			employee.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
 				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
-				System.out.println("Rowcount" + table_firmData.getSelectedRow());
     		}
     		break;
+    	case "出缺勤表":
+    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
+    			attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+    		}
+    		break;
+    		
     	}
     }                                        
 
     private void btnInsertMouseClicked(java.awt.event.MouseEvent evt) {
+    	data.clear();
     	int isInsert = 0;
     	if(path != null){
     		switch(path){
     			case "員工資料表":
     				isInsert = employee.insertData();
     				data = employee.queryData();
+    				tableModel.fireTableDataChanged();
+    				break;
+    			case "出缺勤表":
+    				isInsert = attendance.insertData();
+    				data = attendance.queryData();
     				tableModel.fireTableDataChanged();
     				break;
     		}
@@ -454,6 +487,9 @@ public class erp_frame extends JFrame {
            	case "員工資料表":
            		employee.clearInput();
         		break;
+           	case "出缺勤表":
+           		attendance.clearInput();
+           		break;
         	}
     	}
     }                                     
@@ -494,15 +530,20 @@ public class erp_frame extends JFrame {
         
     	if(treeFolder.getSelectionPath().getLastPathComponent().toString()!=null){
     		path = treeFolder.getSelectionPath().getLastPathComponent().toString();
+    		data.clear();
     		if(path.equals("員工資料表")){
     			nowLayout.show(panel_dataInput, "employee");
-    			
+    			tableModel = new myTableModel(employeeFields);
     			table_firmData.setModel(tableModel);
     			data = employee.queryData();
 				tableModel.fireTableDataChanged();
     		}
     		else if (path.equals("出缺勤表")){
     			nowLayout.show(panel_dataInput, "attendance");
+    			tableModel = new myTableModel(attendanceFields);
+    			table_firmData.setModel(tableModel);
+    			data = attendance.queryData();
+    			tableModel.fireTableDataChanged();
     		}
     		else if (path.equals("薪資表")){
     			nowLayout.show(panel_dataInput, "payRoll");
@@ -523,11 +564,14 @@ public class erp_frame extends JFrame {
     	case "員工資料表":
     			employee.setInputValue(tableSelData(table_firmData.getSelectedRow()));
     			break;
+    	case "出缺勤表":
+    			attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+    			break;
     	}
     }
     
     private void text_searchKeyReleased(java.awt.event.KeyEvent evt) {                                        
-        //System.out.println(text_search.getText());
+        
         if(path != null){
     		switch(path){
            	case "員工資料表":

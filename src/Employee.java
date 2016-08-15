@@ -370,14 +370,14 @@ public class Employee extends javax.swing.JPanel {
 		}
 		return data;
 	}
-	//Some Problem
+	//Some Problem can't research birthday
 	protected  LinkedList<String[]> search(String value){
 		LinkedList<String[]> data = new LinkedList<>();
 		try {
-			pstmt = con.prepareStatement("SELECT * FROM employee WHERE employeeNum LIKE ? OR name LIKE? OR address LIKE ? OR tel LIKE ? or gender LIKE ? OR birthday LIKE ?");
+			pstmt = con.prepareStatement("SELECT * FROM employee WHERE employeeNum LIKE ? OR name LIKE? OR address LIKE ? OR tel LIKE ? or gender LIKE ? OR position LIKE ? OR department LIKE ? OR note LIKE ?");
 			String query = "%" + value +"%";
 			System.out.println(query);
-			for(int i=1 ; i<7; i++){
+			for(int i=1 ; i<9; i++){
 				pstmt.setString(i, query);
 			}
 			//pstmt.setString(1, query);
