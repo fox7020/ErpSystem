@@ -21,16 +21,26 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class erp_frame extends JFrame {
     private CardLayout nowLayout;
-
+    private Employee employee;
+    private Attendance attendance;
+    private PayRoll payRoll;
+    private Achievement achievement;
+    private Material material;
     
-    /**
-     * Creates new form erp_frame
-     */
     public erp_frame() {
         initComponents();
         init();
+        employee = new Employee();
+        attendance = new Attendance();
+        payRoll = new PayRoll();
+        achievement = new Achievement();
+        material = new Material();
         
-        
+        panel_dataInput.add("employee",employee);
+        panel_dataInput.add("attendance", attendance);
+        panel_dataInput.add("payRoll", payRoll);
+        panel_dataInput.add("achievement", achievement);
+        panel_dataInput.add("material", material);
 //       setExtendedState(JFrame.MAXIMIZED_BOTH); 
         
     }
@@ -344,9 +354,32 @@ public class erp_frame extends JFrame {
     
     private void treeFolderValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeFolderValueChanged
         // TODO add your handling code here:
-        String path = treeFolder.getSelectionPath().getLastPathComponent().toString();
-
-        System.out.println(path);
+    	if(treeFolder.getSelectionPath().getLastPathComponent().toString()!=null){
+    		String path = treeFolder.getSelectionPath().getLastPathComponent().toString();
+    		if(path.equals("員工資料表")){
+    			nowLayout.show(panel_dataInput, "employee");
+    		}
+    		else if (path.equals("出缺勤表")){
+    			nowLayout.show(panel_dataInput, "attendance");
+    		}
+    		else if (path.equals("薪資表")){
+    			nowLayout.show(panel_dataInput, "payRoll");
+    		}
+    		else if (path.equals("員工考績表")){
+    			nowLayout.show(panel_dataInput, "achievement");
+    		}
+    		else if (path.equals("原料庫存資料表")){
+    			nowLayout.show(panel_dataInput, "material");
+    		}
+            System.out.println(path);
+    	}
+        
+        
+        
+        	//
+       
+        	
+        
     }//GEN-LAST:event_treeFolderValueChanged
     
     /**
