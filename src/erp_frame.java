@@ -41,6 +41,7 @@ public class erp_frame extends JFrame {
     String[] employeeFields = {"員工編號","姓名","地址","電話","性別","生日","職等","部門","備註"};
     String[] attendanceFields = {"編號","員工編號","上班打卡","下班打卡","假別","部門","備註"};
     String[] achivevmentFields = {"編號","員工編號","年月份","考績","備註"};
+    String[] payRollFields = {"員工編號","薪資","備註"};
     String path = null;
     public erp_frame() {
         initComponents();
@@ -363,6 +364,9 @@ public class erp_frame extends JFrame {
                 	case "員工考績表":
                 		length = achivevmentFields.length;
                 		break;
+                	case "薪資表":
+                		length = payRollFields.length;
+                		break;
              	}
         	 }
            return length;
@@ -403,6 +407,9 @@ public class erp_frame extends JFrame {
     	case "員工考績表":
     			achievement.setInputValue(tableSelData(0));
     			break;
+    	case "薪資表":
+    			payRoll.setInputValue(tableSelData(0));
+    		break;
     	}
     	
     }                                         
@@ -424,6 +431,12 @@ public class erp_frame extends JFrame {
     	case "員工考績表":
     		if(table_firmData.getSelectedRow()-1 >= 0){
 				achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+			}
+    		break;
+    	case "薪資表":
+    		if(table_firmData.getSelectedRow()-1 >= 0){
+				payRoll.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
 				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
 			}
     		break;
@@ -451,7 +464,12 @@ public class erp_frame extends JFrame {
 				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
     		}
     		break;
-    		
+    	case "薪資表":
+    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
+    			payRoll.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+    		}
+    		break;
     	}
     }                                        
 
@@ -475,6 +493,12 @@ public class erp_frame extends JFrame {
     				data = achievement.queryData();
     				tableModel.fireTableDataChanged();
     				break;
+    			case "薪資表":
+    				isInsert = payRoll.insertData();
+    				data = payRoll.queryData();
+    				tableModel.fireTableDataChanged();
+    				break;
+    				
     		}
     		if(isInsert == 1 ){
     			JOptionPane.showMessageDialog(rootPane, "新增資料成功");
@@ -506,6 +530,11 @@ public class erp_frame extends JFrame {
     			data = achievement.queryData();
     			tableModel.fireTableDataChanged();
            		break;
+           	case "薪資表":
+           		isUpdate = payRoll.updateData();
+    			data = payRoll.queryData();
+    			tableModel.fireTableDataChanged();
+           		break;
         	}
     		
     	}
@@ -528,6 +557,9 @@ public class erp_frame extends JFrame {
            		break;
            	case "員工考績表":
            		achievement.clearInput();
+           		break;
+           	case "薪資表":
+           		payRoll.clearInput();
            		break;
         	}
     	}
@@ -558,6 +590,11 @@ public class erp_frame extends JFrame {
                		data = achievement.queryData();
                		tableModel.fireTableDataChanged();
             		break;
+               	case "薪資表":
+               		isDel = payRoll.delData();
+               		data = payRoll.queryData();
+               		tableModel.fireTableDataChanged();
+               		break;
             	}
     			if(isDel == 1){
             		JOptionPane.showMessageDialog(rootPane, "刪除資料成功");
@@ -597,6 +634,10 @@ public class erp_frame extends JFrame {
     		}
     		else if (path.equals("薪資表")){
     			nowLayout.show(panel_dataInput, "payRoll");
+    			tableModel = new myTableModel(payRollFields);
+    			table_firmData.setModel(tableModel);
+    			data = payRoll.queryData();
+    			tableModel.fireTableDataChanged();
     		}
     		else if (path.equals("員工考績表")){
     			nowLayout.show(panel_dataInput, "achievement");
@@ -624,9 +665,13 @@ public class erp_frame extends JFrame {
     	case "員工考績表":
     			achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()));
     		break;
+    	case "薪資表":
+				payRoll.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+		break;
     	}
     }
     
+    //if search filed is not empty will search 
     private void text_searchKeyReleased(java.awt.event.KeyEvent evt) {                                        
         
         if(path != null){
@@ -667,11 +712,24 @@ public class erp_frame extends JFrame {
                		tableModel.fireTableDataChanged();
            		}
            		break;
+           	case "薪資表":
+           		if(text_search.getText()!=""){
+           			data.clear();
+           			data = payRoll.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data.clear();
+           			data = payRoll.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
+           		break;
         	}
     	}
         
-     }   
+     }  
     
+    //When user select an row this method will input the row data into a hashmap
     protected  HashMap<Integer, String > tableSelData (int selRow){
     	HashMap<Integer, String>tableData = new HashMap<>();
     	
