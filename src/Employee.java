@@ -376,12 +376,9 @@ public class Employee extends javax.swing.JPanel {
 		try {
 			pstmt = con.prepareStatement("SELECT * FROM employee WHERE employeeNum LIKE ? OR name LIKE? OR address LIKE ? OR tel LIKE ? or gender LIKE ? OR position LIKE ? OR department LIKE ? OR note LIKE ?");
 			String query = "%" + value +"%";
-			System.out.println(query);
 			for(int i=1 ; i<9; i++){
 				pstmt.setString(i, query);
 			}
-			//pstmt.setString(1, query);
-			//pstmt.setString(2, query);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String[] row = new String[9];

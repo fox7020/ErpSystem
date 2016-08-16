@@ -26,6 +26,7 @@ public class Attendance extends javax.swing.JPanel {
 	private String leaveSheet;
 	private String department;
 	private String note;
+	private String numbering;
 	private Properties prop;
 	private Connection con;
 	private PreparedStatement pstmt = null;
@@ -184,6 +185,7 @@ public class Attendance extends javax.swing.JPanel {
     	offWork = txtOffWork.getText();
     	leaveSheet = cbLeaveSheet.getSelectedItem().toString();
     	note = txtNote.getText();
+    	department = lbDepartment.getText();
     	if(employeeNum.equals("")||onWork.equals("")){
     		isRightData = false;
     	}
@@ -217,13 +219,14 @@ public class Attendance extends javax.swing.JPanel {
 			pstmt = con.prepareStatement("SELECT * FROM attendance");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String[] row = new String[6];
-				row[0] = rs.getString("employeeNum");
-				row[1] = rs.getString("work");
-				row[2] = rs.getString("offWork");
-				row[3] = rs.getString("leaveSheet");
-				row[4] = rs.getString("department");
-				row[5] = rs.getString("note");
+				String[] row = new String[7];
+				row[0] = rs.getString("numbering");
+				row[1] = rs.getString("employeeNum");
+				row[2] = rs.getString("work");
+				row[3] = rs.getString("offWork");
+				row[4] = rs.getString("leaveSheet");
+				row[5] = rs.getString("department");
+				row[6] = rs.getString("note");
 				data.add(row);
 			}
 			
@@ -233,11 +236,61 @@ public class Attendance extends javax.swing.JPanel {
 		}
 		return data;
     }
+    
+    protected int updateData() {
+    	int isUpdate = 0;
+    	
+    	if (getUserInputParm() == true) {
+    		try{
+    			if(offWork.equals("")){
+    				pstmt = con.prepareStatement("UPDATE attendance SET employeeNum = ?, work = ?, leaveSheet = ?, department = ?, note = ? WHERE numbering = ?");
+        			pstmt.setString(1, employeeNum);
+        			pstmt.setString(2, onWork);
+        			pstmt.setString(3, leaveSheet);
+        			pstmt.setString(4, department);
+        			pstmt.setString(5, note);
+        			pstmt.setString(6, numbering);
+    			}
+    			else{
+    				pstmt = con.prepareStatement("UPDATE attendance SET employeeNum = ?, work = ?,offWork = ?, leaveSheet = ?, department = ?, note = ? WHERE numbering = ?");
+        			pstmt.setString(1, employeeNum);
+        			pstmt.setString(2, onWork);
+        			pstmt.setString(3, offWork);
+        			pstmt.setString(4, leaveSheet);
+        			pstmt.setString(5, department);
+        			pstmt.setString(6, note);
+        			pstmt.setString(7, numbering);
+    			}
+    			
+    			isUpdate = pstmt.executeUpdate();
+    		}
+    		catch(SQLException ee){
+    			System.out.println(ee.toString());
+    		}
+    	}
+    	return isUpdate;
+    }
+    
+    protected int delData(){
+    	int isDel = 0;
+    	if(!lbDepartment.getText().equals("")){
+    		try{
+    			pstmt = con.prepareStatement("DELETE FROM attendance WHERE numbering=?");
+    			pstmt.setString(1, numbering);
+    			isDel = pstmt.executeUpdate();
+    		}
+    		catch(SQLException ee){
+    			System.out.println(ee.toString());
+    		}
+    	}
+    	return isDel;
+    }
     protected void setInputValue(HashMap<Integer, String> data){
-    	txtEmployeeNum.setText(data.get(0));
-    	txtOnWork1.setText(data.get(1));
-    	txtOffWork.setText(data.get(2));
-    	switch(data.get(3)){
+    	numbering = data.get(0);
+    	txtEmployeeNum.setText(data.get(1));
+    	txtOnWork1.setText(data.get(2));
+    	txtOffWork.setText(data.get(3));
+    	switch(data.get(4)){
     		case "事假":
     			cbLeaveSheet.setSelectedIndex(1);
     			break;
@@ -258,8 +311,8 @@ public class Attendance extends javax.swing.JPanel {
     			break;
     			
     	}
-    	lbDepartment.setText(data.get(4));
-    	txtNote.setText(data.get(5));
+    	lbDepartment.setText(data.get(5));
+    	txtNote.setText(data.get(6));
     }
     
     protected void clearInput(){
@@ -270,6 +323,33 @@ public class Attendance extends javax.swing.JPanel {
     	lbDepartment.setText("");
     	txtNote.setText("");
     	
+    }
+    
+    protected  LinkedList<String[]> search(String value){
+		LinkedList<String[]> data = new LinkedList<>();
+		try{
+			pstmt = con.prepareStatement("SELECT * FROM attendance WHERE numbering LIKE ? OR employeeNum LIKE ? OR leaveSheet LIKE ? OR department LIKE ? OR note LIKE ?");
+			String query = "%" + value +"%";
+			for(int i=1 ; i<6; i++){
+				pstmt.setString(i, query);
+			}
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String[] row = new String[7];
+				row[0] = rs.getString("numbering");
+				row[1] = rs.getString("employeeNum");
+				row[2] = rs.getString("work");
+				row[3] = rs.getString("offWork");
+				row[4] = rs.getString("leaveSheet");
+				row[5] = rs.getString("department");
+				row[6] = rs.getString("note");
+				data.add(row);
+			}
+		}
+		catch(SQLException ee){
+			System.out.println(ee.toString());
+		}
+		return data;
     }
     private void txtEmployeeNumKeyReleased(java.awt.event.KeyEvent evt) {
     	String department = "";

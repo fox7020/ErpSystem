@@ -39,7 +39,7 @@ public class erp_frame extends JFrame {
     public LinkedList<String[]> data;
     String[] fields;
     String[] employeeFields = {"員工編號","姓名","地址","電話","性別","生日","職等","部門","備註"};
-    String[] attendanceFields = {"員工編號","上班打卡","下班打卡","假別","部門","備註"};
+    String[] attendanceFields = {"編號","員工編號","上班打卡","下班打卡","假別","部門","備註"};
     String path = null;
     public erp_frame() {
         initComponents();
@@ -464,6 +464,7 @@ public class erp_frame extends JFrame {
 
     private void btnModifyMouseClicked(java.awt.event.MouseEvent evt) { 
     	int isUpdate = 0;
+    	data.clear();
     	if(path != null){
     		switch(path){
            	case "員工資料表":
@@ -471,7 +472,13 @@ public class erp_frame extends JFrame {
            		data = employee.queryData();
            		tableModel.fireTableDataChanged();
         		break;
+           	case "出缺勤表":
+    			isUpdate = attendance.updateData();
+    			data = attendance.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
         	}
+    		
     	}
     	if(isUpdate == 1){
     		JOptionPane.showMessageDialog(rootPane, "更新資料成功");
@@ -500,12 +507,18 @@ public class erp_frame extends JFrame {
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {                                       
     	int isDel = 0;
+    	data.clear();
     	if(path != null){
     		if(JOptionPane.showConfirmDialog(JToolBar, "確定刪除此筆資料")==0){
     			switch(path){
                	case "員工資料表":
                		isDel = employee.delData();
                		data = employee.queryData();
+               		tableModel.fireTableDataChanged();
+            		break;
+               	case "出缺勤表":
+               		isDel = attendance.delData();
+               		data = attendance.queryData();
                		tableModel.fireTableDataChanged();
             		break;
             	}
@@ -576,14 +589,27 @@ public class erp_frame extends JFrame {
     		switch(path){
            	case "員工資料表":
            		if(text_search.getText()!=""){
+           			data.clear();
            			data = employee.search(text_search.getText());
                		tableModel.fireTableDataChanged();
            		}
            		else{
+           			data.clear();
            			data = employee.queryData();
                		tableModel.fireTableDataChanged();
            		}
-           		
+        		break;
+           	case "出缺勤表":
+           		if(text_search.getText()!=""){
+           			data.clear();
+           			data = attendance.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data.clear();
+           			data = attendance.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
         		break;
         	}
     	}
