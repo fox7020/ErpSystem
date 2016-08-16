@@ -40,6 +40,7 @@ public class erp_frame extends JFrame {
     String[] fields;
     String[] employeeFields = {"員工編號","姓名","地址","電話","性別","生日","職等","部門","備註"};
     String[] attendanceFields = {"編號","員工編號","上班打卡","下班打卡","假別","部門","備註"};
+    String[] achivevmentFields = {"編號","員工編號","年月份","考績","備註"};
     String path = null;
     public erp_frame() {
         initComponents();
@@ -359,6 +360,9 @@ public class erp_frame extends JFrame {
                 	case "出缺勤表":
                 		length = attendanceFields.length;
                 		break;
+                	case "員工考績表":
+                		length = achivevmentFields.length;
+                		break;
              	}
         	 }
            return length;
@@ -396,6 +400,9 @@ public class erp_frame extends JFrame {
     	case "出缺勤表":
     			attendance.setInputValue(tableSelData(0));
     			break;
+    	case "員工考績表":
+    			achievement.setInputValue(tableSelData(0));
+    			break;
     	}
     	
     }                                         
@@ -414,6 +421,12 @@ public class erp_frame extends JFrame {
     				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
     			}
     			break;
+    	case "員工考績表":
+    		if(table_firmData.getSelectedRow()-1 >= 0){
+				achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+			}
+    		break;
     	}
     }                                       
 
@@ -429,6 +442,12 @@ public class erp_frame extends JFrame {
     	case "出缺勤表":
     		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
     			attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+    		}
+    		break;
+    	case "員工考績表":
+    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
+    			achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
 				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
     		}
     		break;
@@ -449,6 +468,11 @@ public class erp_frame extends JFrame {
     			case "出缺勤表":
     				isInsert = attendance.insertData();
     				data = attendance.queryData();
+    				tableModel.fireTableDataChanged();
+    				break;
+    			case "員工考績表":
+    				isInsert = achievement.insertData();
+    				data = achievement.queryData();
     				tableModel.fireTableDataChanged();
     				break;
     		}
@@ -477,6 +501,11 @@ public class erp_frame extends JFrame {
     			data = attendance.queryData();
     			tableModel.fireTableDataChanged();
         		break;
+           	case "員工考績表":
+           		isUpdate = achievement.updateData();
+    			data = achievement.queryData();
+    			tableModel.fireTableDataChanged();
+           		break;
         	}
     		
     	}
@@ -496,6 +525,9 @@ public class erp_frame extends JFrame {
         		break;
            	case "出缺勤表":
            		attendance.clearInput();
+           		break;
+           	case "員工考績表":
+           		achievement.clearInput();
            		break;
         	}
     	}
@@ -519,6 +551,11 @@ public class erp_frame extends JFrame {
                	case "出缺勤表":
                		isDel = attendance.delData();
                		data = attendance.queryData();
+               		tableModel.fireTableDataChanged();
+            		break;
+               	case "員工考績表":
+               		isDel = achievement.delData();
+               		data = achievement.queryData();
                		tableModel.fireTableDataChanged();
             		break;
             	}
@@ -563,6 +600,10 @@ public class erp_frame extends JFrame {
     		}
     		else if (path.equals("員工考績表")){
     			nowLayout.show(panel_dataInput, "achievement");
+    			tableModel = new myTableModel(achivevmentFields);
+    			table_firmData.setModel(tableModel);
+    			data = achievement.queryData();
+    			tableModel.fireTableDataChanged();
     		}
     		else if (path.equals("原料庫存資料表")){
     			nowLayout.show(panel_dataInput, "material");
@@ -580,6 +621,9 @@ public class erp_frame extends JFrame {
     	case "出缺勤表":
     			attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()));
     			break;
+    	case "員工考績表":
+    			achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+    		break;
     	}
     }
     
@@ -611,6 +655,18 @@ public class erp_frame extends JFrame {
                		tableModel.fireTableDataChanged();
            		}
         		break;
+           	case "員工考績表":
+           		if(text_search.getText()!=""){
+           			data.clear();
+           			data = achievement.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data.clear();
+           			data = achievement.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
+           		break;
         	}
     	}
         
