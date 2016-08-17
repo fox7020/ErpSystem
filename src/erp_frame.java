@@ -2,6 +2,7 @@
 
 import java.awt.CardLayout;
 import java.awt.Toolkit;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -10,6 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 
 
@@ -673,9 +679,68 @@ public class erp_frame extends JFrame {
     		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
     	}
     }                                     
-
-    private void btnExportMouseClicked(java.awt.event.MouseEvent evt) {                                       
-    	System.out.println("Export");
+    //Generate an Microsoft Excel file form table data
+    //This need  Jakarta POI library
+    private void btnExportMouseClicked(java.awt.event.MouseEvent evt) {  
+    	String outputFile = "D:/ERPOutputFile/" + path +".xls";
+    	switch(path){
+    	case "員工資料表":
+    		fields = employeeFields;
+    		break;
+    	case "出缺勤表":
+    		fields = attendanceFields;
+       		break;
+       	case "員工考績表":
+       		fields = achivevmentFields;
+       		break;
+       	case "薪資表":
+       		fields = payRollFields;
+       		break;
+       	case "原料庫存資料表":
+       		fields = materialFields;
+       		break;
+       	default:
+    		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+    		break;
+    	}
+    	try{
+    		//Create a excel file
+    		HSSFWorkbook workbook = new HSSFWorkbook();
+    		//Create a sheet with name
+			HSSFSheet sheet = workbook.createSheet(path);
+			HSSFRow row = null;
+			HSSFCell cell = null;
+			//set the sheet row count and set the first row data with title
+			for(int i=0 ; i<table_firmData.getRowCount()+1; i++){
+				if(i==0){
+					row = sheet.createRow((short) i);
+					for(int k=0; k<fields.length;k++){
+						cell = row.createCell((short) k);
+						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+						cell.setCellValue(fields[k]);
+					}
+				}
+				else{
+					//Insert table data in next row
+					row = sheet.createRow((short) i);
+					for(int k=0; k<fields.length;k++){
+						cell = row.createCell((short) k);
+						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+						cell.setCellValue((String) table_firmData.getValueAt(i-1,k));
+					}
+					
+				}
+			}
+			FileOutputStream fOut = new FileOutputStream(outputFile);
+			workbook.write(fOut);
+			fOut.flush();
+			fOut.close();
+			JOptionPane.showMessageDialog(JToolBar, "產生檔案成功!\n 檔案位置 :" + outputFile );
+    	}
+    	catch(Exception ee){
+    		JOptionPane.showMessageDialog(JToolBar, "產生檔案失敗 : " + ee.getMessage());
+    		System.out.println(ee.toString());
+    	}
     }                                      
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {                                       
