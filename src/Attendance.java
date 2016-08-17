@@ -26,7 +26,7 @@ public class Attendance extends javax.swing.JPanel {
 	private String leaveSheet;
 	private String department;
 	private String note;
-	private String numbering;
+	private String id;
 	private Properties prop;
 	private Connection con;
 	private PreparedStatement pstmt = null;
@@ -220,7 +220,7 @@ public class Attendance extends javax.swing.JPanel {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String[] row = new String[7];
-				row[0] = rs.getString("numbering");
+				row[0] = rs.getString("id");
 				row[1] = rs.getString("employeeNum");
 				row[2] = rs.getString("work");
 				row[3] = rs.getString("offWork");
@@ -243,23 +243,23 @@ public class Attendance extends javax.swing.JPanel {
     	if (getUserInputParm() == true) {
     		try{
     			if(offWork.equals("")){
-    				pstmt = con.prepareStatement("UPDATE attendance SET employeeNum = ?, work = ?, leaveSheet = ?, department = ?, note = ? WHERE numbering = ?");
+    				pstmt = con.prepareStatement("UPDATE attendance SET employeeNum = ?, work = ?, leaveSheet = ?, department = ?, note = ? WHERE id = ?");
         			pstmt.setString(1, employeeNum);
         			pstmt.setString(2, onWork);
         			pstmt.setString(3, leaveSheet);
         			pstmt.setString(4, department);
         			pstmt.setString(5, note);
-        			pstmt.setString(6, numbering);
+        			pstmt.setString(6, id);
     			}
     			else{
-    				pstmt = con.prepareStatement("UPDATE attendance SET employeeNum = ?, work = ?,offWork = ?, leaveSheet = ?, department = ?, note = ? WHERE numbering = ?");
+    				pstmt = con.prepareStatement("UPDATE attendance SET employeeNum = ?, work = ?,offWork = ?, leaveSheet = ?, department = ?, note = ? WHERE id = ?");
         			pstmt.setString(1, employeeNum);
         			pstmt.setString(2, onWork);
         			pstmt.setString(3, offWork);
         			pstmt.setString(4, leaveSheet);
         			pstmt.setString(5, department);
         			pstmt.setString(6, note);
-        			pstmt.setString(7, numbering);
+        			pstmt.setString(7, id);
     			}
     			
     			isUpdate = pstmt.executeUpdate();
@@ -275,8 +275,8 @@ public class Attendance extends javax.swing.JPanel {
     	int isDel = 0;
     	if(!lbDepartment.getText().equals("")){
     		try{
-    			pstmt = con.prepareStatement("DELETE FROM attendance WHERE numbering=?");
-    			pstmt.setString(1, numbering);
+    			pstmt = con.prepareStatement("DELETE FROM attendance WHERE id =?");
+    			pstmt.setString(1, id);
     			isDel = pstmt.executeUpdate();
     		}
     		catch(SQLException ee){
@@ -286,7 +286,7 @@ public class Attendance extends javax.swing.JPanel {
     	return isDel;
     }
     protected void setInputValue(HashMap<Integer, String> data){
-    	numbering = data.get(0);
+    	id = data.get(0);
     	txtEmployeeNum.setText(data.get(1));
     	txtOnWork1.setText(data.get(2));
     	txtOffWork.setText(data.get(3));
@@ -328,15 +328,15 @@ public class Attendance extends javax.swing.JPanel {
     protected  LinkedList<String[]> search(String value){
 		LinkedList<String[]> data = new LinkedList<>();
 		try{
-			pstmt = con.prepareStatement("SELECT * FROM attendance WHERE numbering LIKE ? OR employeeNum LIKE ? OR leaveSheet LIKE ? OR department LIKE ? OR note LIKE ?");
+			pstmt = con.prepareStatement("SELECT * FROM attendance WHERE id LIKE ? OR employeeNum LIKE ? OR work LIKE ? OR offWork LIKE ? OR leaveSheet LIKE ? OR department LIKE ? OR note LIKE ?");
 			String query = "%" + value +"%";
-			for(int i=1 ; i<6; i++){
+			for(int i=1 ; i<8; i++){
 				pstmt.setString(i, query);
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String[] row = new String[7];
-				row[0] = rs.getString("numbering");
+				row[0] = rs.getString("id");
 				row[1] = rs.getString("employeeNum");
 				row[2] = rs.getString("work");
 				row[3] = rs.getString("offWork");

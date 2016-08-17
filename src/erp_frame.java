@@ -395,98 +395,172 @@ public class erp_frame extends JFrame {
          }
     }
 	
-    
+    //If user not select a table will alert
+    //If user select a table but not click a data column will display first data in input area
     private void btnFirstDataMouseClicked(java.awt.event.MouseEvent evt) {
-    	switch(path){
-    	case "員工資料表":
-    			employee.setInputValue(tableSelData(0));
-    			break;
-    	case "出缺勤表":
-    			attendance.setInputValue(tableSelData(0));
-    			break;
-    	case "員工考績表":
-    			achievement.setInputValue(tableSelData(0));
-    			break;
-    	case "薪資表":
-    			payRoll.setInputValue(tableSelData(0));
-    		break;
-    	case "原料庫存資料表":
-    			material.setInputValue(tableSelData(0));
-    		break;
-    		
+    	if(path != null){
+    		switch(path){
+        	case "員工資料表":
+        			employee.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        			break;
+        	case "出缺勤表":
+        			attendance.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        			break;
+        	case "員工考績表":
+        			achievement.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        			break;
+        	case "薪資表":
+        			payRoll.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		break;
+        	case "原料庫存資料表":
+        			material.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		break;
+        	default:
+        		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+        		break;
+        	}
+    	}
+    	else{
+    		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
     	}
     	
+    	
     }                                         
-
-    private void btnPreDataMouseClicked(java.awt.event.MouseEvent evt) {                                        
-    	switch(path){
-    	case "員工資料表":
-    			if(table_firmData.getSelectedRow()-1 >= 0){
-    				employee.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    //If user not select a table will alert
+    //If user select a table but not click a data column will display first data in input area
+    private void btnPreDataMouseClicked(java.awt.event.MouseEvent evt) {   
+    	if(path != null){
+    		switch(path){
+        	case "員工資料表":
+        			if(table_firmData.getSelectedRow()-1 >= 0){
+        				employee.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+        				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+        			}
+        			else{
+        				employee.setInputValue(tableSelData(0));
+        				table_firmData.setRowSelectionInterval(0,0);
+            		}
+        			break;
+        	case "出缺勤表":
+        			if(table_firmData.getSelectedRow()-1 >= 0){
+        				attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+        				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+        			}
+        			else{
+        				attendance.setInputValue(tableSelData(0));
+        				table_firmData.setRowSelectionInterval(0,0);
+            		}
+        			break;
+        	case "員工考績表":
+        		if(table_firmData.getSelectedRow()-1 >= 0){
+    				achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
     				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
     			}
-    			break;
-    	case "出缺勤表":
-    			if(table_firmData.getSelectedRow()-1 >= 0){
-    				attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+        		else{
+        			achievement.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		}
+        		break;
+        	case "薪資表":
+        		if(table_firmData.getSelectedRow()-1 >= 0){
+    				payRoll.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
     				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
     			}
-    			break;
-    	case "員工考績表":
-    		if(table_firmData.getSelectedRow()-1 >= 0){
-				achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
-			}
-    		break;
-    	case "薪資表":
-    		if(table_firmData.getSelectedRow()-1 >= 0){
-				payRoll.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
-			}
-    		break;
-    	case "原料庫存資料表":
-    		if(table_firmData.getSelectedRow()-1 >= 0){
-				material.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
-			}
-    		break;
+        		else{
+        			payRoll.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		}
+        		break;
+        	case "原料庫存資料表":
+        		if(table_firmData.getSelectedRow()-1 >= 0){
+    				material.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+    			}
+        		else{
+        			material.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		}
+        		break;
+        	default:
+        		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+        		break;
+        	}
+    		
     	}
+    	else{
+    		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+    	}
+    	
     }                                       
-
+    //If user not select a table will alert
+    //If user select a table but not click a data column will display last data in input area
     private void btnNextDataMouseClicked(java.awt.event.MouseEvent evt) {
-    	// Some Problem not resolve
-    	switch(path){
-    	case "員工資料表":
-    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
-    			employee.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
-    		}
-    		break;
-    	case "出缺勤表":
-    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
-    			attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
-    		}
-    		break;
-    	case "員工考績表":
-    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
-    			achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
-    		}
-    		break;
-    	case "薪資表":
-    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
-    			payRoll.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
-    		}
-    		break;
-    	case "原料庫存資料表":
-    		if(table_firmData.getRowCount() - table_firmData.getSelectedRow() >0 ){
-    			material.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
-				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
-    		}
-    		break;
+    	if(path != null){
+    		switch(path){
+        	case "員工資料表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			employee.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1);
+        		}
+        		else{
+        			employee.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+        			table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	case "出缺勤表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			attendance.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1);
+        		}
+        		else{
+        			attendance.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	case "員工考績表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			achievement.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+        		}
+        		else{
+        			achievement.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	case "薪資表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			payRoll.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+        		}
+        		else{
+        			payRoll.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	case "原料庫存資料表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			material.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+        		}
+        		else{
+        			material.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	default:
+        		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+        		break;
+        	}
     	}
+    	else{
+    		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+    	}
+    	
     }                                        
 
     private void btnInsertMouseClicked(java.awt.event.MouseEvent evt) {
@@ -519,7 +593,6 @@ public class erp_frame extends JFrame {
     				data = material.queryData();
     				tableModel.fireTableDataChanged();
     				break;
-    				
     		}
     		if(isInsert == 1 ){
     			JOptionPane.showMessageDialog(rootPane, "新增資料成功");
@@ -572,6 +645,7 @@ public class erp_frame extends JFrame {
     	}
     	
     }
+    //If user not select a table will alert
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {                                      
     	if(path != null){
     		switch(path){
@@ -590,7 +664,13 @@ public class erp_frame extends JFrame {
            	case "原料庫存資料表":
            		material.clearInput();
            		break;
+           	default:
+        		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+        		break;
         	}
+    	}
+    	else{
+    		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
     	}
     }                                     
 
@@ -629,8 +709,12 @@ public class erp_frame extends JFrame {
                		data = material.queryData();
                		tableModel.fireTableDataChanged();
                		break;
+               	default:
+               		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+               		break;
             	}
-    			if(isDel == 1){
+    			
+    			if(path != null && isDel == 1){
             		JOptionPane.showMessageDialog(rootPane, "刪除資料成功");
             	}
             	else{
@@ -638,7 +722,10 @@ public class erp_frame extends JFrame {
             	}
         	}
         	
-    		}
+    	}
+    	else{
+    		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+    	}
     		
     }                                      
 
@@ -710,10 +797,13 @@ public class erp_frame extends JFrame {
     	case "原料庫存資料表":
     			material.setInputValue(tableSelData(table_firmData.getSelectedRow()));
     		break;
+    	default:
+    		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
+    		break;
     	}
     }
     
-    //if search filed is not empty will search 
+    //If search field is not empty will search 
     private void text_searchKeyReleased(java.awt.event.KeyEvent evt) {                                        
         
         if(path != null){
