@@ -1,4 +1,4 @@
-
+﻿
 
 import java.awt.CardLayout;
 import java.awt.Toolkit;
@@ -40,6 +40,10 @@ public class erp_frame extends JFrame {
     private PayRoll payRoll;
     private Achievement achievement;
     private Material material;
+    private OrderList orderList;
+    private OrderItem orderItem;
+    private Issue issue;
+    private Vendor vendor;
     
     private myTableModel tableModel;
     public LinkedList<String[]> data;
@@ -49,6 +53,13 @@ public class erp_frame extends JFrame {
     String[] achivevmentFields = {"編號","員工編號","年月份","考績","備註"};
     String[] payRollFields = {"員工編號","薪資","備註"};
     String[] materialFields = {"原料編號","原料名稱","數量","進貨廠商編號","備註"};
+    
+    String[] issueFields = {"客戶編號","客訴內容","金額","備註"};
+    String[] vendorFields = {"廠商編號","廠商名稱","電話","地址","統編","聯絡人","付款條件","備註"};
+    String[] orderListFields = {"訂單編號","客戶編號","下單日期","狀態","配送方式","備註"};
+    String[] orderItemFields = {"訂單編號","產品編號","數量","備註"};
+    
+    
     String path = null;
     public erp_frame() {
         initComponents();
@@ -59,12 +70,22 @@ public class erp_frame extends JFrame {
         payRoll = new PayRoll();
         achievement = new Achievement();
         material = new Material();
+        orderList = new OrderList();
+        orderItem = new OrderItem();
+        issue = new Issue();
+        vendor = new Vendor();
+        
+        
         panel_dataInput.add("empty",empty);
         panel_dataInput.add("employee",employee);
         panel_dataInput.add("attendance", attendance);
         panel_dataInput.add("payRoll", payRoll);
         panel_dataInput.add("achievement", achievement);
         panel_dataInput.add("material", material);
+        panel_dataInput.add("orderList", orderList);
+        panel_dataInput.add("orderItem", orderItem);
+        panel_dataInput.add("issue", issue);
+        panel_dataInput.add("vendor", vendor);
 //       setExtendedState(JFrame.MAXIMIZED_BOTH); 
         data = new LinkedList<>();
         
@@ -115,52 +136,68 @@ public class erp_frame extends JFrame {
         panel_folder.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         treeFolder.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("ERP");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("人事資料庫");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("員工資料表");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("出缺勤表");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("員工考績表");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("薪資表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("採購資料庫");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("進貨表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("產品資料庫");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("產品資料表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("庫存資料庫");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("原料庫存資料表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("銷售資料庫");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("訂單資料表");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("訂單項目資料表");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("異常紀錄表");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("廠商資料表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("會計資料庫");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("應負帳款管理表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("客戶資料庫");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("客戶資料表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("系統管理庫");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("帳號管理表");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeFolder.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+//create tree with root, category, sheet
+        javax.swing.tree.DefaultMutableTreeNode ERP = new javax.swing.tree.DefaultMutableTreeNode("ERP");
+        
+        javax.swing.tree.DefaultMutableTreeNode DB_hr = new javax.swing.tree.DefaultMutableTreeNode("人事資料庫");
+        javax.swing.tree.DefaultMutableTreeNode employee = new javax.swing.tree.DefaultMutableTreeNode("員工資料表");
+        DB_hr.add(employee);
+        javax.swing.tree.DefaultMutableTreeNode achievement = new javax.swing.tree.DefaultMutableTreeNode("員工考績表");
+        DB_hr.add(achievement);
+        javax.swing.tree.DefaultMutableTreeNode attendance = new javax.swing.tree.DefaultMutableTreeNode("出缺勤表");
+        DB_hr.add(attendance);
+        javax.swing.tree.DefaultMutableTreeNode payRoll = new javax.swing.tree.DefaultMutableTreeNode("薪資表");
+        DB_hr.add(payRoll);
+        ERP.add(DB_hr); 
+        
+        javax.swing.tree.DefaultMutableTreeNode DB_Purchase = new javax.swing.tree.DefaultMutableTreeNode("採購資料庫");
+        javax.swing.tree.DefaultMutableTreeNode purchaseSheet = new javax.swing.tree.DefaultMutableTreeNode("進貨表");
+        DB_Purchase.add(purchaseSheet);
+        ERP.add(DB_Purchase);
+        
+        javax.swing.tree.DefaultMutableTreeNode DB_Product = new javax.swing.tree.DefaultMutableTreeNode("產品資料庫");
+        javax.swing.tree.DefaultMutableTreeNode productSheet = new javax.swing.tree.DefaultMutableTreeNode("產品資料表");
+        DB_Product.add(productSheet);
+        ERP.add(DB_Product);
+   
+        javax.swing.tree.DefaultMutableTreeNode DB_Material = new javax.swing.tree.DefaultMutableTreeNode("庫存資料庫");
+        javax.swing.tree.DefaultMutableTreeNode MaterialSheet = new javax.swing.tree.DefaultMutableTreeNode("原料庫存資料表");
+        DB_Material.add(MaterialSheet);
+        ERP.add(DB_Material);
+
+        
+        javax.swing.tree.DefaultMutableTreeNode DB_Sales = new javax.swing.tree.DefaultMutableTreeNode("銷售資料庫");
+        javax.swing.tree.DefaultMutableTreeNode orderList = new javax.swing.tree.DefaultMutableTreeNode("訂單資料表");
+        javax.swing.tree.DefaultMutableTreeNode orderItem = new javax.swing.tree.DefaultMutableTreeNode("訂單項目資料表");
+        javax.swing.tree.DefaultMutableTreeNode issue = new javax.swing.tree.DefaultMutableTreeNode("異常紀錄表");
+        javax.swing.tree.DefaultMutableTreeNode vendor = new javax.swing.tree.DefaultMutableTreeNode("廠商資料表");
+        DB_Sales.add(orderList);
+        DB_Sales.add(orderItem);
+        DB_Sales.add(issue);
+        DB_Sales.add(vendor);
+        ERP.add(DB_Sales);
+        
+        javax.swing.tree.DefaultMutableTreeNode DB_Account = new javax.swing.tree.DefaultMutableTreeNode("會計資料庫");
+        javax.swing.tree.DefaultMutableTreeNode payableList = new javax.swing.tree.DefaultMutableTreeNode("應付帳款管理表");
+        javax.swing.tree.DefaultMutableTreeNode Asset = new javax.swing.tree.DefaultMutableTreeNode("資產管理表");
+        DB_Account.add(payableList);
+        DB_Account.add(Asset); 
+        ERP.add(DB_Account);
+  
+        javax.swing.tree.DefaultMutableTreeNode DB_Customer = new javax.swing.tree.DefaultMutableTreeNode("客戶資料庫");
+        javax.swing.tree.DefaultMutableTreeNode CustomerList = new javax.swing.tree.DefaultMutableTreeNode("客戶資料表");
+        DB_Customer.add(CustomerList);
+        ERP.add(DB_Customer);
+     
+        javax.swing.tree.DefaultMutableTreeNode DB_System = new javax.swing.tree.DefaultMutableTreeNode("系統管理庫");
+        javax.swing.tree.DefaultMutableTreeNode admin = new javax.swing.tree.DefaultMutableTreeNode("帳號管理表");
+        javax.swing.tree.DefaultMutableTreeNode billboard = new javax.swing.tree.DefaultMutableTreeNode("公告管理表");
+        javax.swing.tree.DefaultMutableTreeNode department = new javax.swing.tree.DefaultMutableTreeNode("部門管理表");
+        DB_System.add(admin);
+        DB_System.add(billboard);  
+        DB_System.add(department);
+        ERP.add(DB_System);
+        treeFolder.setModel(new javax.swing.tree.DefaultTreeModel(ERP));
         treeFolder.setRowHeight(30);
         treeFolder.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
@@ -373,6 +410,18 @@ public class erp_frame extends JFrame {
                 	case "原料庫存資料表":
                 		length = materialFields.length;
                 		break;
+                	case "訂單資料表":
+                		length = orderListFields.length;
+                		break;
+                	case "訂購項目資料表":
+                		length = orderItemFields.length;
+                		break;
+                	case "異常紀錄表":
+                		length = issueFields.length;
+                		break;
+                	case "廠商資料表":
+                		length = vendorFields.length;
+                		break;
              	}
         	 }
            return length;
@@ -425,6 +474,22 @@ public class erp_frame extends JFrame {
         	case "原料庫存資料表":
         			material.setInputValue(tableSelData(0));
         			table_firmData.setRowSelectionInterval(0,0);
+        		break;
+        	case "訂單資料表":
+        		orderList.setInputValue(tableSelData(0));
+    			table_firmData.setRowSelectionInterval(0,0);
+        		break;
+        	case "訂購項目資料表":
+        		orderItem.setInputValue(tableSelData(0));
+    			table_firmData.setRowSelectionInterval(0,0);
+        		break;
+        	case "異常紀錄表":
+    			issue.setInputValue(tableSelData(0));
+    			table_firmData.setRowSelectionInterval(0,0);
+        		break;
+        	case "廠商資料表":
+    			vendor.setInputValue(tableSelData(0));
+    			table_firmData.setRowSelectionInterval(0,0);
         		break;
         	default:
         		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
@@ -492,6 +557,47 @@ public class erp_frame extends JFrame {
         			table_firmData.setRowSelectionInterval(0,0);
         		}
         		break;
+        	case "訂單資料表":
+        		if(table_firmData.getSelectedRow()-1 >= 0){
+    				orderList.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+    			}
+        		else{
+        			orderList.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		}
+        		break;
+        	case "訂購項目資料表":
+        		if(table_firmData.getSelectedRow()-1 >= 0){
+        			orderItem.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+    			}
+        		else{
+        			orderItem.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		}
+        		break;
+        	case "異常紀錄表":
+        		if(table_firmData.getSelectedRow()-1 >= 0){
+    				issue.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+    			}
+        		else{
+        			issue.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		}
+        		break;
+        	case "廠商資料表":
+        		if(table_firmData.getSelectedRow()-1 >= 0){
+    				vendor.setInputValue(tableSelData(table_firmData.getSelectedRow()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()-1,table_firmData.getSelectedRow()-1 );
+    			}
+        		else{
+        			vendor.setInputValue(tableSelData(0));
+        			table_firmData.setRowSelectionInterval(0,0);
+        		}
+        		break;
+
         	default:
         		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
         		break;
@@ -558,6 +664,46 @@ public class erp_frame extends JFrame {
     				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
         		}
         		break;
+        	case "訂單資料表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			orderList.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+        		}
+        		else{
+        			orderList.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	case "訂購項目資料表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			orderItem.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+        		}
+        		else{
+        			orderItem.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	case "異常紀錄表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			issue.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+        		}
+        		else{
+        			issue.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
+        	case "廠商資料表":
+        		if(table_firmData.getSelectedRow() >=0 &&table_firmData.getRowCount() - table_firmData.getSelectedRow()>1){
+        			vendor.setInputValue(tableSelData(table_firmData.getSelectedRow()+1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getSelectedRow()+1,table_firmData.getSelectedRow()+1 );
+        		}
+        		else{
+        			vendor.setInputValue(tableSelData(table_firmData.getRowCount()-1));
+    				table_firmData.setRowSelectionInterval(table_firmData.getRowCount()-1,table_firmData.getRowCount()-1);
+        		}
+        		break;
         	default:
         		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
         		break;
@@ -599,6 +745,26 @@ public class erp_frame extends JFrame {
     				data = material.queryData();
     				tableModel.fireTableDataChanged();
     				break;
+            	case "訂單資料表":
+            		isInsert = orderList.insertData();
+    				data = orderList.queryData();
+    				tableModel.fireTableDataChanged();
+            		break;
+            	case "訂購項目資料表":
+            		isInsert = orderItem.insertData();
+    				data = orderItem.queryData();
+    				tableModel.fireTableDataChanged();
+            		break;
+            	case "異常紀錄表":
+            		isInsert = issue.insertData();
+    				data = issue.queryData();
+    				tableModel.fireTableDataChanged();
+            		break;
+            	case "廠商資料表":
+            		isInsert = vendor.insertData();
+    				data = vendor.queryData();
+    				tableModel.fireTableDataChanged();
+            		break;
     		}
     		if(isInsert == 1 ){
     			JOptionPane.showMessageDialog(rootPane, "新增資料成功");
@@ -640,6 +806,26 @@ public class erp_frame extends JFrame {
     			data = material.queryData();
     			tableModel.fireTableDataChanged();
            		break;
+        	case "訂單資料表":
+           		isUpdate = orderList.updateData();
+    			data = orderList.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
+        	case "訂購項目資料表":
+           		isUpdate = orderItem.updateData();
+    			data = orderItem.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
+        	case "異常紀錄表":
+           		isUpdate = issue.updateData();
+    			data = issue.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
+        	case "廠商資料表":
+           		isUpdate = vendor.updateData();
+    			data = vendor.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
         	}
     		
     	}
@@ -670,6 +856,18 @@ public class erp_frame extends JFrame {
            	case "原料庫存資料表":
            		material.clearInput();
            		break;
+        	case "訂單資料表":
+        		orderList.clearInput();
+        		break;
+        	case "訂購項目資料表":
+        		orderItem.clearInput();
+        		break;
+        	case "異常紀錄表":
+        		issue.clearInput();
+        		break;
+        	case "廠商資料表":
+        		vendor.clearInput();
+        		break;
            	default:
         		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
         		break;
@@ -699,6 +897,18 @@ public class erp_frame extends JFrame {
        	case "原料庫存資料表":
        		fields = materialFields;
        		break;
+    	case "訂單資料表":
+    		fields = orderListFields;
+    		break;
+    	case "訂購項目資料表":
+    		fields = orderItemFields;
+    		break;
+    	case "異常紀錄表":
+    		fields = issueFields;
+    		break;
+    	case "廠商資料表":
+    		fields = vendorFields;
+    		break;
        	default:
     		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
     		break;
@@ -774,6 +984,26 @@ public class erp_frame extends JFrame {
                		data = material.queryData();
                		tableModel.fireTableDataChanged();
                		break;
+            	case "訂單資料表":
+               		isDel = orderList.delData();
+               		data = orderList.queryData();
+               		tableModel.fireTableDataChanged();
+            		break;
+            	case "訂購項目資料表":
+               		isDel = orderItem.delData();
+               		data = orderItem.queryData();
+               		tableModel.fireTableDataChanged();
+            		break;
+            	case "異常紀錄表":
+               		isDel = issue.delData();
+               		data = issue.queryData();
+               		tableModel.fireTableDataChanged();
+            		break;
+            	case "廠商資料表":
+               		isDel = vendor.delData();
+               		data = vendor.queryData();
+               		tableModel.fireTableDataChanged();
+            		break;
                	default:
                		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
                		break;
@@ -840,6 +1070,34 @@ public class erp_frame extends JFrame {
     			data = material.queryData();
     			tableModel.fireTableDataChanged();
     			break;
+        	case "訂單資料表":
+    			nowLayout.show(panel_dataInput, "orderList");
+    			tableModel = new myTableModel(orderListFields);
+    			table_firmData.setModel(tableModel);
+    			data = orderList.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
+        	case "訂購項目資料表":
+    			nowLayout.show(panel_dataInput, "orderItem");
+    			tableModel = new myTableModel(orderItemFields);
+    			table_firmData.setModel(tableModel);
+    			data = orderItem.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
+        	case "異常紀錄表":
+    			nowLayout.show(panel_dataInput, "issue");
+    			tableModel = new myTableModel(issueFields);
+    			table_firmData.setModel(tableModel);
+    			data = issue.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
+        	case "廠商資料表":
+    			nowLayout.show(panel_dataInput, "vendor");
+    			tableModel = new myTableModel(vendorFields);
+    			table_firmData.setModel(tableModel);
+    			data = vendor.queryData();
+    			tableModel.fireTableDataChanged();
+        		break;
     		} 
     	}
    
@@ -861,6 +1119,18 @@ public class erp_frame extends JFrame {
 		break;
     	case "原料庫存資料表":
     			material.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+    		break;
+    	case "訂單資料表":
+    		orderList.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+    		break;
+    	case "訂購項目資料表":
+    		orderItem.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+    		break;
+    	case "異常紀錄表":
+    		issue.setInputValue(tableSelData(table_firmData.getSelectedRow()));
+    		break;
+    	case "廠商資料表":
+    		vendor.setInputValue(tableSelData(table_firmData.getSelectedRow()));
     		break;
     	default:
     		JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
@@ -933,6 +1203,53 @@ public class erp_frame extends JFrame {
                		tableModel.fireTableDataChanged();
            		}
            		break;
+           	case "訂單資料表":
+           		if(text_search.getText()!=""){
+           			data.clear();
+           			data = orderList.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data.clear();
+           			data = orderList.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
+        		break;
+        	case "訂購項目資料表":
+           		if(text_search.getText()!=""){
+           			data.clear();
+           			data = orderItem.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data.clear();
+           			data = orderItem.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
+        		break;
+        	case "異常紀錄表":
+           		if(text_search.getText()!=""){
+           			data.clear();
+           			data = issue.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data.clear();
+           			data = issue.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
+        		break;
+        	case "廠商資料表":
+           		if(text_search.getText()!=""){
+           			data.clear();
+           			data = vendor.search(text_search.getText());
+               		tableModel.fireTableDataChanged();
+           		}
+           		else{
+           			data.clear();
+           			data = vendor.queryData();
+               		tableModel.fireTableDataChanged();
+           		}
         	}
     	}
         
