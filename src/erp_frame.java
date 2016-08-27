@@ -84,7 +84,6 @@ public class erp_frame extends JFrame {
     protected String[] pickingFields ={"領料單ID","原料編號","領料數量","領料人員","領料日期","備註"};
 
 	private String userID=null;
-
 	String path = null;
 
 	public erp_frame() {		
