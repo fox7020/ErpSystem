@@ -181,7 +181,7 @@ public class Product extends javax.swing.JPanel {
 	}
 
 	protected void setInputValue(HashMap<Integer, String> data) {
-    	label_productNum.setText(data.get(0));
+    	text_productNum.setText(data.get(0));
     	text_productName.setText(data.get(1));
     	text_price.setText((data.get(2)));
     	text_category.setText(data.get(3));
@@ -189,7 +189,7 @@ public class Product extends javax.swing.JPanel {
     }
     
     protected void clearInput() {
-    	label_productNum.setText("");
+    	text_productNum.setText("");
     	text_productName.setText("");
     	text_price.setText("");
     	text_category.setText("");
@@ -205,9 +205,9 @@ public class Product extends javax.swing.JPanel {
 		productNum = text_productNum.getText();
 		productName = text_productName.getText();
 		price = text_price.getText();
-		category = text_category.getSelectedText().toString();
+		category = text_category.getText();
 		note = text_note.getText();
-		productName = label_productName.getText();
+		productName = text_productName.getText();
 		if (productNum.equals("") || productName.equals("")) {
 			isRightData = false;
 		} else {
@@ -238,7 +238,7 @@ public class Product extends javax.swing.JPanel {
 
 	protected int updateData() {
 		int isUpdate = 0;
-		productName = label_productName.getText();
+		productName = text_productName.getText();
 		if (getUserInputParm() == true && !productName.equals("")) {
 			try {
 				pstmt = con.prepareStatement(
@@ -260,7 +260,7 @@ public class Product extends javax.swing.JPanel {
 
 	protected int delData() {
 		int isDel = 0;
-		productNum = label_productNum.getText();
+		productNum = text_productNum.getText();
 		if (!productNum.equals("")) {
 			try {
 				pstmt = con.prepareStatement("DELETE FROM product WHERE productNum=?");
@@ -280,7 +280,7 @@ public class Product extends javax.swing.JPanel {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String[] row = new String[5];
-				row[0]=rs.getString(productNum);
+				row[0]= rs.getString("productNum");
 				row[1] = rs.getString("productName");
 				row[2] = rs.getString("price");
 				row[3] = rs.getString("category");
@@ -353,3 +353,5 @@ public class Product extends javax.swing.JPanel {
 	private javax.swing.JTextField text_productNum;
 	// End of variables declaration
 }
+
+//2016/08/27

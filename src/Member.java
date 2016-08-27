@@ -307,7 +307,7 @@ public class Member extends javax.swing.JPanel {
 
 	protected int delData() {
 		int isDel = 0;
-		customerId = label_customerId.getText();
+		customerId = text_customerId.getText();
 		if (!customerId.equals("")) {
 			try {
 				pstmt = con.prepareStatement("DELETE FROM member WHERE customerId=?");
@@ -412,3 +412,5 @@ public class Member extends javax.swing.JPanel {
 	private javax.swing.JTextField text_tel;
 	// End of variables declaration
 }
+
+//2016/08/27
