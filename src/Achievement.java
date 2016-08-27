@@ -152,6 +152,8 @@ public class Achievement extends javax.swing.JPanel {
 		}
 	}
     
+    
+    
     private boolean getUserInputParm() {
     	boolean isRightData = false;
     	employeeNum = txtEmployeeNum.getText();
