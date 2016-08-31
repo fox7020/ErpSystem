@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/elite2615/Desktop/大專題/erp jar/AbsoluteLayout.jar"/>
-	<classpathentry kind="lib" path="C:/Users/elite2615/Desktop/大專題/erp jar/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/elite2615/Desktop/大專題/erp jar/mysql-connector-java-5.1.39-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/elite2615/Desktop/大專題/erp jar/poi-3.15-beta2.jar"/>
+	<classpathentry kind="lib" path="D:/erp jar/AbsoluteLayout.jar"/>
+	<classpathentry kind="lib" path="D:/erp jar/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="D:/erp jar/mysql-connector-java-5.1.39-bin.jar"/>
+	<classpathentry kind="lib" path="D:/erp jar/poi-3.15-beta2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

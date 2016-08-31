@@ -8,6 +8,10 @@ import java.util.LinkedList;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -56,7 +60,6 @@ public class Member extends javax.swing.JPanel {
 		label_tel = new javax.swing.JLabel();
 		label_note = new javax.swing.JLabel();
 		jScrollPane2 = new javax.swing.JScrollPane();
-		text_note = new javax.swing.JTextArea();
 		text_customerId = new javax.swing.JTextField();
 		text_password = new javax.swing.JTextField();
 		text_memberName = new javax.swing.JTextField();
@@ -70,26 +73,21 @@ public class Member extends javax.swing.JPanel {
 
 		setPreferredSize(new java.awt.Dimension(980, 470));
 
-		label_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_customerId.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_customerId.setText("客戶編號");
 
-		label_password.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_password.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_password.setText("客戶密碼");
 
-		label_memberName.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_memberName.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_memberName.setText("客戶名稱");
 
-		label_tel.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_tel.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_tel.setText("電話");
 
-		label_note.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_note.setFont(new Font("微軟正黑體", Font.PLAIN, 14)); // NOI18N
 		label_note.setText("備註");
 		label_note.setToolTipText("");
-
-		text_note.setColumns(20);
-		text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-		text_note.setRows(5);
-		jScrollPane2.setViewportView(text_note);
 
 		text_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
 		text_customerId.addActionListener(new java.awt.event.ActionListener() {
@@ -107,103 +105,106 @@ public class Member extends javax.swing.JPanel {
 		label_dateTest.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
 		label_dateTest.setText("日期測試");
 
-		label_gender.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_gender.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_gender.setText("性別");
 
 		text_gender.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
 
-		label_address.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_address.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_address.setText("地址");
 
 		text_address.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+		text_note = new javax.swing.JTextArea();
+		
+				text_note.setColumns(20);
+				text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+				text_note.setRows(5);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-				.createSequentialGroup().addGap(66, 66, 66)
-				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup().addComponent(label_dateTest).addGap(34, 34, 34)
-								.addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-								.addGroup(layout.createSequentialGroup().addComponent(label_address)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(text_address, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(layout.createSequentialGroup().addComponent(label_gender)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(text_gender, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										layout.createSequentialGroup().addComponent(label_tel)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(text_tel, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-														javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										layout.createSequentialGroup().addComponent(label_memberName)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(text_memberName, javax.swing.GroupLayout.PREFERRED_SIZE,
-														150, javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										layout.createSequentialGroup().addComponent(label_password)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(text_password, javax.swing.GroupLayout.PREFERRED_SIZE,
-														150, javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										layout.createSequentialGroup().addComponent(label_customerId).addGap(18, 18, 18)
-												.addComponent(text_customerId, javax.swing.GroupLayout.PREFERRED_SIZE,
-														150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-						.addGroup(layout.createSequentialGroup().addComponent(label_note).addGap(54, 54, 54)
-								.addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400,
-										javax.swing.GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(424, Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup().addGap(51, 51, 51)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_customerId).addComponent(text_customerId,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGap(13, 13, 13)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_password).addComponent(text_password,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_memberName).addComponent(text_memberName,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_tel).addComponent(text_tel, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(text_gender, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(label_gender))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(text_address, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addGap(66)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(label_dateTest)
+							.addGap(34)
+							.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(label_password)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(text_password, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(label_memberName)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(text_memberName, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(label_customerId)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(text_customerId, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(label_tel)
+								.addComponent(label_gender)
 								.addComponent(label_address))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(label_note))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-								.addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(label_dateTest))
-						.addGap(47, 47, 47)));
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(text_address, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+								.addComponent(text_gender, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+								.addComponent(text_tel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(layout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(label_note)
+							.addGap(18)
+							.addComponent(text_note, GroupLayout.PREFERRED_SIZE, 398, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(56, Short.MAX_VALUE))
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addGap(52)
+					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(label_customerId)
+								.addComponent(text_customerId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(13)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(label_password)
+								.addComponent(text_password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(label_memberName)
+								.addComponent(text_memberName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(label_tel)
+								.addComponent(text_tel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(label_gender)
+								.addComponent(text_gender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(label_address)
+								.addComponent(text_address, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(64)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(text_note, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(label_note))
+						.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label_dateTest))
+					.addGap(47))
+		);
+		this.setLayout(layout);
 	}// </editor-fold>
 
 	private void setDBProp() {
