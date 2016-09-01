@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Properties;
 import javax.swing.JComboBox;
@@ -24,33 +25,59 @@ public class salesReport extends javax.swing.JPanel {
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
     
+    private boolean isYearSelected;
+    private boolean isMonthSelected;
+    private boolean isProductSelected;
     //記錄當前選擇的欄位值
-    private String sltYear = new String();
-    private String sltMonth = new String();
+    private String sltYear;
+    private String sltMonth;
+    private String sltShift;
     private int unitPrice;
-    //欄位
-    private String[] shiftfields = new String[]{"全部","早班","中班","晚班"};
-    private LinkedList<String> productfields = new LinkedList<String>();   
-    private LinkedList<String> yearfields = new LinkedList<String>();
-    private LinkedList<String> monthfields = new LinkedList<String>();
+    
+    //欄位名稱
+    private String[] shiftfields;
+    private LinkedList<String> productfields;
+    private LinkedList<String> yearfields;
+    private LinkedList<String> monthfields;
     
 
-    private LinkedList<String[]> orderList = new LinkedList<String[]>();//存訂單資訊(id,年,月)
-    private LinkedList<String[]> productList = new LinkedList<String[]>();//存產品資訊(id,名稱,價格)
-    private LinkedList<String> listNums = new LinkedList<String>(); //記錄符合的訂單ID    
+    private LinkedList<String[]> orderList;//存訂單資訊(id,年,月)
+    private LinkedList<String[]> productList;//存產品資訊(id,名稱,價格)
+    private LinkedList<String> listNums; //記錄符合日期區間的訂單ID 
+    private LinkedList<String> finalLists; //記錄符合全部條件的訂單ID 
+    
     //TO DO 要將所有結果存入LinkedList中
     private LinkedList<String[]> data = new LinkedList<String[]>();
     private String[] datas = new String[5];
     
     public salesReport() {
         initComponents();
+        init();
         setDBProp();
-        productList = selectProduct();
-        orderList = selectOrderList();    
+        orderList = selectOrderList(); 
         setDefault();
-        
-
+        selectAttendance();
     }
+    private void init(){       
+        shiftfields = new String[]{"全部","早班","中班","晚班"};
+        productfields = new LinkedList<String>();   
+        yearfields = new LinkedList<String>();
+        monthfields = new LinkedList<String>();    
+        orderList = new LinkedList<String[]>();
+        productList = new LinkedList<String[]>();
+        listNums = new LinkedList<String>();
+        finalLists = new LinkedList<>();
+        isYearSelected = false;
+        isMonthSelected = false;
+        isProductSelected = false;
+        sltYear = new String();
+        sltMonth = new String();
+        sltShift = new String();
+
+        
+    }
+    
+    
     private void setDBProp() {
 
 		prop = new Properties();
@@ -79,55 +106,11 @@ public class salesReport extends javax.swing.JPanel {
         shift.setVisible(false);
         employee.setVisible(false);
         product.setVisible(false);
-        
-    }
-   
-    
-//未完成(datetime方法:跳過日期的搜尋方法)
-    protected LinkedList selectAttendance(){
-        Calendar sltDate = Calendar.getInstance();
-        sltDate.set(Calendar.YEAR, Integer.parseInt(sltYear));
-        sltDate.set(Calendar.MONTH, Integer.parseInt(sltMonth));
-        
-        
-        try{
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM attendance WHERE work BETWEEN ? AND ?");
-            //pstmt.setDate(1,);
-            
-            
-            ResultSet result =  pstmt.executeQuery();
-            
-            
-            LinkedList<String[]> rows = new LinkedList<String[]>();
-            
-            while(result.next()){
-                String[] row = new String[2];
-                row[0] = result.getString("employeeNum");
-                row[1] = result.getString("work");  //上班打卡時間
-                
-                Calendar c = Calendar.getInstance();
-                c.setTime(result.getDate("work"));
-                
-                String y = Integer.toString(c.get(Calendar.YEAR));
-                String m = Integer.toString(c.get(Calendar.MONTH));
-                
-                String hour = Integer.toString(c.get(Calendar.HOUR_OF_DAY));
-                String minute = Integer.toString(c.get(Calendar.MINUTE));
-                
-                System.out.println(y + ":" + m + ":" + hour + ":" + minute);
-                rows.add(row);
-            }
 
-            pstmt.close();
-            return rows;
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
     }
-    
-    
-    protected LinkedList selectProduct(){
+
+    private LinkedList selectProduct(LinkedList<String> proNums){
+        productfields.clear();
         productfields.add("---全部---");
         try{
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM product");
@@ -140,7 +123,12 @@ public class salesReport extends javax.swing.JPanel {
                 row[0] = result.getString("productNum");
                 row[1] = result.getString("productName");
                 row[2] = result.getString("price");
-                productfields.add( row[0] + "--" + row[1]);
+                if(proNums != null){
+                    for(int i = 0; i < proNums.size();i++){
+                        if(row[0].equals(proNums.get(i)))
+                            productfields.add( row[0] + "--" + row[1]);
+                    }
+                }
                 rows.add(row);
             }
 
@@ -151,23 +139,24 @@ public class salesReport extends javax.swing.JPanel {
             return null;
         }
     }
-    protected LinkedList selectOrderItem(String pnum){
+    private LinkedList<String[]> selectOrderItem(String onum){
         try{
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM orderItem WHERE productNum = ?");
-            pstmt.setString(1, pnum);
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM orderItem WHERE orderNum = ?");
+            pstmt.setString(1, onum);
             ResultSet result =  pstmt.executeQuery();
-            
             
             LinkedList<String[]> rows = new LinkedList<String[]>();
             
             while(result.next()){
-                String[] row = new String[2];
+                String[] row = new String[4];
                 row[0] = result.getString("orderNum");
-                row[1] = result.getString("qty");                
-
+                row[1] = result.getString("productNum");
+                row[2] = result.getString("qty");                
+                row[3] = result.getString("note");
                 rows.add(row);
             }
-
+            
+            result.close();
             pstmt.close();
             return rows;
         }catch(Exception e){
@@ -175,7 +164,7 @@ public class salesReport extends javax.swing.JPanel {
             return null;
         }
     }
-    protected LinkedList selectOrderList(){
+    private LinkedList selectOrderList(){
         try{
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM orderList");
             ResultSet result =  pstmt.executeQuery();
@@ -193,7 +182,9 @@ public class salesReport extends javax.swing.JPanel {
                 row[2] = m;
 
                 if(yearfields.indexOf(y) < 0)yearfields.add(y);                
-               rows.add(row);
+                rows.add(row);
+                
+                System.out.println(row[0] + ":" + row[1] + ":" + row[2]);
             }           
             //排序
             java.util.Collections.sort(yearfields);
@@ -204,6 +195,35 @@ public class salesReport extends javax.swing.JPanel {
             return null;
         }
     }
+  
+    private String[] selectOrderList(String onum){
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM orderList WHERE orderNum = ?");
+            pstmt.setString(1, onum);
+            ResultSet result =  pstmt.executeQuery();
+           
+            String[] row = new String[6];
+            if(result.next()){
+                row[0] = result.getString("orderNum");
+                row[1] = result.getString("customerId");
+                row[2] = result.getString("orderDate");
+                row[3] = result.getString("status");
+                row[4] = result.getString("dispatch");
+                row[5] = result.getString("note");
+
+            }           
+            
+            result.close();
+            pstmt.close();
+            return row;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    protected LinkedList<String[]> getData(){
+        return data;
+    }
     private String[] getDateFields(LinkedList<String> date){
         String[] strDate = new String[date.size()];
         for(int i = 0; i < date.size();i++){
@@ -211,16 +231,94 @@ public class salesReport extends javax.swing.JPanel {
         }
         return strDate;
     }
-    
-    
-    
-    protected LinkedList<String[]> getData(){
-        return data;
+    private void getProductNum(){
+        //找符合日期區間的訂單ID
+        LinkedList<LinkedList<String[]>> productInfo = new LinkedList<>();
+        LinkedList<String> prodNums = new LinkedList<>();
+        listNums.clear();
+        for(int i = 0; i < orderList.size();i++){
+            if(sltYear.equals(orderList.get(i)[1])&&sltMonth.equals(orderList.get(i)[2]))
+                listNums.add(orderList.get(i)[0]);
+        }
+        //用訂單ID去orderItem找產品編號
+        for(int i = 0; i < listNums.size();i++){
+            productInfo.add(selectOrderItem(listNums.get(i)));
+        }
+        //用產品編號去product找產品名稱
+        for(int i = 0; i < productInfo.size();i++){
+            for(int j = 0; j < productInfo.get(i).size();j++){
+                String prodNum = productInfo.get(i).get(j)[1];
+                if(prodNums.indexOf(prodNum) < 0){
+                    System.out.println("prodNum : " + prodNum);
+                    prodNums.add(prodNum);
+                }
+            }
+        }    
+        selectProduct(prodNums);
     }
-
+    private int getQty(LinkedList<String> orderNum,String productNum){
+        int qty = 0;
+        for(int i = 0; i < orderNum.size();i++){
+            LinkedList<String[]> temp = selectOrderItem(orderNum.get(i));
+            for(int j = 0; j < temp.size();j++){
+                if(temp.get(j)[1].equals(productNum)){
+                    qty += Integer.parseInt(temp.get(j)[2]);
+                    finalLists.add(orderNum.get(i));
+                }
+            }
+        }
+        
+        return qty;
+    }
+    private int getTotal(String strSlt){
+        //取得單價
+        productList = selectProduct(null);
+        for(int i = 0; i < productList.size();i++){
+            if(productList.get(i)[0].equals(strSlt)){
+                unitPrice = Integer.parseInt(productList.get(i)[2]);
+            }
+        }
+        //取得總數量
+        int qty = getQty(listNums,strSlt);    
+        return qty * unitPrice;
+    }
     
+    
+    private void setProduct(){
+        if(isYearSelected == isMonthSelected == true){
+            getProductNum();
+            String pfields[] = new String[productfields.size()];
+            for(int i = 0; i < productfields.size();i++){
+                pfields[i] = productfields.get(i);
+            }       
+            setItem(product,pfields);
+//            product.setVisible(true);
+        }
+    }
+    private void setData(){
+        data.clear();
+        if(isYearSelected == isMonthSelected == isProductSelected ==true){
+            for(int i = 0; i < finalLists.size();i++){
+                String[] list = selectOrderList(finalLists.get(i));
+                LinkedList<String[]> items = selectOrderItem(finalLists.get(i));
+                for(int j = 0; j<items.size();j++){
+                    String[] merge = new String[9];
+                    merge[0] = list[0];
+                    merge[1] = list[2];
+                    merge[2] = list[1];
+                    merge[3] = items.get(j)[1];
+                    merge[4] = items.get(j)[2];
+                    merge[5] = list[3];
+                    merge[6] = list[4];
+                    merge[7] = list[5];
+                    merge[8] = items.get(j)[3];
+                    data.add(merge);
+                }
+            }
+        }
+    }
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         year = new javax.swing.JComboBox<>();
@@ -308,28 +406,33 @@ public class salesReport extends javax.swing.JPanel {
             }
         });
         add(employee, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, 40));
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void yearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearActionPerformed
-        // TODO add your handling code here:
+    private void yearActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        isYearSelected = true;
         javax.swing.JComboBox cb = (javax.swing.JComboBox)evt.getSource();
         sltYear = cb.getSelectedItem().toString();
         monthfields.clear();    //選擇後將之前的清空
+        
+        //取得訂單資訊中該年存在的月份
         for(int i = 0; i < orderList.size();i++){
             if(orderList.get(i)[1].equals(cb.getSelectedItem())){
                 if(monthfields.indexOf(orderList.get(i)[2]) < 0)
                     monthfields.add(orderList.get(i)[2]);
             }
         }
-        
+
         
         java.util.Collections.sort(monthfields);    //排序
         setItem(month,getDateFields(monthfields));  
         month.setVisible(true);
-    }//GEN-LAST:event_yearActionPerformed
+        setProduct();
+        setData();
 
-    private void monthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthActionPerformed
-        // TODO add your handling code here:
+    }                                    
+
+    private void monthActionPerformed(java.awt.event.ActionEvent evt) {                                      
+        isMonthSelected = true;
         javax.swing.JComboBox cb = (javax.swing.JComboBox)evt.getSource();
         sltMonth = cb.getSelectedItem().toString();
         
@@ -340,31 +443,37 @@ public class salesReport extends javax.swing.JPanel {
         }  
         setItem(shift,shiftfields);
         shift.setVisible(true);
-        
-        datas[0] = sltYear + "年" + sltMonth +"月";
-    }//GEN-LAST:event_monthActionPerformed
+        setProduct();
 
-    private void shiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shiftActionPerformed
-        // TODO add your handling code here:
+        setData();
+    }                                     
+
+    private void shiftActionPerformed(java.awt.event.ActionEvent evt) {                                      
+
         javax.swing.JComboBox cb = (javax.swing.JComboBox)evt.getSource();
-        String sltShift = cb.getSelectedItem().toString();
-        switch(sltShift){
+        String sltStr = cb.getSelectedItem().toString();
+        switch(sltStr){
             case "全部":
+                sltShift = "0";
+                selectAttendance();
                 break;
             case "早班":
+                sltShift = "8";
                 break;
             case "中班":
+                sltShift = "13";
                 break;
             case "晚班":
+                sltShift = "18";
                 break;
         }
         
         datas[1] = sltShift;
         employee.setVisible(true);
-    }//GEN-LAST:event_shiftActionPerformed
+    }                                     
 
-    private void employeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeActionPerformed
-        // TODO add your handling code here:
+    private void employeeActionPerformed(java.awt.event.ActionEvent evt) {                                         
+
         javax.swing.JComboBox cb = (javax.swing.JComboBox)evt.getSource();
         System.out.println(cb.getSelectedItem());
         
@@ -378,34 +487,33 @@ public class salesReport extends javax.swing.JPanel {
         }        
         setItem(product,pfields);
         product.setVisible(true);
-    }//GEN-LAST:event_employeeActionPerformed
+    }                                        
 
     
-    private void productActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productActionPerformed
-        // TODO add your handling code here:
-        data.clear();
+    private void productActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        isProductSelected = true;
         javax.swing.JComboBox cb = (javax.swing.JComboBox)evt.getSource();
         String strSlt = cb.getSelectedItem().toString().substring(0, 1);
-        for(int i = 0; i < productList.size();i++){
-            if(productList.get(i)[0].equals(strSlt)){
-                unitPrice = Integer.parseInt(productList.get(i)[2]);
+        int total = 0;
+        if(strSlt.equals("-")){
+            for(int i = 0; i < cb.getItemCount();i++){
+                String all = cb.getItemAt(i).toString().substring(0, 1);
+                total += getTotal(all);
             }
-        }
-        LinkedList<String[]> orderItem = selectOrderItem(strSlt);
-        int qty = 0;
-        for(int i = 0; i < orderItem.size();i++){
-            if(listNums.indexOf(orderItem.get(i)[0]) > -1)
-                qty += Integer.parseInt(orderItem.get(i)[1]);
-        }
-        String total = qty * unitPrice + "";
-        label_total.setText(total);
-        datas[3] = strSlt;
-        datas[4] = total;
-        data.add(datas);
-    }//GEN-LAST:event_productActionPerformed
+        }else{
+            total = getTotal(strSlt);
+        }        
+        label_total.setText(total + "");
+        setData();
+        finalLists.clear();
+    }                                       
 
+    
+    
+    
+    
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JComboBox<String> employee;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -418,5 +526,33 @@ public class salesReport extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> product;
     private javax.swing.JComboBox<String> shift;
     private javax.swing.JComboBox<String> year;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
+
+    protected LinkedList<String[]> selectAttendance(){
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM attendance");
+            
+            ResultSet result =  pstmt.executeQuery();
+            
+            
+            LinkedList<String[]> rows = new LinkedList<String[]>();
+            
+            while(result.next()){
+                String[] row = new String[3];
+                row[0] = result.getString("employeeNum");
+                row[1] = result.getString("work");  //上班打卡時間
+                row[2] = result.getString("offwork");//下班打卡時間              
+                rows.add(row);
+                System.out.println("work : " + row[1]);
+            }
+
+            pstmt.close();
+            return rows;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }
