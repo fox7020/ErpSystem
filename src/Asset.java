@@ -1,3 +1,4 @@
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,14 +15,17 @@ import java.util.Properties;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
-public class Asset extends javax.swing.JPanel {
+/**
+* @author Veronica.C
+*/
+public class asset extends javax.swing.JPanel {
 	private Connection conn;
 	private List<String> depList;  
 	private String depArray[];
 	private String assetId =null, assetName=null, qty=null, value=null, buyDate=null,
 			       note=null, depAsset=null, lifespan=null;
 	
-    public Asset() {
+    public asset() {
     	databaseConnect();
     	depList = new ArrayList<String>(); //產生List裝id
     	depList.add("");
@@ -55,47 +59,59 @@ public class Asset extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(980, 470));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        assetLabel01.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel01.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel01.setText("資產編號");
         add(assetLabel01, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 53, -1, 30));
 
-        assetLabel02.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel02.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel02.setText("資產名稱");
         add(assetLabel02, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 123, -1, 30));
 
-        assetLabel03.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel03.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel03.setText("採購日期");
         add(assetLabel03, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 194, -1, 30));
 
-        assetLabel04.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel04.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel04.setText("使用部門");
         add(assetLabel04, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 264, -1, 30));
 
         buyDate_asset.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
         add(buyDate_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 194, 180, 30));
 
-        assetLabel05.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel05.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel05.setText("數量");
         add(assetLabel05, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 53, -1, 30));
 
-        assetLabel06.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel06.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel06.setText("購入金額");
         assetLabel06.setToolTipText("");
         add(assetLabel06, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 123, -1, 30));
 
-        value_asset.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        value_asset.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        //keyIn check
+        value_asset.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                value_assetKeyTyped(evt);
+            }
+        });
         add(value_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 123, 150, 30));
 
-        assetLabel07.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel07.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel07.setText("折舊年限");
         add(assetLabel07, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 191, -1, 30));
 
-        lifespan_asset.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        lifespan_asset.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         lifespan_asset.setMinimumSize(new java.awt.Dimension(6, 30));
         lifespan_asset.setPreferredSize(new java.awt.Dimension(6, 30));
+        //keyIn check
+        lifespan_asset.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                lifespan_assetKeyTyped(evt);
+            }
+        });
         add(lifespan_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 191, 150, -1));
 
-        assetLabel08.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetLabel08.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetLabel08.setText("其它備註");
         add(assetLabel08, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 264, -1, 30));
 
@@ -106,24 +122,52 @@ public class Asset extends javax.swing.JPanel {
 
         add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 264, 341, -1));
 
-        id_asset.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
-        id_asset.setText("系統自動產生");
+        id_asset.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         add(id_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 53, 180, 30));
 
-        department_asset.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        department_asset.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         department_asset.setModel(new DefaultComboBoxModel(depArray));
 //        department_asset.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         department_asset.setMinimumSize(new java.awt.Dimension(73, 30));
         department_asset.setPreferredSize(new java.awt.Dimension(73, 30));
         add(department_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 264, 180, -1));
         
-        assetName_asset.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetName_asset.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         add(assetName_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 123, 180, -1));
 
-        qty_asset.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        qty_asset.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        //keyIn check
+        qty_asset.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                qty_assetKeyTyped(evt);
+            }
+        });
         add(qty_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 53, 150, 30));
         
-    }// </editor-fold>                        
+    }// </editor-fold>  
+    
+    //key in judge
+    private void qty_assetKeyTyped(java.awt.event.KeyEvent evt) {                                   
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) || (c == KeyEvent.VK_SPACE) || (c == KeyEvent.VK_DELETE)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }                                
+    private void value_assetKeyTyped(java.awt.event.KeyEvent evt) {                                     
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) || (c == KeyEvent.VK_SPACE) || (c == KeyEvent.VK_DELETE)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }     
+    private void lifespan_assetKeyTyped(java.awt.event.KeyEvent evt) {                                        
+    	 char c = evt.getKeyChar();
+         if(!(Character.isDigit(c)) || (c == KeyEvent.VK_SPACE) || (c == KeyEvent.VK_DELETE)){
+             getToolkit().beep();
+             evt.consume();
+         }
+    } 
    
     protected void getDefault(){
     	id_asset.setText("系統自動產生");
@@ -220,6 +264,7 @@ public class Asset extends javax.swing.JPanel {
 	}
     
     protected LinkedList<String[]> queryData() {
+    	getDefault();
 		LinkedList<String[]> data = new LinkedList<>();
 		try{
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM asset");

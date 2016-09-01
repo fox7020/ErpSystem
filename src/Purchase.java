@@ -1,4 +1,5 @@
-﻿import java.sql.Connection;
+﻿import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,8 +15,10 @@ import java.util.Properties;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
-
-public class Purchase extends javax.swing.JPanel {
+/**
+* @author Veronica.C
+*/
+public class purchase extends javax.swing.JPanel {
 	private Connection conn;
 	private String purid =null, materilNo =null, purDate =null, empNo =null, 
 			vendorNo =null, purQty =null, purPrice =null, note=null;
@@ -28,7 +31,7 @@ public class Purchase extends javax.swing.JPanel {
 	private String empArray[], venArray[], matArray[];	
 	private boolean repeat =false;
 
-    public Purchase() {
+    public purchase() {
     	databaseConnect();
     	empList = new ArrayList<String>(); //產生List裝id
     	venList = new ArrayList<String>(); //產生List裝id
@@ -69,49 +72,61 @@ public class Purchase extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(980, 470));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        purchaseLabel01.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel01.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel01.setText("進貨單號");
         add(purchaseLabel01, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 53, -1, 30));
 
-        purchaseNum_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseNum_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseNum_Purc.setPreferredSize(new java.awt.Dimension(10, 26));
         add(purchaseNum_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 55, 180, 30));
 
-        purchaseLabel02.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel02.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel02.setText("原料編號");
         add(purchaseLabel02, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 124, -1, 30));
 
-        purchaseLabel03.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel03.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel03.setText("進貨日期");
         add(purchaseLabel03, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 195, -1, 30));
 
-        purchaseLabel04.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel04.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel04.setText("採購人員");
         add(purchaseLabel04, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 260, -1, 30));
 
-        purchaseDate_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseDate_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         add(purchaseDate_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 195, 180, 30));
 
-        purchaseLabel05.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel05.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel05.setText("廠商編號");
         add(purchaseLabel05, new org.netbeans.lib.awtextra.AbsoluteConstraints(515, 53, -1, 30));
 
-        purchaseLabel06.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel06.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel06.setText("進貨數量");
         purchaseLabel06.setToolTipText("");
         add(purchaseLabel06, new org.netbeans.lib.awtextra.AbsoluteConstraints(512, 124, -1, 30));
 
-        qty_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        qty_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+       //keyIn check
+        qty_Purc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                qty_PurcKeyTyped(evt);
+            }
+        });
         add(qty_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 126, 150, 30));
 
-        purchaseLabel07.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel07.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel07.setText("採購單價");
         add(purchaseLabel07, new org.netbeans.lib.awtextra.AbsoluteConstraints(512, 193, -1, 30));
 
-        price_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        price_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        //keyIn check
+        price_Purc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                price_PurcKeyTyped(evt);
+            }
+        });
         add(price_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 195, 150, 30));
 
-        purchaseLabel08.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseLabel08.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseLabel08.setText("備註");
         add(purchaseLabel08, new org.netbeans.lib.awtextra.AbsoluteConstraints(512, 265, -1, 30));
 
@@ -122,19 +137,19 @@ public class Purchase extends javax.swing.JPanel {
 
         add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 270, 350, 170));
 
-        materialName_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        materialName_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         materialName_Purc.setText("原料名稱");
         add(materialName_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(339, 124, 120, 30));
 
-        employName_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        employName_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         employName_Purc.setText("員工姓名");
         add(employName_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(339, 260, 120, 30));
 
-        vendorName_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        vendorName_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         vendorName_Purc.setText("廠商名稱");
         add(vendorName_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(783, 65, 187, -1));
 
-        materialNum_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        materialNum_Purc.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 //        materialNum_Purc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         materialNum_Purc.setModel(new DefaultComboBoxModel(matArray));  
         materialNum_Purc.addActionListener(new java.awt.event.ActionListener() {
@@ -166,29 +181,33 @@ public class Purchase extends javax.swing.JPanel {
         });
         add(vendorNum_Purc, new org.netbeans.lib.awtextra.AbsoluteConstraints(629, 55, 150, 30));
 
-        showInfo.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        showInfo.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         showInfo.setText("系統編號");
         add(showInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 80, 40));
 
-        SQLID.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        SQLID.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
        
         add(SQLID, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 328, 183, -1));
-    }// </editor-fold>                        
+    }// </editor-fold>     
+    
+  //key type check
+    private void qty_PurcKeyTyped(java.awt.event.KeyEvent evt) {                                  
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) || (c == KeyEvent.VK_SPACE) || (c == KeyEvent.VK_DELETE)){
+            getToolkit().beep();
+        	evt.consume();
+        }
+    }                                 
 
-       
-    private void testBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
-    	getSelect();
-    	checkRepeatPurchase();
-    	if(!repeat){
-    		insertDB();
-    	}else{
-    		showInfo.setText("進貨單已存在!");
-    	}
-    	getDefault();
+    private void price_PurcKeyTyped(java.awt.event.KeyEvent evt) {                                    
+       char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) || (c == KeyEvent.VK_SPACE) || (c == KeyEvent.VK_DELETE)){
+            getToolkit().beep();
+            evt.consume();
+        }
     }   
     
     private void employNum_PurcActionPerformed(java.awt.event.ActionEvent evt) {  //點選單，帶出名字                                             
-//        System.out.println("ActionPerformed");
     	empName();
     }    
     
@@ -252,7 +271,8 @@ public class Purchase extends javax.swing.JPanel {
     	}
     }
     
-    private void checkRepeatPurchase(){ //單號+料號+廠商編號+數量=pk來比對    	
+    public boolean checkRepeatPurchase(){ //單號+料號+廠商編號+數量=pk來比對    
+    	getSelect();
     	try{	    		    		
 	    	PreparedStatement checkPur = conn.prepareStatement("select * from purchase"); 
 	    	ResultSet rs = checkPur.executeQuery();
@@ -267,19 +287,16 @@ public class Purchase extends javax.swing.JPanel {
 	    	
 	    	String getKeyInInfo = purid+materilNo+vendorNo+purQty;
 	    	for(int i = 0; i < checkRp.size(); i++) {
-	    		String checkRpString = checkRp.get(i);
-	    		if(!repeat){
-		    		if(getKeyInInfo.equals(checkRpString)){
-		    			repeat =true;
-		    		}
-	    		}
-	    	}
-	    	
-	    	
+	    		String checkRpString = checkRp.get(i);	    		
+	    		if(getKeyInInfo.equals(checkRpString)){
+	    			return true;
+	    		}	    		
+	    	}	    	
     	}catch(Exception a){
     		System.out.println("editDB error");
     		a.printStackTrace();
     	}
+    	return false;
     }
    
 	protected int delData(){
@@ -325,13 +342,13 @@ public class Purchase extends javax.swing.JPanel {
     	return isUpdate;
     }
     
-    protected  LinkedList<String[]> search(String value){
+    protected LinkedList<String[]> search(String value){
 		LinkedList<String[]> data = new LinkedList<>();
 		try{
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM purchase WHERE id LIKE ? OR purchaseNum LIKE ? OR materialNum LIKE ?"
-					+ " OR purchaseDate LIKE OR vendorNum LIKE OR qty LIKE OR price LIKE OR employeeNum LIKE OR note LIKE");
+					+ " OR purchaseDate LIKE ? OR vendorNum LIKE ? OR qty LIKE ? OR price LIKE ? OR employeeNum LIKE ? OR note LIKE ?");
 			String query = "%" + value +"%";
-			for(int i=1 ; i<9; i++){
+			for(int i=1 ; i<10; i++){
 				pstmt.setString(i, query);
 			}
 			ResultSet rs = pstmt.executeQuery();
@@ -356,6 +373,7 @@ public class Purchase extends javax.swing.JPanel {
 	}
   
     protected LinkedList<String[]> queryData() {
+    	getDefault();
 		LinkedList<String[]> data = new LinkedList<>();
 		try{
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM purchase");
@@ -419,8 +437,8 @@ public class Purchase extends javax.swing.JPanel {
     	qty_Purc.setText("");
     	price_Purc.setText("");
     	note_Purc.setText("");
-    	repeat =false; showInfo.setText("");
     	checkRp.clear();
+    	SQLID.setText("");
     	materialNum_Purc.setSelectedIndex(0);employNum_Purc.setSelectedIndex(0); vendorNum_Purc.setSelectedIndex(0);
     }
     
@@ -468,9 +486,6 @@ public class Purchase extends javax.swing.JPanel {
 	    		String idList3 = rs3.getString("materialNum");
 	    		matList.add(idList3);
 	    	}   
-	    	
-	    	System.out.println(empList.size()+" : "+venList.size()+" : "+matList.size());
-	    	
     	}catch(Exception e){
     		System.out.println("getEmpIdlist error");
     		e.printStackTrace();

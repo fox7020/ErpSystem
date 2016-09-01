@@ -13,9 +13,11 @@ import java.util.Properties;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
+/**
+* @author Veronica.C
+*/
 
-public class Admin extends javax.swing.JPanel {
-	//各表的權限值
+public class admin extends javax.swing.JPanel {
 	private String passwd=null, employee=null, attendance=null, achieve=null, payroll=null, product=null, 
 			   material=null, orderlist=null, orderitem=null, asset=null, issue=null, member=null,
 			   vendor=null, purchase=null, payablelist=null, admin=null, note=null, department=null, billboard=null,
@@ -26,7 +28,7 @@ public class Admin extends javax.swing.JPanel {
 	private boolean hasId = false; //資料庫是否有資料 
 	
 
-    public Admin() {    	
+    public admin() {    	
     	databaseConnect(); 
     	empList = new ArrayList<String>(); //產生List裝id
     	empList.add("");
@@ -117,23 +119,23 @@ public class Admin extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(980, 470));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        adminLabel01.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel01.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel01.setText("員工編號");
         add(adminLabel01, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
 
-        adminLabel02.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel02.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel02.setText("登入密碼");
         add(adminLabel02, new org.netbeans.lib.awtextra.AbsoluteConstraints(428, 10, -1, 30));
 
-        adminLabel04.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel04.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel04.setText("員工資料表");
         add(adminLabel04, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 87, -1, 30));
 
-        adminLabel05.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel05.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel05.setText("出缺勤表");
         add(adminLabel05, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 146, -1, 30));
 
-        employeeNum_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        employeeNum_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         employeeNum_admin.setForeground(new java.awt.Color(0, 0, 204));
         employeeNum_admin.setModel(new DefaultComboBoxModel(empArray));
 //        employeeNum_admin.setModel(new javax.swing.DefaultComboBoxModel<>(
@@ -146,243 +148,243 @@ public class Admin extends javax.swing.JPanel {
                 employeeNum_adminActionPerformed(evt);
             }
         });
-        adminLabel03.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel03.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel03.setText("所屬單位");
         add(adminLabel03, new org.netbeans.lib.awtextra.AbsoluteConstraints(742, 10, -1, 30));
 
-        empPasswd_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        empPasswd_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         empPasswd_admin.setForeground(new java.awt.Color(0, 0, 204));
         empPasswd_admin.setText("");
         add(empPasswd_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 187, 30));
 
-        empDepat_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        empDepat_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         empDepat_admin.setForeground(new java.awt.Color(0, 0, 204));
         empDepat_admin.setText("");
         add(empDepat_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 10, 145, 30));
 
-        employeeName_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        employeeName_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         employeeName_admin.setForeground(new java.awt.Color(0, 0, 204));
         employeeName_admin.setText("");
         add(employeeName_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 10, -1, 30));
         add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 58, 980, 10));
 
-        adminLabel06.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel06.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel06.setText("員工考績表");
         add(adminLabel06, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 208, -1, -1));
 
-        adminLabel07.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel07.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel07.setText("薪資表");
         add(adminLabel07, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 267, -1, -1));
 
-        adminLabel08.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel08.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel08.setText("進貨表");
         add(adminLabel08, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 326, -1, -1));
 
         employee_admin.add(employeeY_admin);
-        employeeY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        employeeY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         employeeY_admin.setText("Yes");
         add(employeeY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 86, -1, -1));
 
         employee_admin.add(employeeN_admin);
-        employeeN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        employeeN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         employeeN_admin.setText("No");
         add(employeeN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 86, -1, -1));
 
-        adminLabel10.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel10.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel10.setText("原料庫存表");
         add(adminLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 90, -1, -1));
 
-        adminLabel11.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel11.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel11.setText("訂單資料表");
         add(adminLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 149, -1, -1));
 
         attendance_admin.add(attendanceY_admin);
-        attendanceY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        attendanceY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         attendanceY_admin.setText("Yes");
         add(attendanceY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 145, -1, -1));
 
         achievement_admin.add(achievementY_admin);
-        achievementY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        achievementY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         achievementY_admin.setText("Yes");
         add(achievementY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 204, -1, -1));
 
         payRoll_admin.add(payRollY_admin);
-        payRollY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        payRollY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         payRollY_admin.setText("Yes");
         add(payRollY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 263, -1, -1));
 
         purchase_admin.add(purchaseY_admin);
-        purchaseY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseY_admin.setText("Yes");
         add(purchaseY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 322, -1, -1));
 
         attendance_admin.add(attendanceN_admin);
-        attendanceN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        attendanceN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         attendanceN_admin.setText("No");
         add(attendanceN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 145, -1, -1));
 
         achievement_admin.add(achievementN_admin);
-        achievementN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        achievementN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         achievementN_admin.setText("No");
         add(achievementN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 204, -1, -1));
 
         payRoll_admin.add(payRollN_admin);
-        payRollN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        payRollN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         payRollN_admin.setText("No");
         add(payRollN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 263, -1, -1));
 
         purchase_admin.add(purchaseN_admin);
-        purchaseN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        purchaseN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         purchaseN_admin.setText("No");
         add(purchaseN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 322, -1, -1));
 
-        adminLabel12.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel12.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel12.setText("訂購項目表");
         add(adminLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 208, -1, -1));
 
-        adminLabel13.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel13.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel13.setText("異常資料表");
         add(adminLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 267, -1, -1));
 
-        adminLabel14.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel14.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel14.setText("應收管理表");
         add(adminLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 326, -1, -1));
 
         material_admin.add(materialY_admin);
-        materialY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        materialY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         materialY_admin.setText("Yes");
         add(materialY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 86, -1, -1));
 
         orderList_admin.add(orderListY_admin);
-        orderListY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        orderListY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         orderListY_admin.setText("Yes");
         add(orderListY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 145, -1, -1));
 
         orderItem_admin.add(orderItemY_admin);
-        orderItemY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        orderItemY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         orderItemY_admin.setText("Yes");
         add(orderItemY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 204, -1, -1));
 
         issue_admin.add(issueY_admin);
-        issueY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        issueY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         issueY_admin.setText("Yes");
         add(issueY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 263, -1, -1));
 
         payableList_admin.add(payableListY_admin);
-        payableListY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        payableListY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         payableListY_admin.setText("Yes");
         add(payableListY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 322, -1, -1));
 
         material_admin.add(materialN_admin);
-        materialN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        materialN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         materialN_admin.setText("No");
         add(materialN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 86, -1, -1));
 
         orderList_admin.add(orderListN_admin);
-        orderListN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        orderListN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         orderListN_admin.setText("No");
         add(orderListN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 145, -1, -1));
 
         orderItem_admin.add(orderItemN_admin);
-        orderItemN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        orderItemN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         orderItemN_admin.setText("No");
         add(orderItemN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 204, -1, -1));
 
         issue_admin.add(issueN_admin);
-        issueN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        issueN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         issueN_admin.setText("No");
         add(issueN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 263, -1, -1));
 
         payableList_admin.add(payableListN_admin);
-        payableListN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        payableListN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         payableListN_admin.setText("No");
         add(payableListN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 322, -1, -1));
 
-        adminLabel15.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel15.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel15.setText("資產管理表");
         add(adminLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 389, -1, -1));
 
-        adminLabel16.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel16.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel16.setText("客戶資料表");
         add(adminLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(656, 90, -1, -1));
 
-        adminLabel17.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel17.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel17.setText("廠商資料表");
         add(adminLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(656, 149, -1, -1));
 
-        adminLabel18.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel18.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel18.setText("帳號管理表");
         add(adminLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(656, 208, -1, -1));
 
-        adminLabel19.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel19.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel19.setText("公告管理表");
         add(adminLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(656, 267, -1, -1));
 
-        adminLabel09.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel09.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminLabel09.setText("產品資料表");
         add(adminLabel09, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 389, -1, -1));
 
         product_admin.add(productY_admin);
-        productY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        productY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         productY_admin.setText("Yes");
         add(productY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 385, -1, -1));
 
         asset_admin.add(assetY_admin);
-        assetY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetY_admin.setText("Yes");
         add(assetY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 385, -1, -1));
 
         product_admin.add(productN_admin);
-        productN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        productN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         productN_admin.setText("No");
         add(productN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 385, -1, -1));
 
         asset_admin.add(assetN_admin);
-        assetN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        assetN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         assetN_admin.setText("No");
         add(assetN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 385, -1, -1));
 
         member_admin.add(memberY_admin);
-        memberY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        memberY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         memberY_admin.setText("Yes");
         add(memberY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 86, -1, -1));
 
         vendor_admin.add(vendorY_admin);
-        vendorY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        vendorY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         vendorY_admin.setText("Yes");
         add(vendorY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 145, -1, -1));
 
         adminList_admin.add(adminY_admin);
-        adminY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminY_admin.setText("Yes");
         add(adminY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 204, -1, -1));
 
         billboard_admin.add(billboardY_admin);
-        billboardY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        billboardY_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         billboardY_admin.setText("Yes");
         add(billboardY_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 263, -1, -1));
 
         member_admin.add(memberN_admin);
-        memberN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        memberN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         memberN_admin.setText("No");
         add(memberN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(837, 86, -1, -1));
 
         vendor_admin.add(vendorN_admin);
-        vendorN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        vendorN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         vendorN_admin.setText("No");
         add(vendorN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(837, 145, -1, -1));
 
         adminList_admin.add(adminN_admin);
-        adminN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         adminN_admin.setText("No");
         add(adminN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(837, 204, -1, -1));
 
         billboard_admin.add(billboardN_admin);
-        billboardN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        billboardN_admin.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         billboardN_admin.setText("No");
         add(billboardN_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(837, 263, -1, -1));
 
-        adminLabel20.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+        adminLabel20.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
         adminLabel20.setText("備註");
         add(adminLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(656, 326, 90, -1));
 
@@ -445,7 +447,7 @@ public class Admin extends javax.swing.JPanel {
 			PreparedStatement getPW = conn.prepareStatement("select * from admin where employeeNum="+employID);
     		ResultSet rs2 = getPW.executeQuery();
 			while(rs2.next()){				
-				employPW = rs2.getString("employeeNum");
+				employPW = rs2.getString("password");
 				empPasswd_admin.setText(employPW);
 			}
     	} catch (Exception e) {
@@ -475,6 +477,13 @@ public class Admin extends javax.swing.JPanel {
     	if(adminY_admin.isSelected()){admin = "yes";}else if(adminN_admin.isSelected()){admin = "No";}
     	if(billboardY_admin.isSelected()){billboard = "yes";}else if(billboardN_admin.isSelected()){billboard = "No";}
     	
+    	//if password null, set default;
+    	if(empPasswd_admin.getText()==""){
+    		passwd = "123456";
+    	}else{
+    		passwd = empPasswd_admin.getText();
+    	}
+    	    	
     	//get remark content
     	note = note_admin.getText();    	
     	//combobox get selected & use combobox get empName----->apply in actionListener  
@@ -513,6 +522,7 @@ public class Admin extends javax.swing.JPanel {
     }
     
     protected LinkedList<String[]> queryData() {
+    	getDefault();
 		LinkedList<String[]> data = new LinkedList<>();
 		try{
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM admin");
@@ -567,10 +577,7 @@ public class Admin extends javax.swing.JPanel {
 			System.out.println("sql conn error: "+ e.toString());
 			e.printStackTrace();
 		}
-    }
-    
-    //將ui輸入資料塞入資料庫(新增一筆資料)
-    //TODO editDB 有bug
+    }    
     
     protected int delData(){
 		int isDel = 0;
@@ -588,31 +595,31 @@ public class Admin extends javax.swing.JPanel {
 		return isDel;
 	}
     
-    private void ifIdexist(){
+    protected boolean ifIdexist(){
 	    try{
 			//先check資料庫是否有id,有就update,沒有insert
 	    	PreparedStatement checkId = conn.prepareStatement("select * from admin where employeeNum ="+employID);     
 	    	ResultSet rs = checkId.executeQuery();
 	    	while(rs.next()){
 	    		hasId = true;
-	    		break;
-	    	}
-	    	if(hasId){editDB();}else{insertDB();}
-	    	
+	    		return true;	    		
+	    	}	    	    	
 		}catch(Exception a){
-			System.out.println("insertDB error");
+			System.out.println("ifIdexist error");
 			a.printStackTrace();
 		}    
+	    return false;
     }
     
     protected int editDB(){   
     	int isUpdate = 0;
     	employID = (String) employeeNum_admin.getSelectedItem();
     	if (getSelect() == true && !employID.equals("")) {
-    	// UPDATE `TABLE` SET `XXX`='xxx',`YYY`='yyy',`ZZZ`='ZZZ' WHERE `xxx`='xxx' AND `yyy`='yyy';
-	    	String sql = "update admin set employee=?, attendance=?, achievement=?, payRoll=?, products=?, "
+    		ifIdexist();	    	
+    		String sql = "update admin set employee=?, attendance=?, achievement=?, payRoll=?, products=?, "
 	    			+ "material=?, orderList=?, orderItem=?, asset=?, issue=?, member=?,vendor=?, "
-	    			+ "purchase=?, payableList=?, admin=?, note=?, billboard=?, department=? where employeeNum ="+employID;
+	    			+ "purchase=?, payableList=?, admin=?, note=?, billboard=?, department=?, password=? where employeeNum ="+employID;
+	    	
 	    	if(hasId){ //資料庫有資料 	
 		    	try{	    		    		
 			    	PreparedStatement insertdb = conn.prepareStatement(sql); 		    	
@@ -634,9 +641,9 @@ public class Admin extends javax.swing.JPanel {
 			    	insertdb.setString(16, note);
 			    	insertdb.setString(17, billboard);
 			    	insertdb.setString(18, department);
+			    	insertdb.setString(19, passwd);
 			    	
 			    	isUpdate = insertdb.executeUpdate();
-			    	System.out.println("here here");
 			    	hasId = false;
 		    	}catch(Exception a){
 		    		System.out.println("editDB error");
@@ -646,15 +653,14 @@ public class Admin extends javax.swing.JPanel {
     	}
     	return isUpdate;
     }
+       
     
     protected int insertDB(){
     	int isInsert = 0;
     	String sql = "insert into admin(employeeNum,password,employee,attendance,achievement,payRoll,products,"
     			+ "material,orderList,orderItem,asset,issue,member,vendor,"
     			+ "purchase,payableList,admin,note,department,billboard) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    	
-    	//TODO INSERT時，密碼用預設123456
-    	if (getSelect() == true) {
+      	if (getSelect() == true) {
 	    	if(hasId == false){ //資料庫無資料 	
 		    	try{	    			    		
 			    	PreparedStatement insertdb = conn.prepareStatement(sql); 
@@ -688,7 +694,6 @@ public class Admin extends javax.swing.JPanel {
     	}
     	return isInsert;
     }
-    //以下未完成
     
     protected  LinkedList<String[]> search(String value){
 		LinkedList<String[]> data = new LinkedList<>();
