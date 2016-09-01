@@ -1098,6 +1098,15 @@ public class erp_frame extends JFrame {
     			data = vendor.queryData();
     			tableModel.fireTableDataChanged();
         		break;
+        	case "人事資料庫":case "採購資料庫":case "產品資料庫":
+        	case "庫存資料庫":case "銷售資料庫":case "會計資料庫":
+        	case "客戶資料庫":case "系統資料庫":
+    			nowLayout.show(panel_dataInput, "empty");
+    			tableModel = new myTableModel(null);
+    			table_firmData.setModel(tableModel);
+    			data =null;
+    			tableModel.fireTableDataChanged();
+        		break;
     		} 
     	}
    

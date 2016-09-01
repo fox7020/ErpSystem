@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Properties;
 
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 /*
@@ -28,12 +29,37 @@ public class OrderList extends javax.swing.JPanel {
 	private Properties prop;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
+    HashMap <String,String[]> member = new HashMap<>();
+    private String[] statusfields = new String[]{"新訂單","製作中","已出貨"};
+    private String[] dispatchfields = new String[]{"外送","店取"};
     
     public OrderList() {
         initComponents();
         setDBProp();
+        init();
     }
     
+    private void setItem(JComboBox<String> cbox , String[] fields){        
+        cbox.setModel(new javax.swing.DefaultComboBoxModel<>(fields));
+    }
+    private void init(){
+    	setItem(combo_dispatch, dispatchfields);
+        setItem(combo_status, statusfields);
+        System.out.println("conn OK");
+        
+        LinkedList<String[]> members = selectMember();
+        String[] memberNum = new String[members.size()];
+        String[] memberName  = new String[members.size()];
+
+        for(int i = 0; i < members.size();i++){
+            memberNum[i] = members.get(i)[0];
+            memberName[i] = members.get(i)[1];
+        }
+
+        member.put("memberNum", memberNum);
+        member.put("memberName", memberName);
+        combo_customerId.setModel(new javax.swing.DefaultComboBoxModel<>(memberNum));
+    }
 	private void setDBProp() {
 
 		prop = new Properties();
@@ -52,10 +78,10 @@ public class OrderList extends javax.swing.JPanel {
 	private boolean getUserInputParm() {
 		boolean isRightData = false;
 		if (text_orderNum.getText().equals("") 
-				|| text_customerId.getText().equals("")
+				|| combo_customerId.getSelectedItem().toString().equals("")
 				|| ((JTextField) date_orderDate.getDateEditor().getUiComponent()).getText().equals("")
-				|| text_status.getText().equals("")
-				|| text_dispatch.getText().equals("")
+				|| combo_status.getSelectedItem().toString().equals("")
+				|| combo_dispatch.getSelectedItem().toString().equals("")
 				|| text_note.getText().equals("")) {
 			isRightData = false;
 		} else {
@@ -63,7 +89,27 @@ public class OrderList extends javax.swing.JPanel {
 		}
 		return isRightData;
 	}
-    
+	private LinkedList selectMember(){
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM member");
+            ResultSet result =  pstmt.executeQuery();                    
+            LinkedList<String[]> rows = new LinkedList<String[]>();
+           
+            while(result.next()){
+                String[] member = new String[2];
+                member[0] = result.getString("customerId");
+                member[1] = result.getString("memberName");
+                rows.add(member);
+            }
+            pstmt.close();
+            return rows;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
+	
     protected int insertData(){
     	int isInsert = 0;	//紀錄資料有沒有insert成功
         java.util.Date date = date_orderDate.getDate();        
@@ -72,10 +118,10 @@ public class OrderList extends javax.swing.JPanel {
             pstmt = conn.prepareStatement(
                     "INSERT INTO orderlist(orderNum,customerId,orderDate,status,dispatch,note) VALUES('"
                             + ""+text_orderNum.getText()+"','"
-                            + ""+text_customerId.getText()+"','"
+                            + ""+combo_customerId.getSelectedItem().toString()+"','"
                             + ""+strDate+"','"
-                            + ""+text_status.getText()+"','"
-                            + ""+text_dispatch.getText()+"','"
+                            + ""+combo_status.getSelectedItem().toString()+"','"
+                            + ""+combo_dispatch.getSelectedItem().toString()+"','"
                             + ""+text_note.getText()+"')");
             isInsert = pstmt.executeUpdate();
             
@@ -114,10 +160,10 @@ public class OrderList extends javax.swing.JPanel {
 			try {
 				pstmt = conn.prepareStatement(
 						"UPDATE orderList SET customerId=?,orderDate=?,status=?,dispatch=?,note=? WHERE orderNum = ?" );
-				pstmt.setString(1, text_customerId.getText());
+				pstmt.setString(1, combo_customerId.getSelectedItem().toString());
 				pstmt.setString(2, strDate);
-				pstmt.setString(3, text_status.getText());
-				pstmt.setString(4, text_dispatch.getText());
+				pstmt.setString(3, combo_status.getSelectedItem().toString());
+				pstmt.setString(4, combo_dispatch.getSelectedItem().toString());
 				pstmt.setString(5, text_note.getText());
 				pstmt.setString(6, strOrderNum);
 				isUpdate = pstmt.executeUpdate();
@@ -164,10 +210,11 @@ public class OrderList extends javax.swing.JPanel {
     
     protected void clearInput(){
         text_orderNum.setText("");
-        text_customerId.setText("");
+        label_customerName.setText("");
+        combo_customerId.setSelectedIndex(0);
         date_orderDate.setDate(null);
-        text_status.setText("");
-        text_dispatch.setText("");        
+        combo_dispatch.setSelectedIndex(0);
+        combo_status.setSelectedIndex(0);  
         text_note.setText("");
     }
 
@@ -204,7 +251,7 @@ public class OrderList extends javax.swing.JPanel {
 		
 		
 		text_orderNum.setText(data.get(0));
-		text_customerId.setText(data.get(1));
+//		text_customerId.setText(data.get(1));
 		java.util.Date date;
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd").parse(data.get(2));
@@ -212,17 +259,24 @@ public class OrderList extends javax.swing.JPanel {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		text_status.setText(data.get(3));	
-		text_dispatch.setText(data.get(4));
+//		text_status.setText(data.get(3));	
+//		text_dispatch.setText(data.get(4));
 		text_note.setText(data.get(5));
 	}
-    
+	private void combo_customerIdActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+        String slt = combo_customerId.getSelectedItem().toString();
+        for(int i = 0; i < member.get("memberNum").length;i++){
+            if(member.get("memberNum")[i].equals(slt)){
+                label_customerName.setText(member.get("memberName")[i]);
+            }
+        }
+    }        
     
     
     
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         label_orderNum = new javax.swing.JLabel();
@@ -232,78 +286,85 @@ public class OrderList extends javax.swing.JPanel {
         label_dispatch = new javax.swing.JLabel();
         label_note = new javax.swing.JLabel();
         text_orderNum = new javax.swing.JTextField();
-        text_status = new javax.swing.JTextField();
-        text_dispatch = new javax.swing.JTextField();
-        text_customerId = new javax.swing.JTextField();
         date_orderDate = new com.toedter.calendar.JDateChooser();
         scroll_note = new javax.swing.JScrollPane();
         text_note = new javax.swing.JTextArea();
+        combo_customerId = new javax.swing.JComboBox<>();
+        combo_dispatch = new javax.swing.JComboBox<>();
+        combo_status = new javax.swing.JComboBox<>();
+        label_customerName = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(980, 470));
         setPreferredSize(new java.awt.Dimension(980, 470));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        label_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_orderNum.setText("訂單編號");
         add(label_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
 
-        label_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_customerId.setText("客戶編號");
         add(label_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, -1, -1));
 
-        label_orderDate.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_orderDate.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_orderDate.setText("下單日期");
-        add(label_orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, 20));
+        add(label_orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, -1, 20));
 
-        label_status.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_status.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_status.setText("狀態");
-        add(label_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 140, -1, -1));
+        add(label_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, -1, -1));
 
-        label_dispatch.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_dispatch.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_dispatch.setText("配送方式");
-        add(label_dispatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, -1, -1));
+        add(label_dispatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
 
-        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_note.setText("備註");
-        add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, -1, -1));
+        add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 320, -1, -1));
 
         text_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 150, 25));
-
-        text_status.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, 150, 25));
-
-        text_dispatch.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_dispatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 150, 25));
-
-        text_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 150, 25));
+        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 180, 40));
 
         date_orderDate.setDateFormatString("yyyy/M/d h:m:s");
-        add(date_orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 180, 25));
+        add(date_orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 180, 40));
 
         text_note.setColumns(20);
         text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
         text_note.setRows(5);
         scroll_note.setViewportView(text_note);
 
-        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
-    }// </editor-fold>//GEN-END:initComponents
+        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 320, -1, -1));
+
+        combo_customerId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_customerIdActionPerformed(evt);
+            }
+        });
+        add(combo_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 80, 40));
+
+        add(combo_dispatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 330, 80, 40));
+
+        add(combo_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 200, 80, 40));
+
+        label_customerName.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        add(label_customerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 80, 150, 40));
+    }// </editor-fold>          
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> combo_customerId;
+    private javax.swing.JComboBox<String> combo_dispatch;
+    private javax.swing.JComboBox<String> combo_status;
     private com.toedter.calendar.JDateChooser date_orderDate;
     private javax.swing.JLabel label_customerId;
+    private javax.swing.JLabel label_customerName;
     private javax.swing.JLabel label_dispatch;
     private javax.swing.JLabel label_note;
     private javax.swing.JLabel label_orderDate;
     private javax.swing.JLabel label_orderNum;
     private javax.swing.JLabel label_status;
     private javax.swing.JScrollPane scroll_note;
-    private javax.swing.JTextField text_customerId;
-    private javax.swing.JTextField text_dispatch;
     private javax.swing.JTextArea text_note;
     private javax.swing.JTextField text_orderNum;
-    private javax.swing.JTextField text_status;
     // End of variables declaration//GEN-END:variables
 }

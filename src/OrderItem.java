@@ -23,12 +23,27 @@ public class OrderItem extends javax.swing.JPanel {
 	private Properties prop;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
+    HashMap <String,String[]> products = new HashMap<>();
     
     public OrderItem() {
         initComponents();
         setDBProp();
+        init();
     }
-    
+    private void init(){
+        LinkedList<String[]> prods = selectProduct();
+       String[] prodNum = new String[prods.size()];
+       String[] prodName  = new String[prods.size()];
+
+       for(int i = 0; i < prods.size();i++){
+           prodNum[i] = prods.get(i)[0];
+           prodName[i] = prods.get(i)[1];
+       }
+
+       products.put("memberNum", prodNum);
+       products.put("memberName", prodName);
+       combo_productNum.setModel(new javax.swing.DefaultComboBoxModel<>(prodNum));
+    }
 	private void setDBProp() {
 
 		prop = new Properties();
@@ -47,7 +62,7 @@ public class OrderItem extends javax.swing.JPanel {
 	private boolean getUserInputParm() {
 		boolean isRightData = false;
 		if (text_orderNum.getText().equals("") 
-				|| text_productNum.getText().equals("")
+				|| combo_productNum.getSelectedItem().toString().equals("")
 				|| text_qty.getText().equals("")
 				|| text_note.getText().equals("")) {
 			isRightData = false;
@@ -64,7 +79,7 @@ public class OrderItem extends javax.swing.JPanel {
             pstmt = conn.prepareStatement(
                     "INSERT INTO orderitem(orderNum,productNum,qty,note) VALUES('"
                             + ""+text_orderNum.getText()+"','"
-                            + ""+text_productNum.getText()+"','"
+                            + ""+combo_productNum.getSelectedItem().toString()+"','"
                             + ""+text_qty.getText()+"','"
                             + ""+text_note.getText()+"')");
             isInsert = pstmt.executeUpdate();
@@ -84,7 +99,7 @@ public class OrderItem extends javax.swing.JPanel {
 			try{
 				pstmt = conn.prepareStatement("DELETE FROM orderItem WHERE orderNum = ? AND productNum = ?");
 				pstmt.setString(1, text_orderNum.getText());
-				pstmt.setString(2, text_productNum.getText());
+				pstmt.setString(2, combo_productNum.getSelectedItem().toString());
 				isDel = pstmt.executeUpdate();
 			}
 			catch(SQLException ee){
@@ -97,7 +112,7 @@ public class OrderItem extends javax.swing.JPanel {
     
 	protected int updateData() {
 		String strorderNum = text_orderNum.getText();
-		String strproductNum = text_productNum.getText();
+		String strproductNum = combo_productNum.getSelectedItem().toString();
 		int isUpdate = 0;
 		if (getUserInputParm() == true) {
 			try {
@@ -171,7 +186,7 @@ public class OrderItem extends javax.swing.JPanel {
     
 	protected void setInputValue(HashMap<Integer, String> data) {
 		text_orderNum.setText(data.get(0));
-		text_productNum.setText(data.get(1));
+//		text_productNum.setText(data.get(1));
 		text_qty.setText(data.get(2));	
 		text_note.setText(data.get(3));
 	}
@@ -184,13 +199,32 @@ public class OrderItem extends javax.swing.JPanel {
     
     protected void clearInput(){
         text_orderNum.setText("");
-        text_productNum.setText("");
+        combo_productNum.setSelectedIndex(0);
         text_qty.setText("");      
         text_note.setText("");
     }
+    private LinkedList selectProduct(){
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM product");
+            ResultSet result =  pstmt.executeQuery();                    
+            LinkedList<String[]> rows = new LinkedList<String[]>();
+           
+            while(result.next()){
+                String[] product = new String[2];
+                product[0] = result.getString("productNum");
+                product[1] = result.getString("productName");
+                rows.add(product);
+            }
+            pstmt.close();
+            return rows;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+ // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         label_orderNum = new javax.swing.JLabel();
@@ -198,58 +232,74 @@ public class OrderItem extends javax.swing.JPanel {
         label_qty = new javax.swing.JLabel();
         label_note = new javax.swing.JLabel();
         text_orderNum = new javax.swing.JTextField();
-        text_productNum = new javax.swing.JTextField();
         text_qty = new javax.swing.JTextField();
         scroll_note = new javax.swing.JScrollPane();
         text_note = new javax.swing.JTextArea();
+        combo_productNum = new javax.swing.JComboBox<>();
+        label_productName = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(980, 470));
         setPreferredSize(new java.awt.Dimension(980, 470));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        label_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_orderNum.setText("訂單編號");
         add(label_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
 
-        label_productNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_productNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_productNum.setText("產品編號");
         add(label_productNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, -1, -1));
 
-        label_qty.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_qty.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_qty.setText("數量");
         add(label_qty, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, -1, -1));
 
-        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_note.setText("備註");
         add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, -1, -1));
 
-        text_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 150, 25));
+        text_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 200, 40));
 
-        text_productNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_productNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 150, 25));
-
-        text_qty.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_qty, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 150, 25));
+        text_qty.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        add(text_qty, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 200, 40));
 
         text_note.setColumns(20);
-        text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        text_note.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         text_note.setRows(5);
         scroll_note.setViewportView(text_note);
 
-        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
-    }// </editor-fold>//GEN-END:initComponents
+        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, 660, -1));
 
+        combo_productNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        combo_productNum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_productNumActionPerformed(evt);
+            }
+        });
+        add(combo_productNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 80, 40));
+        add(label_productName, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 80, 150, 40));
+    }// </editor-fold>    
+    private void combo_productNumActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+        String slt = combo_productNum.getSelectedItem().toString();
+        for(int i = 0; i < products.get("memberNum").length;i++){
+            if(products.get("memberNum")[i].equals(slt)){
+                label_productName.setText(products.get("memberName")[i]);
+            }
+        }
+    }     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> combo_productNum;
     private javax.swing.JLabel label_note;
     private javax.swing.JLabel label_orderNum;
+    private javax.swing.JLabel label_productName;
     private javax.swing.JLabel label_productNum;
     private javax.swing.JLabel label_qty;
     private javax.swing.JScrollPane scroll_note;
     private javax.swing.JTextArea text_note;
     private javax.swing.JTextField text_orderNum;
-    private javax.swing.JTextField text_productNum;
     private javax.swing.JTextField text_qty;
     // End of variables declaration//GEN-END:variables
 }
