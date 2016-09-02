@@ -15,9 +15,7 @@ import javax.swing.event.DocumentListener;
 
 import javafx.scene.input.DataFormat;
 
-/**
-* @author Veronica.C
-*/
+
 
 public class Login extends javax.swing.JFrame {
 	protected Connection conn;
