@@ -105,7 +105,7 @@ public class Vendor extends javax.swing.JPanel {
 		if (getUserInputParm() == true) {
 			try {
 				pstmt = conn.prepareStatement(
-						"UPDATE issue SET tel=?,address=?,taxId=?,contactPerson=?,paymentTerm=?,note=? WHERE vendorName=?" );
+						"UPDATE vendor SET tel=?,address=?,taxId=?,contactPerson=?,paymentTerm=?,note=? WHERE vendorName=?" );
 				pstmt.setString(1, text_vendorTel.getText());
 				pstmt.setString(2, text_vendorAddr.getText());
 				pstmt.setString(3, text_taxId.getText());
@@ -220,6 +220,7 @@ public class Vendor extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         label_vendorNum = new javax.swing.JLabel();
         label_vendorTel = new javax.swing.JLabel();
         label_vendorAddr = new javax.swing.JLabel();
@@ -240,59 +241,59 @@ public class Vendor extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(980, 470));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        label_vendorNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_vendorNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_vendorNum.setText("廠商名稱");
         add(label_vendorNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
 
-        label_vendorTel.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_vendorTel.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_vendorTel.setText("廠商電話");
-        add(label_vendorTel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, -1, -1));
+        add(label_vendorTel, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 80, -1, -1));
 
-        label_vendorAddr.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_vendorAddr.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_vendorAddr.setText("廠商地址");
         add(label_vendorAddr, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, 20));
 
-        label_taxId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_taxId.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_taxId.setText("統編");
-        add(label_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 140, -1, -1));
+        add(label_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 140, -1, -1));
 
-        label_contactPerson.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_contactPerson.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_contactPerson.setText("聯絡人");
         add(label_contactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, -1, -1));
 
-        label_paymentTerm.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_paymentTerm.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_paymentTerm.setText("付款條件");
-        add(label_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, -1, 20));
+        add(label_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, -1, 20));
 
-        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_note.setText("備註");
-        add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, -1, -1));
+        add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, -1, -1));
 
         text_vendorName.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_vendorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 150, 25));
+        add(text_vendorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 200, 40));
 
         text_vendorTel.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_vendorTel, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 150, 25));
+        add(text_vendorTel, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 80, 200, 40));
 
         text_vendorAddr.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_vendorAddr, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 150, 25));
+        add(text_vendorAddr, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 200, 40));
 
         text_taxId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, 150, 25));
+        add(text_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, 200, 40));
 
         text_contactPerson.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_contactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 150, 25));
+        add(text_contactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 200, 40));
 
         text_paymentTerm.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 200, 150, 25));
+        add(text_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 200, 40));
 
         text_note.setColumns(20);
         text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
         text_note.setRows(5);
         scroll_note.setViewportView(text_note);
 
-        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
-    }// </editor-fold>//GEN-END:initComponents
+        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, 660, -1));
+    }// </editor-fold>                        
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -18,9 +18,9 @@ public class Material extends javax.swing.JPanel {
 	private String materialNum;
 	private String materialName;
 	private int qty;
+	private String unit;
 	private String vendorNum;
 	private String note;
-	
     public Material() {
         initComponents();
         setDBProp();
@@ -31,117 +31,125 @@ public class Material extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-    	  jLabel1 = new javax.swing.JLabel();
-          jLabel2 = new javax.swing.JLabel();
-          jLabel7 = new javax.swing.JLabel();
-          jLabel10 = new javax.swing.JLabel();
-          jScrollPane1 = new javax.swing.JScrollPane();
-          txtNote = new javax.swing.JEditorPane();
-          txtMaterialName = new javax.swing.JTextField();
-          jLabel11 = new javax.swing.JLabel();
-          spQty = new javax.swing.JSpinner();
-          txtVendorNum = new javax.swing.JTextField();
-          jLabel3 = new javax.swing.JLabel();
-          lbMaterialNum = new javax.swing.JLabel();
+    	 jLabel1 = new javax.swing.JLabel();
+         jLabel2 = new javax.swing.JLabel();
+         jLabel7 = new javax.swing.JLabel();
+         jLabel10 = new javax.swing.JLabel();
+         jScrollPane1 = new javax.swing.JScrollPane();
+         txtNote = new javax.swing.JEditorPane();
+         txtMaterialName = new javax.swing.JTextField();
+         jLabel11 = new javax.swing.JLabel();
+         spQty = new javax.swing.JSpinner();
+         txtVendorNum = new javax.swing.JTextField();
+         jLabel3 = new javax.swing.JLabel();
+         lbMaterialNum = new javax.swing.JLabel();
+         lbVendorName = new javax.swing.JLabel();
+         cbUnit = new javax.swing.JComboBox<>();
 
-          setPreferredSize(new java.awt.Dimension(980, 470));
+         setPreferredSize(new java.awt.Dimension(980, 470));
 
-          jLabel1.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
-          jLabel1.setText("原料編號");
+         jLabel1.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         jLabel1.setText("原料編號");
 
-          jLabel2.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
-          jLabel2.setText("數量");
+         jLabel2.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         jLabel2.setText("數量");
 
-          jLabel7.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+         jLabel7.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
 
-          jLabel10.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
-          jLabel10.setText("備註");
+         jLabel10.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         jLabel10.setText("備註");
 
-          jScrollPane1.setViewportView(txtNote);
+         txtNote.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+         jScrollPane1.setViewportView(txtNote);
 
-          txtMaterialName.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+         txtMaterialName.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 
-          jLabel11.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
-          jLabel11.setText("進貨廠商編號");
+         jLabel11.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         jLabel11.setText("進貨廠商編號");
 
-          spQty.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         spQty.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 
-          txtVendorNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-          txtVendorNum.addKeyListener(new java.awt.event.KeyAdapter() {
-              public void keyReleased(java.awt.event.KeyEvent evt) {
-                  txtVendorNumKeyReleased(evt);
-              }
-          });
+         txtVendorNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         txtVendorNum.addKeyListener(new java.awt.event.KeyAdapter() {
+             public void keyReleased(java.awt.event.KeyEvent evt) {
+                 txtVendorNumKeyReleased(evt);
+             }
+         });
 
-          jLabel3.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
-          jLabel3.setText("原料名稱");
+         jLabel3.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         jLabel3.setText("原料名稱");
 
-          lbMaterialNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
-          lbMaterialNum.setText("");
+         lbMaterialNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 
-          javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-          this.setLayout(layout);
-          layout.setHorizontalGroup(
-              layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addGroup(layout.createSequentialGroup()
-                  .addGap(59, 59, 59)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                      .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                      .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                      .addGroup(layout.createSequentialGroup()
-                          .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addGap(0, 0, Short.MAX_VALUE)))
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                      .addComponent(txtMaterialName, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                      .addComponent(spQty, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                      .addComponent(lbMaterialNum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                  .addGap(56, 56, 56)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                      .addGroup(layout.createSequentialGroup()
-                          .addComponent(jLabel11)
-                          .addGap(32, 32, 32)
-                          .addComponent(txtVendorNum, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                      .addGroup(layout.createSequentialGroup()
-                          .addComponent(jLabel10)
-                          .addGap(90, 90, 90)
-                          .addComponent(jLabel7)
-                          .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                          .addComponent(jScrollPane1)))
-                  .addGap(746, 746, 746))
-          );
-          layout.setVerticalGroup(
-              layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addGroup(layout.createSequentialGroup()
-                  .addGap(62, 62, 62)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                      .addComponent(jLabel1)
-                      .addComponent(jLabel11)
-                      .addComponent(txtVendorNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                      .addComponent(lbMaterialNum, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                      .addGroup(layout.createSequentialGroup()
-                          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                              .addGroup(layout.createSequentialGroup()
-                                  .addGap(0, 0, Short.MAX_VALUE)
-                                  .addComponent(jLabel7)
-                                  .addGap(24, 24, 24))
-                              .addGroup(layout.createSequentialGroup()
-                                  .addGap(18, 18, 18)
-                                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                      .addComponent(jLabel3)
-                                      .addComponent(txtMaterialName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                      .addComponent(jLabel10))
-                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                              .addComponent(jLabel2)
-                              .addComponent(spQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                          .addGap(331, 331, 331))
-                      .addGroup(layout.createSequentialGroup()
-                          .addGap(18, 18, 18)
-                          .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-          );
+         lbVendorName.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+
+         cbUnit.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+         cbUnit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "公斤", "公升", "台斤", "包", "個", "組", "罐", "隻", "盒" }));
+
+         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+         this.setLayout(layout);
+         layout.setHorizontalGroup(
+             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+             .addGroup(layout.createSequentialGroup()
+                 .addGap(59, 59, 59)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addGap(0, 18, Short.MAX_VALUE)))
+                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                     .addComponent(txtMaterialName, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                     .addComponent(lbMaterialNum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                     .addGroup(layout.createSequentialGroup()
+                         .addComponent(spQty, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addGap(18, 18, 18)
+                         .addComponent(cbUnit, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                 .addGap(182, 182, 182)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(jLabel11)
+                     .addGroup(layout.createSequentialGroup()
+                         .addGap(44, 44, 44)
+                         .addComponent(jLabel7))
+                     .addComponent(jLabel10))
+                 .addGap(18, 18, 18)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                     .addComponent(txtVendorNum, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                     .addComponent(lbVendorName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                 .addGap(634, 634, 634))
+         );
+         layout.setVerticalGroup(
+             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+             .addGroup(layout.createSequentialGroup()
+                 .addGap(62, 62, 62)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(jLabel1)
+                     .addComponent(jLabel11)
+                     .addComponent(txtVendorNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(lbMaterialNum, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(layout.createSequentialGroup()
+                         .addGap(0, 27, Short.MAX_VALUE)
+                         .addComponent(jLabel7)
+                         .addGap(71, 71, 71)
+                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                             .addComponent(jLabel3)
+                             .addComponent(txtMaterialName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                             .addComponent(jLabel10))
+                         .addGap(87, 87, 87)
+                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                             .addComponent(jLabel2)
+                             .addComponent(spQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                             .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                         .addGap(18, 18, 18)
+                         .addComponent(lbVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                 .addGap(170, 170, 170))
+         );
     }// </editor-fold>                        
     
     private void setDBProp() {
@@ -159,12 +167,30 @@ public class Material extends javax.swing.JPanel {
 		}
 	}
     
+    private void setVendorName() {
+		String vendorName = "";
+		try {
+			pstmt = con.prepareStatement("SELECT vendorName FROM vendor Where vendorNum = ?");
+			pstmt.setString(1, txtVendorNum.getText());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				vendorName = rs.getString("vendorName");
+			}
+			lbVendorName.setText(vendorName);
+		} catch (SQLException ee) {
+			System.out.println(ee.toString());
+		}
+
+    }
+    
     protected void setInputValue(HashMap<Integer, String> data) {
     	lbMaterialNum.setText(data.get(0));
     	txtMaterialName.setText(data.get(1));
     	spQty.setValue(Integer.parseInt(data.get(2)));
-    	txtVendorNum.setText(data.get(3));
-    	txtNote.setText(data.get(4));
+    	cbUnit.setSelectedItem((Object)data.get(3));
+    	txtVendorNum.setText(data.get(4));
+    	txtNote.setText(data.get(5));
+    	setVendorName();
     }
     
     protected void clearInput() {
@@ -173,14 +199,17 @@ public class Material extends javax.swing.JPanel {
     	spQty.setValue(0);
     	txtVendorNum.setText("");
     	txtNote.setText("");
+    	lbVendorName.setText("");
+    	cbUnit.setSelectedIndex(0);
     }
     private boolean getUserInputParm() {
     	boolean isRightData = false;
     	materialName = txtMaterialName.getText();
     	qty = (Integer)spQty.getValue();
+    	unit = cbUnit.getSelectedItem().toString();
     	vendorNum = txtVendorNum.getText();
     	note = txtNote.getText();
-    	if(materialName.equals("")||qty<=0||vendorNum.equals("")){
+    	if(materialName.equals("")||qty<=0||vendorNum.equals("")||unit.equals("")){
     		isRightData = false;
     	}
     	else{
@@ -193,16 +222,18 @@ public class Material extends javax.swing.JPanel {
 		int isInsert = 0;
 		if(getUserInputParm() == true){
 			try {
-				pstmt = con.prepareStatement("INSERT INTO material(materialName,qty,vendorNum,note)VALUES(?,?,?,?)");
+				pstmt = con.prepareStatement("INSERT INTO material(materialName,qty,unit,vendorNum,note)VALUES(?,?,?,?,?)");
 				pstmt.setString(1, materialName);
 				pstmt.setString(2, Integer.toString(qty));
-				pstmt.setString(3, vendorNum);
-				pstmt.setString(4, note);
+				pstmt.setString(3, unit);
+				pstmt.setString(4, vendorNum);
+				pstmt.setString(5, note);
 				isInsert = pstmt.executeUpdate();
 			} catch (SQLException ee) {
 				System.out.println(ee.toString());
 			}
 		}
+		clearInput();
 		return isInsert;
     }
     
@@ -211,18 +242,20 @@ public class Material extends javax.swing.JPanel {
     	materialNum = lbMaterialNum.getText();
     	if (getUserInputParm() == true && !materialNum.equals("")) {
     		try {
-				pstmt = con.prepareStatement("UPDATE material SET materialName=?,qty=?,vendorNum=?,note=? WHERE materialNum = ?");
+				pstmt = con.prepareStatement("UPDATE material SET materialName=?,qty=?,unit=?,vendorNum=?,note=? WHERE materialNum = ?");
 				pstmt.setString(1, materialName);
 				pstmt.setString(2, Integer.toString(qty));
-				pstmt.setString(3, vendorNum);
-				pstmt.setString(4, note);
-				pstmt.setString(5, materialNum);
+				pstmt.setString(3, unit);
+				pstmt.setString(4, vendorNum);
+				pstmt.setString(5, note);
+				pstmt.setString(6, materialNum);
 				isUpdate = pstmt.executeUpdate();
 			} catch (SQLException e) {
 				System.out.println(e.toString());
 			}
     		
     	}
+    	clearInput();
     	return isUpdate;
     }
     
@@ -239,21 +272,23 @@ public class Material extends javax.swing.JPanel {
     			System.out.println(ee.toString());
     		}
     	}
+    	clearInput();
     	return isDel;
     }
-    
+   
     protected LinkedList<String[]> queryData() {
 		LinkedList<String[]> data = new LinkedList<>();
 		try{
 			pstmt = con.prepareStatement("SELECT * FROM material");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String[] row = new String[5];
+				String[] row = new String[6];
 				row[0] = rs.getString("materialNum");
 				row[1] = rs.getString("materialName");
 				row[2] = rs.getString("qty");
-				row[3] = rs.getString("vendorNum");
-				row[4] = rs.getString("note");
+				row[3] = rs.getString("unit");
+				row[4] = rs.getString("vendorNum");
+				row[5] = rs.getString("note");
 				data.add(row);
 			}
 		}
@@ -266,19 +301,20 @@ public class Material extends javax.swing.JPanel {
     protected  LinkedList<String[]> search(String value){
 		LinkedList<String[]> data = new LinkedList<>();
 		try{
-			pstmt = con.prepareStatement("SELECT * FROM material WHERE materialNum LIKE ? OR materialName LIKE ? OR qty LIKE ? OR vendorNum LIKE ? OR note LIKE ?");
+			pstmt = con.prepareStatement("SELECT * FROM material WHERE materialNum LIKE ? OR materialName LIKE ? OR qty LIKE ?  OR unit LIKE ? OR vendorNum LIKE ? OR note LIKE ?");
 			String query = "%" + value +"%";
-			for(int i=1 ; i<6; i++){
+			for(int i=1 ; i<7; i++){
 				pstmt.setString(i, query);
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String[] row = new String[5];
+				String[] row = new String[6];
 				row[0] = rs.getString("materialNum");
 				row[1] = rs.getString("materialName");
 				row[2] = rs.getString("qty");
-				row[3] = rs.getString("vendorNum");
-				row[4] = rs.getString("note");
+				row[3] = rs.getString("unit");
+				row[4] = rs.getString("vendorNum");
+				row[5] = rs.getString("note");
 				data.add(row);
 			}
 		}
@@ -297,6 +333,7 @@ public class Material extends javax.swing.JPanel {
 			while (rs.next()) {
 				vendorNum = rs.getString("vendorNum");
 			}
+			setVendorName();
 		} catch (SQLException ee) {
 			System.out.println(ee.toString());
 		}
@@ -305,6 +342,7 @@ public class Material extends javax.swing.JPanel {
 		}
     }       
     // Variables declaration - do not modify                     
+    private javax.swing.JComboBox<String> cbUnit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -313,6 +351,7 @@ public class Material extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbMaterialNum;
+    private javax.swing.JLabel lbVendorName;
     private javax.swing.JSpinner spQty;
     private javax.swing.JTextField txtMaterialName;
     private javax.swing.JEditorPane txtNote;
