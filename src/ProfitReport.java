@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Properties;
 
+
+
 public class ProfitReport extends javax.swing.JPanel {
 	
 	private Properties prop;
@@ -31,8 +33,7 @@ public class ProfitReport extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-    	   bgGender = new javax.swing.ButtonGroup();
-           jLabel1 = new javax.swing.JLabel();
+    	   jLabel1 = new javax.swing.JLabel();
            jLabel2 = new javax.swing.JLabel();
            jLabel7 = new javax.swing.JLabel();
            jLabel10 = new javax.swing.JLabel();
@@ -48,37 +49,42 @@ public class ProfitReport extends javax.swing.JPanel {
 
            setPreferredSize(new java.awt.Dimension(980, 470));
 
-           jLabel1.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+           jLabel1.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
            jLabel1.setText("年份");
 
-           jLabel2.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+           jLabel2.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
            jLabel2.setText("月份");
 
            jLabel7.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
 
-           jLabel10.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+           jLabel10.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
            jLabel10.setText("當月銷售");
 
-           jLabel11.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+           jLabel11.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
            jLabel11.setText("當月支出");
 
-           jLabel12.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+           jLabel12.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
            jLabel12.setText("當月盈餘");
 
            cbYear.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+           cbYear.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   cbYearActionPerformed(evt);
+               }
+           });
 
            cbMonth.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 
-           lbProfit.setFont(new java.awt.Font("微軟正黑體", 1, 15)); // NOI18N
+           lbProfit.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 
-           lbExpend.setFont(new java.awt.Font("微軟正黑體", 1, 15)); // NOI18N
+           lbExpend.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 
-           lbSales1.setFont(new java.awt.Font("微軟正黑體", 1, 15)); // NOI18N
+           lbSales1.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
 
            cbReport.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
            cbReport.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "支出報表", "銷售報表" }));
 
-           jLabel3.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+           jLabel3.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
            jLabel3.setText("觀看");
 
            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -93,22 +99,26 @@ public class ProfitReport extends javax.swing.JPanel {
                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                    .addGap(18, 18, 18)
                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                       .addComponent(cbReport, 0, 152, Short.MAX_VALUE)
                        .addComponent(cbYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                       .addComponent(cbMonth, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                   .addGap(143, 143, 143)
+                       .addComponent(cbMonth, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                       .addComponent(cbReport, 0, 277, Short.MAX_VALUE))
                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                       .addComponent(jLabel11)
-                       .addComponent(jLabel10)
-                       .addComponent(jLabel12))
-                   .addGap(29, 29, 29)
-                   .addComponent(jLabel7)
-                   .addGap(23, 23, 23)
-                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                       .addComponent(lbSales1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                       .addComponent(lbExpend, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                       .addComponent(lbProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                   .addContainerGap(272, Short.MAX_VALUE))
+                       .addGroup(layout.createSequentialGroup()
+                           .addGap(119, 119, 119)
+                           .addComponent(jLabel7)
+                           .addGap(23, 23, 23))
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                               .addComponent(jLabel12)
+                               .addComponent(jLabel11)
+                               .addComponent(jLabel10))
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                       .addComponent(lbExpend, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                       .addComponent(lbProfit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                       .addComponent(lbSales1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                   .addContainerGap(104, Short.MAX_VALUE))
            );
            layout.setVerticalGroup(
                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,32 +129,24 @@ public class ProfitReport extends javax.swing.JPanel {
                        .addComponent(jLabel11)
                        .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                        .addComponent(lbExpend, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                   .addGap(0, 22, Short.MAX_VALUE)
+                   .addComponent(jLabel7)
+                   .addGap(84, 84, 84)
                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                        .addGroup(layout.createSequentialGroup()
-                           .addGap(0, 0, Short.MAX_VALUE)
-                           .addComponent(jLabel7)
-                           .addGap(83, 83, 83))
-                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                           .addGap(25, 25, 25)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                               .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                               .addComponent(cbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                               .addComponent(jLabel10))
+                           .addGap(140, 140, 140)
                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                   .addComponent(cbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                   .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                   .addComponent(jLabel10))
-                               .addComponent(lbSales1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                           .addGap(18, 18, 18)
-                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                               .addGroup(layout.createSequentialGroup()
-                                   .addGap(0, 0, Short.MAX_VALUE)
-                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                       .addComponent(cbReport, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                       .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                               .addGroup(layout.createSequentialGroup()
-                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                       .addComponent(lbProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                       .addComponent(jLabel12))
-                                   .addGap(0, 0, Short.MAX_VALUE)))))
-                   .addGap(311, 311, 311))
+                                   .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addComponent(cbReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addComponent(jLabel12))
+                               .addComponent(lbProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                       .addComponent(lbSales1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                   .addGap(108, 108, 108))
            );
     }// </editor-fold>                        
     
@@ -171,6 +173,7 @@ public class ProfitReport extends javax.swing.JPanel {
 
     protected void getYears(){
     	LinkedList<String> years = new LinkedList<>();
+    	years.clear();
     	try{
     		pstmt = con.prepareStatement("SELECT orderDate FROM orderlist");
     		rs = pstmt.executeQuery();
@@ -186,7 +189,7 @@ public class ProfitReport extends javax.swing.JPanel {
     		years.toArray(arrayYear);
     		Arrays.sort(arrayYear);
     		
-    		
+    		cbYear.removeAllItems();
     		for(int i = 0 ;i<arrayYear.length; i++){
     			cbYear.addItem(arrayYear[i]);
     		}
@@ -197,29 +200,35 @@ public class ProfitReport extends javax.swing.JPanel {
     }
     
     protected void getMonths(){
+    	cbMonth.removeAllItems();
     	LinkedList<String> months = new LinkedList<>();
-    	
-    	try{
-    		pstmt = con.prepareStatement("SELECT orderDate FROM orderlist");
-    		rs = pstmt.executeQuery();
-    		while(rs.next()){
-    			String data = rs.getString(1);
-    			String month = data.substring(5, 7);
-    			if(!months.contains(month)){
-    				months.add(month);
-    			}	
-    		}
-    		String[] arrayMonth = new String[months.size()];
-    		months.toArray(arrayMonth);
-    		Arrays.sort(arrayMonth);
-    		
-    		for(int i = 0 ;i<arrayMonth.length; i++){
-    			cbMonth.addItem(arrayMonth[i]);
-    		}
+    	months.clear();
+    	if(cbYear.getItemCount() >0){
+    		String year = "%" + cbYear.getSelectedItem().toString() + "%";
+        	try{
+        		pstmt = con.prepareStatement("SELECT orderDate FROM orderlist WHERE orderDate LIKE ?");
+        		pstmt.setString(1, year);
+        		rs = pstmt.executeQuery();
+        		while(rs.next()){
+        			String data = rs.getString(1);
+        			String month = data.substring(5, 7);
+        			if(!months.contains(month)){
+        				months.add(month);
+        			}	
+        		}
+        		String[] arrayMonth = new String[months.size()];
+        		months.toArray(arrayMonth);
+        		Arrays.sort(arrayMonth);
+        		
+        		for(int i = 0 ;i<arrayMonth.length; i++){
+        			cbMonth.addItem(arrayMonth[i]);
+        		}
+        	}
+        	catch(SQLException ee){
+        		System.out.println(ee.toString());
+        	}
     	}
-    	catch(SQLException ee){
-    		System.out.println(ee.toString());
-    	}
+
     }
     
     protected String getSelectReport(){
@@ -236,7 +245,7 @@ public class ProfitReport extends javax.swing.JPanel {
 			String QueryMonth = "%" + year + "-" + month + "%";
 			pstmt = con.prepareStatement("SELECT orderitem.orderNum, orderitem.productNum ,product.productName,orderitem.qty,product.price, (orderitem.qty * product.price) AS TOTAL FROM orderitem ,product WHERE orderNum IN(SELECT orderNum FROM orderlist WHERE orderDate LIKE ? AND status = ?) AND orderitem.productNum = (product.productNum)");
 			pstmt.setString(1, QueryMonth);
-			pstmt.setString(2, "交易完成");
+			pstmt.setString(2, "已出貨");
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -265,12 +274,12 @@ public class ProfitReport extends javax.swing.JPanel {
 		int ExtendMoney = 0;
     	try{
     		String QueryMonth = "%" + year + "-" + month + "%";
-			pstmt = con.prepareStatement("SELECT purchaseDate, purchaseNum,materialNum,vendorNum,qty,price,employeeNum,note FROM purchase WHERE purchaseDate LIKE ?");
+			pstmt = con.prepareStatement("SELECT purchaseDate, purchaseNum,materialNum,vendorNum,qty,price,(qty * price) AS TOTAL, employeeNum,note FROM purchase WHERE purchaseDate LIKE ?");
 			pstmt.setString(1, QueryMonth);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				
-				String[] row = new String[8];
+				String[] row = new String[9];
 				row[0] = rs.getString(1);
 				row[1] = rs.getString(2);
 				row[2] = rs.getString(3);
@@ -279,8 +288,9 @@ public class ProfitReport extends javax.swing.JPanel {
 				row[5] = rs.getString(6);
 				row[6] = rs.getString(7);
 				row[7] = rs.getString(8);
+				row[8] = rs.getString(9);
 				data.add(row);
-				extend += Integer.parseInt(row[5]);
+				extend += Integer.parseInt(row[6]);
 			}
     	}
     	catch(SQLException ee){
@@ -289,12 +299,13 @@ public class ProfitReport extends javax.swing.JPanel {
     	return data;
     }
     
-    private void lbQueryActionPerformed(java.awt.event.ActionEvent evt) {                                        
-       System.out.println("Query");
-    }                                       
+    private void cbYearActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    	getMonths();
+    }                               
+    
+                                     
 
     // Variables declaration - do not modify                     
-    private javax.swing.ButtonGroup bgGender;
     private javax.swing.JComboBox<String> cbMonth;
     private javax.swing.JComboBox<String> cbReport;
     private javax.swing.JComboBox<String> cbYear;
