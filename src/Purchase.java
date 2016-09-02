@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 /**
 * @author Veronica.C
 */
-public class purchase extends javax.swing.JPanel {
+public class Purchase extends javax.swing.JPanel {
 	private Connection conn;
 	private String purid =null, materilNo =null, purDate =null, empNo =null, 
 			vendorNo =null, purQty =null, purPrice =null, note=null;
@@ -31,7 +31,7 @@ public class purchase extends javax.swing.JPanel {
 	private String empArray[], venArray[], matArray[];	
 	private boolean repeat =false;
 
-    public purchase() {
+    public Purchase() {
     	databaseConnect();
     	empList = new ArrayList<String>(); //產生List裝id
     	venList = new ArrayList<String>(); //產生List裝id

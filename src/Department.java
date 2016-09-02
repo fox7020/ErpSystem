@@ -10,12 +10,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-public class department extends javax.swing.JPanel {
+public class Department extends javax.swing.JPanel {
 	private Connection conn;
 	private String depId=null, depName=null, depTitle=null, depNote=null;
 	private List<String> checkRp;
 	
-    public department() {
+    public Department() {
     	databaseConnect();
         initComponents();
     }

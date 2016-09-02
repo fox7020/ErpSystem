@@ -19,10 +19,11 @@ public class Issue extends javax.swing.JPanel {
 	private Properties prop;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-  
+    HashMap <String,String[]> member = new HashMap<>();
     public Issue() {
         initComponents();
         setDBProp();
+        init();
     }
     
 	private void setDBProp() {
@@ -40,10 +41,24 @@ public class Issue extends javax.swing.JPanel {
 		}
 	}
 	
+	private void init(){
+        LinkedList<String[]> members = selectMember();
+        String[] memberNum = new String[members.size()];
+        String[] memberName  = new String[members.size()];
+
+        for(int i = 0; i < members.size();i++){
+            memberNum[i] = members.get(i)[0];
+            memberName[i] = members.get(i)[1];
+        }
+
+        member.put("memberNum", memberNum);
+        member.put("memberName", memberName);
+        combo_customerId.setModel(new javax.swing.DefaultComboBoxModel<>(memberNum));
+	}
 	//判斷input有無空白
 	private boolean getUserInputParm() {
 		boolean isRightData = false;
-		if (text_customerId.getText().equals("") 
+		if (combo_customerId.getSelectedItem().toString().equals("") 
 				|| text_complaint.getText().equals("")
 				|| text_price.getText().equals("")
 				|| text_note.getText().equals("")) {
@@ -62,7 +77,7 @@ public class Issue extends javax.swing.JPanel {
 	        try{
 	            pstmt = conn.prepareStatement(
 	                    "INSERT INTO issue(customerId,complaint,price,note) VALUES('"
-	                            + ""+text_customerId.getText()+"','"
+	                            + ""+combo_customerId.getSelectedItem().toString()+"','"
 	                            + ""+text_complaint.getText()+"','"
 	                            + ""+text_price.getText()+"','"
 	                            + ""+text_note.getText()+"')");
@@ -81,10 +96,10 @@ public class Issue extends javax.swing.JPanel {
     
 	protected int delData(){
 		int isDel = 0;
-		if(!text_customerId.getText().equals("")){
+		if(!combo_customerId.getSelectedItem().toString().equals("")){
 			try{
 				pstmt = conn.prepareStatement("DELETE FROM issue WHERE customerId = ?");
-				pstmt.setString(1, text_customerId.getText());
+				pstmt.setString(1, combo_customerId.getSelectedItem().toString());
 				isDel = pstmt.executeUpdate();
 			}
 			catch(SQLException ee){
@@ -97,7 +112,7 @@ public class Issue extends javax.swing.JPanel {
     
     //修
 	protected int updateData() {
-		String strCustomerNum = text_customerId.getText();
+		String strCustomerNum = combo_customerId.getSelectedItem().toString();
 		int isUpdate = 0;
 		if (getUserInputParm() == true) {
 			try {
@@ -141,6 +156,27 @@ public class Issue extends javax.swing.JPanel {
         }
         return rows;
     }
+    private LinkedList selectMember(){
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM member");
+            ResultSet result =  pstmt.executeQuery();                    
+            LinkedList<String[]> rows = new LinkedList<String[]>();
+           
+            while(result.next()){
+                String[] member = new String[2];
+                member[0] = result.getString("customerId");
+                member[1] = result.getString("memberName");
+                rows.add(member);
+            }
+            pstmt.close();
+            return rows;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
     protected String[] getColumn(){ 
         String[] columnName = new String[]{"customerId","complaint","price","note",};
         return columnName;
@@ -171,7 +207,7 @@ public class Issue extends javax.swing.JPanel {
 	}
   
 	protected void setInputValue(HashMap<Integer, String> data) {
-		text_customerId.setText(data.get(0));
+		combo_customerId.setSelectedItem(data.get(0));
 		text_complaint.setText(data.get(1));
 		text_price.setText(data.get(2));	
 		text_note.setText(data.get(3));
@@ -179,84 +215,104 @@ public class Issue extends javax.swing.JPanel {
 	
 	
 	protected void clearInput(){
-        text_customerId.setText("");
+		combo_customerId.setSelectedItem("");
+        label_customName.setText("");
         text_complaint.setText("");
         text_price.setText("");
         text_note.setText("");
     }
+	
+	
+    private void combo_customerIdActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+        String slt = combo_customerId.getSelectedItem().toString();
+        for(int i = 0; i < member.get("memberNum").length;i++){
+            if(member.get("memberNum")[i].equals(slt)){
+                label_customName.setText(member.get("memberName")[i]);
+            }
+        }
+    }       
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         label_customerId = new javax.swing.JLabel();
         label_price = new javax.swing.JLabel();
         label_complaint = new javax.swing.JLabel();
         label_note = new javax.swing.JLabel();
-        text_customerId = new javax.swing.JTextField();
         text_price = new javax.swing.JTextField();
         scroll_complaint = new javax.swing.JScrollPane();
         text_complaint = new javax.swing.JTextArea();
         scroll_note = new javax.swing.JScrollPane();
         text_note = new javax.swing.JTextArea();
+        combo_customerId = new javax.swing.JComboBox<>();
+        label_customName = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(980, 470));
         setPreferredSize(new java.awt.Dimension(980, 470));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        label_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_customerId.setText("客戶編號");
         add(label_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
 
-        label_price.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_price.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_price.setText("金額");
         add(label_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, -1, -1));
 
-        label_complaint.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_complaint.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_complaint.setText("客訴內容");
         add(label_complaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, -1, -1));
 
-        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        label_note.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_note.setText("備註");
-        add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, -1, -1));
+        add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, -1, -1));
 
-        text_customerId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 150, 25));
-
-        text_price.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        text_price.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         add(text_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 150, 25));
 
         text_complaint.setColumns(20);
-        text_complaint.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+        text_complaint.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         text_complaint.setRows(5);
         scroll_complaint.setViewportView(text_complaint);
 
-        add(scroll_complaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 600, -1));
+        add(scroll_complaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 600, 150));
 
         scroll_note.setToolTipText("");
+        scroll_note.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         text_note.setColumns(20);
         text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
         text_note.setRows(5);
         scroll_note.setViewportView(text_note);
 
-        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, -1, -1));
-    }// </editor-fold>//GEN-END:initComponents
+        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 346, 600, 80));
 
+        combo_customerId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_customerIdActionPerformed(evt);
+            }
+        });
+        add(combo_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, -1, -1));
+
+        label_customName.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        add(label_customName, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 100, 40));
+    }// </editor-fold>               
 
   
+    private javax.swing.JComboBox<String> combo_customerId;
     private javax.swing.JLabel label_complaint;
+    private javax.swing.JLabel label_customName;
     private javax.swing.JLabel label_customerId;
     private javax.swing.JLabel label_note;
     private javax.swing.JLabel label_price;
     private javax.swing.JScrollPane scroll_complaint;
     private javax.swing.JScrollPane scroll_note;
     private javax.swing.JTextArea text_complaint;
-    private javax.swing.JTextField text_customerId;
     private javax.swing.JTextArea text_note;
     private javax.swing.JTextField text_price;
 

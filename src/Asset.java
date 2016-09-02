@@ -18,14 +18,14 @@ import javax.swing.JTextField;
 /**
 * @author Veronica.C
 */
-public class asset extends javax.swing.JPanel {
+public class Asset extends javax.swing.JPanel {
 	private Connection conn;
 	private List<String> depList;  
 	private String depArray[];
 	private String assetId =null, assetName=null, qty=null, value=null, buyDate=null,
 			       note=null, depAsset=null, lifespan=null;
 	
-    public asset() {
+    public Asset() {
     	databaseConnect();
     	depList = new ArrayList<String>(); //產生List裝id
     	depList.add("");

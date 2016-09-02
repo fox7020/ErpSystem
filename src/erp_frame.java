@@ -2,6 +2,7 @@
 import java.awt.CardLayout;
 import java.awt.Toolkit;
 import java.io.FileOutputStream;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -15,6 +16,8 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+//import erp_frame.myTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -35,6 +38,7 @@ public class erp_frame extends JFrame {
 	private PayRoll payRoll;
 	private Achievement achievement;
 	private Material material;
+	private ProfitReport profit;
 	// 振明
 	private Product product;
 	private Member member;
@@ -43,6 +47,7 @@ public class erp_frame extends JFrame {
 	private OrderItem orderitem;
 	private Issue issue;
 	private Vendor vendor;
+	private SalesReport salesReport;
 	// 怡潔
 	private Admin admin = new Admin();
 	private Asset asset = new Asset();
@@ -50,17 +55,21 @@ public class erp_frame extends JFrame {
 	private PayableList payableList = new PayableList();
 	private Purchase purchase = new Purchase();
 	private Department department = new Department();
-	private picking picking = new picking();
+	private Picking picking = new Picking();
 
 	private myTableModel tableModel;
 	public LinkedList<String[]> data;
+	private LinkedList<String[]> salesData;
+	private LinkedList<String[]> extendData;
 	String[] fields;
 	// 宜宏
 	String[] employeeFields = { "員工編號", "姓名", "地址", "電話", "性別", "生日", "職等", "部門", "備註" };
 	String[] attendanceFields = { "編號", "員工編號", "上班打卡", "下班打卡", "假別", "部門", "備註" };
 	String[] achivevmentFields = { "編號", "員工編號", "年月份", "考績", "備註" };
 	String[] payRollFields = { "員工編號", "薪資", "備註" };
-	String[] materialFields = { "原料編號", "原料名稱", "數量", "進貨廠商編號", "備註" };
+	String[] materialFields = { "原料編號", "原料名稱", "數量","單位","進貨廠商編號", "備註" };
+	String[] salesFields = { "訂單編號", "產品編號", "產品名稱", "數量", "單價", "小計" };
+	String[] expendFields = { "下單日期", "訂單編號", "原料編號", "廠商編號", "數量", "價格","小計" ,"打單員工", "備註" };
 	// 振明
 	String[] memberFields = { "客戶編號", "客戶密碼", "客戶名稱", "電話", "性別", "地址", "備註" };
 	String[] productFields = { "產品編號", "品名", "單價", "類別", "備註" };
@@ -74,21 +83,22 @@ public class erp_frame extends JFrame {
 	// Veronica edit
 	protected String logId = null;
 	protected String[] adminFields = { "員工編號", "員工密碼", "員工資料表", "出缺勤表", "員工考績表", "薪資表", "產品資料表", "原料庫存資料表", "訂單資料表",
-			"訂購項目資料表", "資產管理表", "異常資料表", "客戶資料表", "廠商資料表", "進貨表", "應收帳款管理表", "帳號管理表", "公告管理表", "備註" };
+			"訂購項目資料表", "資產管理表", "異常資料表", "客戶資料表", "廠商資料表", "進貨表", "應收帳款管理表", "帳號管理表", "公告管理表", "部門", "備註" };
 	protected String[] purchaseFields = { "No.", "進貨單號", "原料編號", "進貨日期", "進貨廠商編號", "數量", "單價", "採購人員", "備註" };
 	protected String[] payableFields = { "應付帳款編號", "進貨廠商編號", "交易日期", "應付日期", "應付金額", "付款方式", "進貨單號", "沖帳日期", "沖帳金額",
 			"沖帳折讓金額", "結案Y/N", "備註" };
 	protected String[] assetFields = { "資產編號", "資產名稱", "數量", "購入金額", "採購日期", "使用部門", "折舊年限", "備註" };
 	protected String[] billboardFields = { "公告編號", "公告日期", "公告內容", "下架日期", "公告維護者", "備註" };
-	protected String[] departFields = { "部門ID", "部門名稱" };
+	protected String[] departFields = { "部門ID", "部門名稱","職銜" };
     protected String[] pickingFields ={"領料單ID","原料編號","領料數量","領料人員","領料日期","備註"};
-
+    private String[] salesReporterFields = new String[]{"訂單編號","訂購日期","客戶編號","產品編號","產品數量","訂單狀態","配送方式","備註1","備註2"};
 	private String userID=null;
 	String path = null;
 
 	public erp_frame() {		
 		initComponents();
 		init();
+		table_firmData.setRowHeight(30);
 		// 宜宏
 		empty = new EmptyPanel();
 		employee = new Employee();
@@ -96,6 +106,7 @@ public class erp_frame extends JFrame {
 		payRoll = new PayRoll();
 		achievement = new Achievement();
 		material = new Material();
+		profit = new ProfitReport();
 		// 振明
 		product = new Product();
 		member = new Member();
@@ -104,6 +115,7 @@ public class erp_frame extends JFrame {
 		orderitem = new OrderItem();
 		issue = new Issue();
 		vendor = new Vendor();
+		salesReport = new SalesReport();
 		// Veronica edit
 		admin = new Admin();
 		asset = new Asset();
@@ -111,7 +123,7 @@ public class erp_frame extends JFrame {
 		payableList = new PayableList();
 		purchase = new Purchase();
 		department = new Department();
-
+		picking = new Picking();
 		// 宜宏
 		panel_dataInput.add("empty", empty);
 		panel_dataInput.add("employee", employee);
@@ -119,6 +131,7 @@ public class erp_frame extends JFrame {
 		panel_dataInput.add("payRoll", payRoll);
 		panel_dataInput.add("achievement", achievement);
 		panel_dataInput.add("material", material);
+		panel_dataInput.add("profit", profit);
 		// 振明
 		panel_dataInput.add("product", product);
 		panel_dataInput.add("member", member);
@@ -127,6 +140,7 @@ public class erp_frame extends JFrame {
 		panel_dataInput.add("orderItem", orderitem);
 		panel_dataInput.add("issue", issue);
 		panel_dataInput.add("vendor", vendor);
+		panel_dataInput.add("salesReport", salesReport);
 		// Veronica edit
 		panel_dataInput.add(admin, "admin");
 		panel_dataInput.add(asset, "asset");
@@ -134,16 +148,17 @@ public class erp_frame extends JFrame {
 		panel_dataInput.add(payableList, "payableList");
 		panel_dataInput.add(purchase, "purchase");
 		panel_dataInput.add(department, "department");
-
+		panel_dataInput.add(picking,"picking");
 		// setExtendedState(JFrame.MAXIMIZED_BOTH);
 		data = new LinkedList<>();
 
 	}
 
-	public erp_frame(String loginID) {	
+	public erp_frame(String loginID,Connection conn) {	
 		userID = loginID;
 		initComponents();
 		init();
+		table_firmData.setRowHeight(30);
 		// 宜宏
 		empty = new EmptyPanel();
 		employee = new Employee();
@@ -151,6 +166,7 @@ public class erp_frame extends JFrame {
 		payRoll = new PayRoll();
 		achievement = new Achievement();
 		material = new Material();
+		profit = new ProfitReport();
 		// 振明
 		product = new Product();
 		member = new Member();
@@ -159,6 +175,7 @@ public class erp_frame extends JFrame {
 		orderitem = new OrderItem();
 		issue = new Issue();
 		vendor = new Vendor();
+		salesReport = new SalesReport();
 		// Veronica edit
 		admin = new Admin();
 		asset = new Asset();
@@ -166,6 +183,7 @@ public class erp_frame extends JFrame {
 		payableList = new PayableList();
 		purchase = new Purchase();
 		department = new Department();
+		picking = new Picking();
 
 		// 宜宏
 		panel_dataInput.add("empty", empty);
@@ -174,6 +192,7 @@ public class erp_frame extends JFrame {
 		panel_dataInput.add("payRoll", payRoll);
 		panel_dataInput.add("achievement", achievement);
 		panel_dataInput.add("material", material);
+		panel_dataInput.add("profit", profit);
 		// 振明
 		panel_dataInput.add("product", product);
 		panel_dataInput.add("member", member);
@@ -182,6 +201,7 @@ public class erp_frame extends JFrame {
 		panel_dataInput.add("orderItem", orderitem);
 		panel_dataInput.add("issue", issue);
 		panel_dataInput.add("vendor", vendor);
+		panel_dataInput.add("salesReport", salesReport);
 		// Veronica edit
 		panel_dataInput.add(admin, "admin");
 		panel_dataInput.add(asset, "asset");
@@ -278,7 +298,7 @@ public class erp_frame extends JFrame {
         
         javax.swing.tree.DefaultMutableTreeNode DB_Sales = new javax.swing.tree.DefaultMutableTreeNode("銷售資料庫");
         javax.swing.tree.DefaultMutableTreeNode orderList = new javax.swing.tree.DefaultMutableTreeNode("訂單資料表");
-        javax.swing.tree.DefaultMutableTreeNode orderItem = new javax.swing.tree.DefaultMutableTreeNode("訂單項目資料表");
+        javax.swing.tree.DefaultMutableTreeNode orderItem = new javax.swing.tree.DefaultMutableTreeNode("訂購項目資料表");
         javax.swing.tree.DefaultMutableTreeNode issue = new javax.swing.tree.DefaultMutableTreeNode("異常紀錄表");
         javax.swing.tree.DefaultMutableTreeNode vendor = new javax.swing.tree.DefaultMutableTreeNode("廠商資料表");
         DB_Sales.add(orderList);
@@ -345,7 +365,7 @@ public class erp_frame extends JFrame {
 		table_firmData.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
 		table_firmData.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-		}, new String[] { "廠商名稱", "聯絡電話", "地址", "統編", "聯絡人", "付款條件", "備註" }) {
+		}, new String[] {  }) {
 			boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -521,7 +541,14 @@ public class erp_frame extends JFrame {
 				case "原料庫存資料表":
 					length = materialFields.length;
 					break;
-
+				case "營利報表":
+					String report = profit.getSelectReport();
+					if (report.equals("銷售報表")) {
+						length = salesFields.length;
+					} else {
+						length = expendFields.length;
+					}
+					break;
 				// 振明
 				case "產品資料表":
 					length = productFields.length;
@@ -541,6 +568,9 @@ public class erp_frame extends JFrame {
 					break;
 				case "廠商資料表":
 					length = vendorFields.length;
+					break;
+				case "銷售報表":
+					length = salesReporterFields.length;
 					break;
 				// V
 				case "帳號管理表":
@@ -573,12 +603,11 @@ public class erp_frame extends JFrame {
 		@Override
 		public void fireTableCellUpdated(int row, int column) {
 			super.fireTableCellUpdated(row, column);
-			System.out.println("fireTableCell");
 		}
 
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			System.out.println(rowIndex + "x" + columnIndex + "x" + aValue);
+			
 		}
 
 		@Override
@@ -592,7 +621,89 @@ public class erp_frame extends JFrame {
 
 		}
 	}
+	
+	private void setButtonVisible() {
+		if (treeFolder.getSelectionPath().getLastPathComponent().toString().equals("營利報表")||
+				treeFolder.getSelectionPath().getLastPathComponent().toString().equals("銷售報表")) {
+			text_search.setVisible(false);
+			label_search.setVisible(false);
+			btnFirstData.setVisible(false);
+			btnPreData.setVisible(false);
+			btnNextData.setVisible(false);
+			btnInsert.setVisible(false);
+			btnModify.setVisible(false);
+			btnClear.setToolTipText("顯示報表");
+			btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/table.png")));
+		} else {
+			text_search.setVisible(true);
+			label_search.setVisible(true);
+			btnFirstData.setVisible(true);
+			btnPreData.setVisible(true);
+			btnNextData.setVisible(true);
+			btnInsert.setVisible(true);
+			btnModify.setVisible(true);
+			btnClear.setToolTipText("清空輸入");
+			btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/clear.png")));
+		}
 
+	}
+
+	private void outputReports() {
+		try {
+			HSSFWorkbook workbook = new HSSFWorkbook();
+			HSSFSheet sheet;
+			HSSFRow row = null;
+			HSSFCell cell = null;
+			for (int l = 0; l < 2; l++) {
+				if (l == 1) {
+					data = profit.querySales();
+					fields = salesFields;
+					sheet = workbook.createSheet("銷售報表");
+				} else {
+					data = profit.queryExpend();
+					fields = expendFields;
+					sheet = workbook.createSheet("支出報表");
+				}
+				row = sheet.createRow((short) 0);
+				for (int k = 0; k < fields.length; k++) {
+					cell = row.createCell((short) k);
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					cell.setCellValue(fields[k]);
+				}
+				for (int i = 1; i < data.size()+1; i++) {
+					
+						// Insert table data in next row
+						row = sheet.createRow((short) i);
+						for (int k = 0; k < fields.length; k++) {
+							cell = row.createCell((short) k);
+							cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+							cell.setCellValue(data.get(i - 1)[k]);
+						}
+					
+				}
+
+				// Create a excel file
+				// HSSFWorkbook workbook = new HSSFWorkbook();
+				// Create a sheet with name
+				// HSSFSheet sheet = workbook.createSheet("銷售報表");
+
+				// set the sheet row count and set the first row data with title
+			}
+			String outputFile = "D:/ERPOutputFile/營利報表.xls";
+			FileOutputStream fOut = new FileOutputStream(outputFile);
+			workbook.write(fOut);
+			fOut.flush();
+			fOut.close();
+			JOptionPane.showMessageDialog(JToolBar, "產生檔案成功!\n 檔案位置 :" + outputFile);
+
+		}
+
+		catch (Exception ee) {
+			System.out.println(ee.toString());
+		}
+
+	}
+	
 	// If user not select a table will alert
 	// If user select a table but not click a data column will display first
 	// data in input area
@@ -1130,7 +1241,8 @@ public class erp_frame extends JFrame {
 
 	private void btnInsertMouseClicked(java.awt.event.MouseEvent evt) {
 		data.clear();
-		int isInsert = 0;
+		int isInsert = 0,ifPayOk= -2;
+		boolean ifrepeat =false, ifIdexist=false, pIdRepead=false;
 		if (path != null) {
 			switch (path) {
 			case "員工資料表":
@@ -1193,19 +1305,27 @@ public class erp_frame extends JFrame {
 
 			// V
 			case "帳號管理表":
+				ifIdexist = admin.ifIdexist();
 				isInsert = admin.insertDB();
 				data = admin.queryData();
 				tableModel.fireTableDataChanged();
 				break;
 			case "進貨表":
-				isInsert = purchase.insertDB();
-				data = purchase.queryData();
-				tableModel.fireTableDataChanged();
+				ifrepeat = purchase.checkRepeatPurchase();
+				if(!ifrepeat){
+					isInsert = purchase.insertDB();
+					data = purchase.queryData();
+					tableModel.fireTableDataChanged();
+				}
 				break;
 			case "應付帳款管理表":
-				isInsert = payableList.insertDB();
+				ifPayOk = payableList.payCheck();
+				if(ifPayOk != -2 & ifPayOk != 9){
+					isInsert = payableList.insertDB();
+					pIdRepead = payableList.checkPIdrepeat();					
+				}
 				data = payableList.queryData();
-				tableModel.fireTableDataChanged();
+				tableModel.fireTableDataChanged();	
 				break;
 			case "資產管理表":
 				isInsert = asset.insertDB();
@@ -1230,6 +1350,18 @@ public class erp_frame extends JFrame {
 			}
 			if (isInsert == 1) {
 				JOptionPane.showMessageDialog(rootPane, "新增資料成功");
+			} else if(ifrepeat){
+				JOptionPane.showMessageDialog(rootPane, "單號重覆，新增資料失敗");
+				isInsert = 0; ifPayOk= -2; ifrepeat =false; ifIdexist=false; pIdRepead=false;
+			} else if(ifIdexist){
+				JOptionPane.showMessageDialog(rootPane, "資料已存在，新增失敗");
+				isInsert = 0; ifPayOk= -2; ifrepeat =false; ifIdexist=false; pIdRepead=false;
+			} else if(ifPayOk ==2){
+				JOptionPane.showMessageDialog(rootPane, "沖帳總額大於應付額，請確認");
+				isInsert = 0; ifPayOk= -2; ifrepeat =false; ifIdexist=false; pIdRepead=false;
+			} else if(isInsert == 0 & pIdRepead){
+				JOptionPane.showMessageDialog(rootPane, "採購單號已存在，請重新輸入");
+				isInsert = 0; ifPayOk= -2; ifrepeat =false; ifIdexist=false; pIdRepead=false;
 			} else {
 				JOptionPane.showMessageDialog(rootPane, "新增資料失敗");
 			}
@@ -1238,7 +1370,8 @@ public class erp_frame extends JFrame {
 	}
 
 	private void btnModifyMouseClicked(java.awt.event.MouseEvent evt) {
-		int isUpdate = 0;
+		int isUpdate = 0,ifPayOk= 9, editRepeat=0 ; 
+		boolean rowClose =false, pIdRepead=false;
 		data.clear();
 		if (path != null) {
 			switch (path) {
@@ -1312,7 +1445,13 @@ public class erp_frame extends JFrame {
 				tableModel.fireTableDataChanged();
 				break;
 			case "應付帳款管理表":
-				isUpdate = payableList.editDB();
+				//-1 pay less, 0 pay ok, 2 pay more;
+				ifPayOk = payableList.payCheck();
+				rowClose = payableList.rowClose(); //true結案 
+				if(ifPayOk != 2  & ifPayOk != 9 & !rowClose){
+					isUpdate = payableList.editDB();
+					editRepeat = payableList.ifEditPurRepeat();//check if repeat purN when edit
+				}				
 				data = payableList.queryData();
 				tableModel.fireTableDataChanged();
 				break;
@@ -1341,7 +1480,16 @@ public class erp_frame extends JFrame {
 		}
 		if (isUpdate == 1) {
 			JOptionPane.showMessageDialog(rootPane, "更新資料成功");
-		} else {
+		}else if(ifPayOk ==2){
+			JOptionPane.showMessageDialog(rootPane, "沖帳總額大於應付額，請重新輸入");
+			isUpdate = 0; ifPayOk= 9; rowClose =false; pIdRepead=false; editRepeat=0;//default
+		}else if(rowClose){
+			JOptionPane.showMessageDialog(rootPane, "此單已結案");
+			isUpdate = 0; ifPayOk= 9; rowClose =false; pIdRepead=false; editRepeat=0;//default
+		}else if(editRepeat == 2){
+			JOptionPane.showMessageDialog(rootPane, "採購單號重覆，請重新輸入");
+			isUpdate = 0; ifPayOk= 9; rowClose =false; pIdRepead=false; editRepeat=0;//default
+		}else {
 			JOptionPane.showMessageDialog(rootPane, "更新資料失敗");
 		}
 
@@ -1403,6 +1551,32 @@ public class erp_frame extends JFrame {
 				break;
 			case "領料記錄表":
 	    		picking.getDefault();
+	     		break;
+			case "營利報表":
+				salesData = profit.querySales();
+				extendData = profit.queryExpend();
+				data.clear();
+				String report = profit.getSelectReport();
+				if (report.equals("銷售報表")) {
+					tableModel = new myTableModel(salesFields);
+					data = salesData;
+					System.out.println("銷售" + data.size());
+				} else {
+					tableModel = new myTableModel(expendFields);
+					data = extendData;
+					System.out.println("支出" + data.size());
+				}
+				table_firmData.setModel(tableModel);
+
+				tableModel.fireTableDataChanged();
+				profit.setLableDetail();
+				
+				break;
+			case "銷售報表":
+	    		data = salesReport.getData();
+	    		tableModel = new myTableModel(salesReporterFields);
+	    		table_firmData.setModel(tableModel);
+	    		tableModel.fireTableDataChanged();
 	     		break;
 			default:
 				JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
@@ -1472,45 +1646,55 @@ public class erp_frame extends JFrame {
 		case "領料記錄表":
     		fields = pickingFields;
      		break;
+		case "營利報表":
+			outputReports();
+			break;
+		case "銷售報表":
+    		fields = salesReporterFields;
+     		break;
 		default:
 			JOptionPane.showMessageDialog(JToolBar, "未選擇一個資料表");
 			break;
 		}
-		try {
-			// Create a excel file
-			HSSFWorkbook workbook = new HSSFWorkbook();
-			// Create a sheet with name
-			HSSFSheet sheet = workbook.createSheet(path);
-			HSSFRow row = null;
-			HSSFCell cell = null;
-			// set the sheet row count and set the first row data with title
-			for (int i = 0; i < table_firmData.getRowCount() + 1; i++) {
-				if (i == 0) {
-					row = sheet.createRow((short) i);
-					for (int k = 0; k < fields.length; k++) {
-						cell = row.createCell((short) k);
-						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-						cell.setCellValue(fields[k]);
-					}
-				} else {
-					// Insert table data in next row
-					row = sheet.createRow((short) i);
-					for (int k = 0; k < fields.length; k++) {
-						cell = row.createCell((short) k);
-						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-						cell.setCellValue((String) table_firmData.getValueAt(i - 1, k));
-					}
+		if (!path.equals("營利報表")) {
+			try {
 
+				// Create a excel file
+				HSSFWorkbook workbook = new HSSFWorkbook();
+				// Create a sheet with name
+				HSSFSheet sheet = workbook.createSheet(path);
+				HSSFRow row = null;
+				HSSFCell cell = null;
+				// set the sheet row count and set the first row data with title
+				for (int i = 0; i < table_firmData.getRowCount() + 1; i++) {
+					if (i == 0) {
+						row = sheet.createRow((short) i);
+						for (int k = 0; k < fields.length; k++) {
+							cell = row.createCell((short) k);
+							cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+							cell.setCellValue(fields[k]);
+						}
+					} else {
+						// Insert table data in next row
+						row = sheet.createRow((short) i);
+						for (int k = 0; k < fields.length; k++) {
+							cell = row.createCell((short) k);
+							cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+							cell.setCellValue((String) table_firmData.getValueAt(i - 1, k));
+						}
+
+					}
+					FileOutputStream fOut = new FileOutputStream(outputFile);
+					workbook.write(fOut);
+					fOut.flush();
+					fOut.close();
 				}
+				JOptionPane.showMessageDialog(JToolBar, "產生檔案成功!\n 檔案位置 :" + outputFile);
+
+			} catch (Exception ee) {
+				JOptionPane.showMessageDialog(JToolBar, "產生檔案失敗 : " + ee.getMessage());
+				System.out.println(ee.toString());
 			}
-			FileOutputStream fOut = new FileOutputStream(outputFile);
-			workbook.write(fOut);
-			fOut.flush();
-			fOut.close();
-			JOptionPane.showMessageDialog(JToolBar, "產生檔案成功!\n 檔案位置 :" + outputFile);
-		} catch (Exception ee) {
-			JOptionPane.showMessageDialog(JToolBar, "產生檔案失敗 : " + ee.getMessage());
-			System.out.println(ee.toString());
 		}
 	}
 
@@ -1630,7 +1814,10 @@ public class erp_frame extends JFrame {
 	}
 
 	private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {
-		System.out.println("Logout");
+		Login logout = new Login();//跳到main頁面    	
+		logout.setVisible(true);	      
+        dispose(); //關掉原本的視窗
+
 
 	}
 
@@ -1638,8 +1825,10 @@ public class erp_frame extends JFrame {
 	private void treeFolderValueChanged(javax.swing.event.TreeSelectionEvent evt) {// GEN-FIRST:event_treeFolderValueChanged
 
 		if (treeFolder.getSelectionPath().getLastPathComponent().toString() != null) {
+			setButtonVisible();
 			path = treeFolder.getSelectionPath().getLastPathComponent().toString();
 			data.clear();
+			text_search.setText("");
 			switch (path) {
 			case "員工資料表":
 				nowLayout.show(panel_dataInput, "employee");
@@ -1768,6 +1957,23 @@ public class erp_frame extends JFrame {
     			data = picking.queryData();
     			tableModel.fireTableDataChanged();
          		break;
+			case "營利報表":
+				nowLayout.show(panel_dataInput, "profit");
+				profit.getYears();
+				break;
+			case "銷售報表":
+				nowLayout.show(panel_dataInput, "salesReport");	
+				
+				break;
+			case "人事資料庫":case "採購資料庫":case "產品資料庫":
+        	case "庫存資料庫":case "銷售資料庫":case "會計資料庫":
+        	case "客戶資料庫":case "系統資料庫":
+    			nowLayout.show(panel_dataInput, "empty");
+    			tableModel = new myTableModel(new String[]{""});
+    			data.clear();
+    			table_firmData.setModel(tableModel);
+    			tableModel.fireTableDataChanged();
+        		break;
 			}
 		}
 

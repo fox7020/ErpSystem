@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 /**
 * @author Veronica.C
 */
-public class payableList extends javax.swing.JPanel {
+public class PayableList extends javax.swing.JPanel {
 	private Connection conn;
 	private List<String> venList, purList, paywithList;  
 	private String venArray[], purArray[],  paywithArray[];
@@ -26,7 +26,7 @@ public class payableList extends javax.swing.JPanel {
 	private String vendorName=null, payListId=null;
 	private boolean repeatPurNum =false, editRepeat=true;
 
-    public payableList() {
+    public PayableList() {
     	databaseConnect();
     	venList = new ArrayList<String>(); //產生List裝id
     	purList = new ArrayList<String>(); //產生List裝id

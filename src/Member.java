@@ -125,80 +125,79 @@ public class Member extends javax.swing.JPanel {
 			layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 					.addGap(66)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(label_dateTest)
 							.addGap(34)
 							.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
 						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addGroup(layout.createSequentialGroup()
-									.addComponent(label_password)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(text_password, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-								.addGroup(layout.createSequentialGroup()
-									.addComponent(label_memberName)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(text_memberName, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-								.addGroup(layout.createSequentialGroup()
-									.addComponent(label_customerId)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(text_customerId, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(label_tel)
-								.addComponent(label_gender)
-								.addComponent(label_address))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(text_address, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-								.addComponent(text_gender, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-								.addComponent(text_tel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(label_note, Alignment.TRAILING)
+								.addComponent(label_memberName, Alignment.TRAILING)
+								.addComponent(label_customerId, Alignment.TRAILING)
+								.addComponent(label_password, Alignment.TRAILING))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(label_note)
-							.addGap(18)
-							.addComponent(text_note, GroupLayout.PREFERRED_SIZE, 398, GroupLayout.PREFERRED_SIZE)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup()
+									.addGroup(layout.createParallelGroup(Alignment.LEADING)
+										.addComponent(text_memberName, Alignment.TRAILING)
+										.addComponent(text_password)
+										.addComponent(text_customerId, GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(layout.createParallelGroup(Alignment.LEADING)
+										.addComponent(label_tel)
+										.addComponent(label_gender)
+										.addComponent(label_address))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(layout.createParallelGroup(Alignment.LEADING)
+										.addComponent(text_tel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+										.addComponent(text_address, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+										.addComponent(text_gender, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(text_note, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(56, Short.MAX_VALUE))
+					.addContainerGap(48, Short.MAX_VALUE))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
-					.addGap(52)
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+					.addGap(53)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
 						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(label_tel)
+									.addGap(13))
+								.addGroup(layout.createSequentialGroup()
+									.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(text_tel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(text_customerId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)))
 							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_customerId)
-								.addComponent(text_customerId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(13)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_password)
+								.addComponent(label_gender)
+								.addComponent(text_gender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(text_password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_memberName)
+								.addComponent(label_address)
+								.addComponent(text_address, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(text_memberName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_tel)
-								.addComponent(text_tel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_gender)
-								.addComponent(text_gender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_address)
-								.addComponent(text_address, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(64)
+							.addComponent(label_customerId)
+							.addGap(13)
+							.addComponent(label_password)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(label_memberName)))
 					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(text_note, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(label_note))
-						.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+						.addGroup(layout.createSequentialGroup()
+							.addGap(64)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(label_note)
+								.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(layout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(text_note, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
 					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(label_dateTest))
@@ -274,6 +273,7 @@ public class Member extends javax.swing.JPanel {
 				pstmt.setString(6, address);
 				pstmt.setString(7, note);
 				isInsert = pstmt.executeUpdate();
+				clearInput();
 
 			} catch (SQLException e) {
 				System.out.println(e.toString());
@@ -284,20 +284,22 @@ public class Member extends javax.swing.JPanel {
 
 	protected int updateData() {
 		int isUpdate = 0;
-		customerId = label_customerId.getText();
-		if (getUserInputParm() == true && !customerId.equals("")) {
+		customerId = text_customerId.getText();
+		if (getUserInputParm() == true) {
 			try {
 				pstmt = con.prepareStatement(
-						"UPDATE member SET customerId=?,password=?,memberName=?,tel=?,gender=?,address=?,note=? WHERE customerId = ?");
-				pstmt.setString(1, customerId);
-				pstmt.setString(2, password);
-				pstmt.setString(3, memberName);
-				pstmt.setString(4, tel);
-				pstmt.setString(5, gender);
-				pstmt.setString(6, address);
-				pstmt.setString(7, note);
+						"UPDATE member SET password=?,memberName=?,tel=?,gender=?,address=?,note=? WHERE customerId=?");
+				pstmt.setString(1, password);
+				pstmt.setString(2, memberName);
+				pstmt.setString(3, tel);
+				pstmt.setString(4, gender);
+				pstmt.setString(5, address);
+				pstmt.setString(6, note);
+				pstmt.setString(7, customerId);
+				
 
 				isUpdate = pstmt.executeUpdate();
+				clearInput();
 			} catch (SQLException e) {
 				System.out.println(e.toString());
 			}
@@ -314,6 +316,7 @@ public class Member extends javax.swing.JPanel {
 				pstmt = con.prepareStatement("DELETE FROM member WHERE customerId=?");
 				pstmt.setString(1, customerId);
 				isDel = pstmt.executeUpdate();
+				clearInput();
 			} catch (SQLException ee) {
 				System.out.println(ee.toString());
 			}

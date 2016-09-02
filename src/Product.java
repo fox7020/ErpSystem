@@ -8,6 +8,13 @@ import java.util.LinkedList;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
+import java.awt.Font;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.DefaultComboBoxModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,6 +32,7 @@ public class Product extends javax.swing.JPanel {
 	private String price;
 	private String category;
 	private String note;
+
 	private Properties prop;
 	private Connection con;
 	private PreparedStatement pstmt = null;
@@ -54,115 +62,115 @@ public class Product extends javax.swing.JPanel {
 		label_category = new javax.swing.JLabel();
 		label_note = new javax.swing.JLabel();
 		jScrollPane2 = new javax.swing.JScrollPane();
-		text_note = new javax.swing.JTextArea();
-		text_productNum = new javax.swing.JTextField();
 		text_productName = new javax.swing.JTextField();
 		text_price = new javax.swing.JTextField();
-		text_category = new javax.swing.JTextField();
 		dateChooser = new com.toedter.calendar.JDateChooser();
 		label_dateTest = new javax.swing.JLabel();
 		setPreferredSize(new java.awt.Dimension(980, 470));
 
-		label_productNum.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_productNum.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_productNum.setText("產品編號");
 
-		label_productName.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_productName.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_productName.setText("品名");
 
-		label_price.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_price.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_price.setText("單價");
 
-		label_category.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_category.setFont(new Font("微軟正黑體", Font.PLAIN, 15)); // NOI18N
 		label_category.setText("類別");
 
-		label_note.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+		label_note.setFont(new Font("微軟正黑體", Font.PLAIN, 14)); // NOI18N
 		label_note.setText("備註");
 		label_note.setToolTipText("");
+
+		text_productName.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+
+		text_price.setFont(new java.awt.Font("微軟正黑體", 0, 14));
+
+		label_dateTest.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+		label_dateTest.setText("日期測試");
+		text_note = new javax.swing.JTextArea();
 
 		text_note.setColumns(20);
 		text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
 		text_note.setRows(5);
-		jScrollPane2.setViewportView(text_note);
 
-		text_productNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
+		CBcategory = new JComboBox();
+		CBcategory.setModel(new DefaultComboBoxModel(new String[] { "", "奶茶", "紅茶", "綠茶", "咖啡" }));
 
-		text_productName.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-
-		text_price.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-
-		text_category.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-
-		label_dateTest.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-		label_dateTest.setText("日期測試");
+		label_pNum = new JLabel("");
+		label_pNum.setFont(new Font("微軟正黑體", Font.PLAIN, 15));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup().addGap(66, 66, 66).addGroup(layout
-						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-								.addGroup(layout.createSequentialGroup().addComponent(label_category)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(text_category, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(layout.createSequentialGroup().addComponent(label_price)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(text_price, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(layout.createSequentialGroup().addComponent(label_productName)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(text_productName, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addGap(66)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
+								.addGroup(layout.createParallelGroup(Alignment.LEADING)
+										.addComponent(label_productName).addComponent(label_note)
+										.addComponent(label_productNum))
+								.addGap(13)
 								.addGroup(
-										layout.createSequentialGroup().addComponent(label_productNum).addGap(18, 18, 18)
-												.addComponent(text_productNum, javax.swing.GroupLayout.PREFERRED_SIZE,
-														150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-						.addGroup(
-								layout.createSequentialGroup()
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-												.addComponent(label_note).addComponent(label_dateTest))
-										.addGap(34, 34, 34)
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-												.addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400,
-														javax.swing.GroupLayout.PREFERRED_SIZE))))
-						.addContainerGap(424, Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup().addGap(51, 51, 51)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_productNum).addComponent(text_productNum,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGap(13, 13, 13)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_productName).addComponent(text_productName,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_price).addComponent(text_price,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGap(13, 13, 13)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(label_category).addComponent(text_category,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(layout.createSequentialGroup().addGap(13, 13, 13).addComponent(label_note))
-								.addGroup(layout.createSequentialGroup().addGap(18, 18, 18).addComponent(jScrollPane2,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE)))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-								.addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+										layout.createParallelGroup(Alignment.LEADING).addGroup(layout
+												.createSequentialGroup()
+												.addGroup(layout.createParallelGroup(Alignment.LEADING)
+														.addGroup(layout.createSequentialGroup()
+																.addComponent(text_productName,
+																		GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+																.addGap(18))
+														.addGroup(layout.createSequentialGroup().addGap(5)
+																.addComponent(label_pNum, GroupLayout.PREFERRED_SIZE,
+																		117, GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(ComponentPlacement.RELATED)))
+												.addGroup(layout.createParallelGroup(Alignment.LEADING)
+														.addGroup(layout.createSequentialGroup()
+																.addComponent(label_category)
+																.addPreferredGap(ComponentPlacement.UNRELATED)
+																.addComponent(
+																		CBcategory, GroupLayout.PREFERRED_SIZE, 150,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGroup(layout.createSequentialGroup()
+																.addComponent(label_price)
+																.addPreferredGap(ComponentPlacement.UNRELATED)
+																.addComponent(text_price, GroupLayout.PREFERRED_SIZE,
+																		150, GroupLayout.PREFERRED_SIZE))))
+												.addComponent(text_note, GroupLayout.DEFAULT_SIZE, 390,
+														Short.MAX_VALUE))
+								.addGap(156))
+								.addGroup(layout.createSequentialGroup().addComponent(label_dateTest).addGap(34)
+										.addGroup(layout.createParallelGroup(Alignment.LEADING)
+												.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 150,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 400,
+														GroupLayout.PREFERRED_SIZE))))
+						.addGap(295)));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addGap(21)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(label_productNum)
+										.addComponent(label_price).addComponent(text_price, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(label_pNum, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGap(13)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(label_productName)
+								.addComponent(label_category)
+								.addComponent(text_productName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(CBcategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(label_note)
+								.addComponent(text_note, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))
+						.addGap(55)
+						.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
 								.addComponent(label_dateTest))
-						.addContainerGap(124, Short.MAX_VALUE)));
+						.addContainerGap(83, Short.MAX_VALUE)));
+		this.setLayout(layout);
 	}// </editor-fold>
 
 	private void setDBProp() {
@@ -180,35 +188,16 @@ public class Product extends javax.swing.JPanel {
 		}
 	}
 
-	protected void setInputValue(HashMap<Integer, String> data) {
-    	text_productNum.setText(data.get(0));
-    	text_productName.setText(data.get(1));
-    	text_price.setText((data.get(2)));
-    	text_category.setText(data.get(3));
-    	text_note.setText(data.get(4));
-    }
-    
-    protected void clearInput() {
-    	text_productNum.setText("");
-    	text_productName.setText("");
-    	text_price.setText("");
-    	text_category.setText("");
-    	text_note.setText("");
-    }
-	
-	
-	
-	
-	
 	private boolean getUserInputParm() {
 		boolean isRightData = false;
-		productNum = text_productNum.getText();
+
 		productName = text_productName.getText();
 		price = text_price.getText();
-		category = text_category.getText();
+		category = CBcategory.getSelectedItem().toString();
+		// category = text_category.getText();
 		note = text_note.getText();
-		productName = text_productName.getText();
-		if (productNum.equals("") || productName.equals("")) {
+		// productName = text_productName.getText();
+		if (productName.equals("")) {
 			isRightData = false;
 		} else {
 			isRightData = true;
@@ -216,40 +205,91 @@ public class Product extends javax.swing.JPanel {
 		return isRightData;
 	}
 
+	protected void setInputValue(HashMap<Integer, String> data) {
+
+		label_pNum.setText(data.get(0));
+		text_productName.setText(data.get(1));
+		text_price.setText((data.get(2)));
+
+		switch (data.get(3)) {
+		// "奶茶", "紅茶", "綠茶", "咖啡"
+		case "":
+			CBcategory.setSelectedIndex(0);
+			break;
+		case "奶茶":
+			CBcategory.setSelectedIndex(1);
+			break;
+		case "紅茶":
+			CBcategory.setSelectedIndex(2);
+			break;
+		case "綠茶":
+			CBcategory.setSelectedIndex(3);
+			break;
+		case "咖啡":
+			CBcategory.setSelectedIndex(4);
+			break;
+		default:
+			CBcategory.setSelectedIndex(0);
+			break;
+		}
+		text_note.setText(data.get(4));
+	}
+
+	protected void clearInput() {
+		label_pNum.setText("");
+		text_productName.setText("");
+		text_price.setText("");
+		CBcategory.setSelectedIndex(0);
+		;
+		text_note.setText("");
+	}
+
 	protected int insertData() {
 		int isInsert = 0;
-		if (getUserInputParm() == true) {
-			try {
-				pstmt = con.prepareStatement(
-						"INSERT INTO product(productNum,productName,price,category,note)VALUES(?,?,?,?,?)");
-				pstmt.setString(1, productNum);
-				pstmt.setString(2, productName);
-				pstmt.setString(3, price);
-				pstmt.setString(4, category);
-				pstmt.setString(5, note);
-				isInsert = pstmt.executeUpdate();
 
-			} catch (SQLException e) {
-				System.out.println(e.toString());
-			}
+		try {
+			pstmt = con.prepareStatement(
+
+					"INSERT INTO product(productName,price,category,note) VALUES('" + "" + text_productName.getText()
+							+ "','" + "" + text_price.getText() + "','" + "" + CBcategory.getSelectedItem() + "','" + ""
+							+ text_note.getText() + "')");
+			//
+			// "INSERT INTO
+			// product(productName,price,category,note)VALUES(?,?,?,?)");
+			// //pstmt.setString(1, productNum);
+			// pstmt.setString(1, productName);
+			// pstmt.setString(2, price);
+			// pstmt.setString(3, category);
+			// pstmt.setString(4, note);
+			isInsert = pstmt.executeUpdate();
+			pstmt.close();
+			clearInput();
+
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
+
 		return isInsert;
 	}
 
 	protected int updateData() {
 		int isUpdate = 0;
-		productName = text_productName.getText();
-		if (getUserInputParm() == true && !productName.equals("")) {
+		productNum = label_pNum.getText();
+		if (getUserInputParm() == true) {
 			try {
+
 				pstmt = con.prepareStatement(
-						"UPDATE product SET productNum=?,productName=?,price=?,category=?,note=? WHERE productName = ?");
-				pstmt.setString(1, productNum);
-				pstmt.setString(2, productName);
-				pstmt.setString(3, price);
-				pstmt.setString(4, category);
-				pstmt.setString(5, note);
+						"UPDATE product SET productName=?,price=?,category=?,note=? WHERE productNum=?");
+				pstmt.setString(1, productName);
+				pstmt.setString(2, price);
+				pstmt.setString(3, category);
+				pstmt.setString(4, note);
+				pstmt.setString(5, productNum);
 
 				isUpdate = pstmt.executeUpdate();
+
+				clearInput();
+
 			} catch (SQLException e) {
 				System.out.println(e.toString());
 			}
@@ -260,12 +300,13 @@ public class Product extends javax.swing.JPanel {
 
 	protected int delData() {
 		int isDel = 0;
-		productNum = text_productNum.getText();
+		productNum = label_pNum.getText();
 		if (!productNum.equals("")) {
 			try {
 				pstmt = con.prepareStatement("DELETE FROM product WHERE productNum=?");
 				pstmt.setString(1, productNum);
 				isDel = pstmt.executeUpdate();
+				clearInput();
 			} catch (SQLException ee) {
 				System.out.println(ee.toString());
 			}
@@ -280,7 +321,7 @@ public class Product extends javax.swing.JPanel {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String[] row = new String[5];
-				row[0]= rs.getString("productNum");
+				row[0] = rs.getString("productNum");
 				row[1] = rs.getString("productName");
 				row[2] = rs.getString("price");
 				row[3] = rs.getString("category");
@@ -306,7 +347,7 @@ public class Product extends javax.swing.JPanel {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String[] row = new String[5];
-				
+
 				row[0] = rs.getString("productNum");
 				row[1] = rs.getString("productName");
 				row[2] = rs.getString("price");
@@ -324,7 +365,7 @@ public class Product extends javax.swing.JPanel {
 		String productNum = "";
 		try {
 			pstmt = con.prepareStatement("SELECT productNum FROM product Where productNum = ?");
-			pstmt.setString(1, text_productNum.getText());
+			pstmt.setString(1, label_pNum.getText());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				productNum = rs.getString("productNum");
@@ -333,7 +374,7 @@ public class Product extends javax.swing.JPanel {
 			System.out.println(ee.toString());
 		}
 		if (productNum.equals("")) {
-			JOptionPane.showMessageDialog(text_productNum, "查無此商品");
+			JOptionPane.showMessageDialog(label_pNum, "查無此商品");
 		}
 	}
 
@@ -346,12 +387,11 @@ public class Product extends javax.swing.JPanel {
 	private javax.swing.JLabel label_price;
 	private javax.swing.JLabel label_productName;
 	private javax.swing.JLabel label_productNum;
-	private javax.swing.JTextField text_category;
 	private javax.swing.JTextArea text_note;
 	private javax.swing.JTextField text_price;
 	private javax.swing.JTextField text_productName;
-	private javax.swing.JTextField text_productNum;
-	// End of variables declaration
+	private JComboBox CBcategory;
+	private JLabel label_pNum;
 }
 
-//2016/08/27
+// 2016/08/27

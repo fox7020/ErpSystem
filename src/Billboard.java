@@ -16,14 +16,14 @@ import javax.swing.JTextField;
 /**
 * @author Veronica.C
 */
-public class billboard extends javax.swing.JPanel {
+public class Billboard extends javax.swing.JPanel {
 	private Connection conn;
 	private List<String> empList;  
 	private String empArray[];
 	private String boardId=null, issueDate=null, announce=null, deadline=null, remark=null, 
 				   employeeNum=null, employeeName=null;
 
-    public billboard() {
+    public Billboard() {
     	databaseConnect();
     	empList = new ArrayList<String>(); //產生List裝id
     	empList.add("");

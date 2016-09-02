@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 * @author Veronica.C
 */
 
-public class admin extends javax.swing.JPanel {
+public class Admin extends javax.swing.JPanel {
 	private String passwd=null, employee=null, attendance=null, achieve=null, payroll=null, product=null, 
 			   material=null, orderlist=null, orderitem=null, asset=null, issue=null, member=null,
 			   vendor=null, purchase=null, payablelist=null, admin=null, note=null, department=null, billboard=null,
@@ -28,7 +28,7 @@ public class admin extends javax.swing.JPanel {
 	private boolean hasId = false; //資料庫是否有資料 
 	
 
-    public admin() {    	
+    public Admin() {    	
     	databaseConnect(); 
     	empList = new ArrayList<String>(); //產生List裝id
     	empList.add("");
