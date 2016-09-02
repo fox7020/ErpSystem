@@ -19,14 +19,14 @@ import javafx.scene.input.DataFormat;
 * @author Veronica.C
 */
 
-public class Login extends javax.swing.JFrame {
+public class login extends javax.swing.JFrame {
 	protected Connection conn;
 	private String logId =null, logPW=null, editPW="no";
 	private String ondutyT =null, offdutyT =null, onduty=null;
 	private boolean idOk=false, pwOk=false, ifedit=false, repeatPW=false, noInput=false;
 	private boolean hasOnDutyRecord=false, hasOffDutyRecord=false;
 
-    public Login() {
+    public login() {
     	databaseConnect();
         initComponents();
         init();
@@ -336,7 +336,7 @@ public class Login extends javax.swing.JFrame {
     		}
     		
     		if(idOk & pwOk & !ifedit){
-    			erp_frame erp_main = new erp_frame(logId, conn);//跳到main頁面    	
+    			erp_frame erp_main = new erp_frame(logId);//跳到main頁面    	
     			erp_main.setVisible(true);	      
     	        dispose(); //關掉原本的視窗
     		}else if(idOk & pwOk & ifedit & !repeatPW){ //帳密正確且要修改密碼
@@ -409,20 +409,20 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new login().setVisible(true);
             }
         });
     }

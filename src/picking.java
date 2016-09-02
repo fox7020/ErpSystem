@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 /**
 * @author Veronica.C
 */
-public class Picking extends javax.swing.JPanel {
+public class picking extends javax.swing.JPanel {
 	private Connection conn;
 	private List<String> empList, matList;  
 	private String empArray[], matArray[];
@@ -27,7 +27,7 @@ public class Picking extends javax.swing.JPanel {
 	private boolean noStock =false;
 	private int editchangeQty=0, editQty=0;
 	
-    public Picking() {
+    public picking() {
     	databaseConnect();
     	empList = new ArrayList<String>(); //產生List裝id
     	matList = new ArrayList<String>();
