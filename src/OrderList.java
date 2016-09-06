@@ -38,7 +38,11 @@ public class OrderList extends javax.swing.JPanel {
         setDBProp();
         init();
     }
-    
+    public OrderList(Connection conn) {
+        initComponents();
+        this.conn = conn;
+        init();
+    }
     private void setItem(JComboBox<String> cbox , String[] fields){        
         cbox.setModel(new javax.swing.DefaultComboBoxModel<>(fields));
     }
@@ -81,17 +85,16 @@ public class OrderList extends javax.swing.JPanel {
 				|| combo_customerId.getSelectedItem().toString().equals("")
 				|| ((JTextField) date_orderDate.getDateEditor().getUiComponent()).getText().equals("")
 				|| combo_status.getSelectedItem().toString().equals("")
-				|| combo_dispatch.getSelectedItem().toString().equals("")
-				|| text_note.getText().equals("")) {
+				|| combo_dispatch.getSelectedItem().toString().equals("")) {
 			isRightData = false;
 		} else {
 			isRightData = true;
 		}
 		return isRightData;
 	}
-	private LinkedList selectMember(){
+	private LinkedList<String[]> selectMember(){
         try{
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM member");
+            pstmt = conn.prepareStatement("SELECT * FROM member");
             ResultSet result =  pstmt.executeQuery();                    
             LinkedList<String[]> rows = new LinkedList<String[]>();
            
@@ -101,7 +104,7 @@ public class OrderList extends javax.swing.JPanel {
                 member[1] = result.getString("memberName");
                 rows.add(member);
             }
-            pstmt.close();
+            
             return rows;
         }catch(Exception e){
             e.printStackTrace();
@@ -124,10 +127,9 @@ public class OrderList extends javax.swing.JPanel {
                             + ""+combo_dispatch.getSelectedItem().toString()+"','"
                             + ""+text_note.getText()+"')");
             isInsert = pstmt.executeUpdate();
+   
             
-
-            
-            pstmt.close();
+            clearInput();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -142,6 +144,9 @@ public class OrderList extends javax.swing.JPanel {
 				pstmt = conn.prepareStatement("DELETE FROM orderList WHERE orderNum = ?");
 				pstmt.setString(1, text_orderNum.getText());
 				isDel = pstmt.executeUpdate();
+				
+				
+				clearInput();
 			}
 			catch(SQLException ee){
 				System.out.println(ee.toString());
@@ -154,9 +159,10 @@ public class OrderList extends javax.swing.JPanel {
 	protected int updateData() {
 		String strOrderNum = text_orderNum.getText();
         java.util.Date date = date_orderDate.getDate();        
-        String strDate =DateFormat.getDateInstance().format(date);      
+        String strDate =DateFormat.getDateInstance().format(date);   
+        String strStatus =  combo_status.getSelectedItem().toString();	//已出貨訂單不給修改
 		int isUpdate = 0;
-		if (getUserInputParm() == true) {
+		if (getUserInputParm() == true && (!strStatus.equals("已出貨"))) {
 			try {
 				pstmt = conn.prepareStatement(
 						"UPDATE orderList SET customerId=?,orderDate=?,status=?,dispatch=?,note=? WHERE orderNum = ?" );
@@ -169,6 +175,7 @@ public class OrderList extends javax.swing.JPanel {
 				isUpdate = pstmt.executeUpdate();
 				
 				
+				clearInput();
 			} catch (SQLException ee) {
 				System.out.println(ee.toString());
 			}
@@ -193,8 +200,8 @@ public class OrderList extends javax.swing.JPanel {
 
                 rows.add(row);
             }
-
-            pstmt.close();
+            clearInput();
+            
             
         }catch(Exception e){
             e.printStackTrace();
@@ -264,7 +271,6 @@ public class OrderList extends javax.swing.JPanel {
 		text_note.setText(data.get(5));
 	}
 	private void combo_customerIdActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
         String slt = combo_customerId.getSelectedItem().toString();
         for(int i = 0; i < member.get("memberNum").length;i++){
             if(member.get("memberNum")[i].equals(slt)){
@@ -272,8 +278,12 @@ public class OrderList extends javax.swing.JPanel {
             }
         }
     }        
-    
-    
+    private void text_orderNumKeyReleased(java.awt.event.KeyEvent evt) {                                          
+        // TODO add your handling code here:
+    	String re = "\\d*?";
+        if(!text_orderNum.getText().matches(re))
+        	 text_orderNum.setText("");
+    }   
     
     
     @SuppressWarnings("unchecked")
@@ -323,10 +333,15 @@ public class OrderList extends javax.swing.JPanel {
         add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 320, -1, -1));
 
         text_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 180, 40));
+        text_orderNum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                text_orderNumKeyReleased(evt);
+            }
+        });
+        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 75, 200, 35));
 
         date_orderDate.setDateFormatString("yyyy/M/d h:m:s");
-        add(date_orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 180, 40));
+        add(date_orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 195, 200, 35));
 
         text_note.setColumns(20);
         text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
@@ -340,15 +355,15 @@ public class OrderList extends javax.swing.JPanel {
                 combo_customerIdActionPerformed(evt);
             }
         });
-        add(combo_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 80, 40));
+        add(combo_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 75, 80, 35));
 
-        add(combo_dispatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 330, 80, 40));
+        add(combo_dispatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 325, 80, 35));
 
-        add(combo_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 200, 80, 40));
+        add(combo_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 195, 80, 35));
 
         label_customerName.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
-        add(label_customerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 80, 150, 40));
-    }// </editor-fold>          
+        add(label_customerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 75, 150, 40));
+    }// </editor-fold>         
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

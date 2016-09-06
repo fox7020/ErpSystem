@@ -12,20 +12,25 @@ import java.util.Properties;
 
 import javax.swing.JTextField;
 
-
-
 public class Issue extends javax.swing.JPanel {
-    private Connection conn;
+	private Connection conn;
 	private Properties prop;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-    HashMap <String,String[]> member = new HashMap<>();
-    public Issue() {
-        initComponents();
-        setDBProp();
-        init();
-    }
-    
+	HashMap<String, String[]> member = new HashMap<>();
+
+	public Issue() {
+		initComponents();
+		setDBProp();
+		init();
+	}
+
+	public Issue(Connection conn) {
+		initComponents();
+		this.conn = conn;
+		init();
+	}
+
 	private void setDBProp() {
 
 		prop = new Properties();
@@ -40,84 +45,81 @@ public class Issue extends javax.swing.JPanel {
 			e.printStackTrace();
 		}
 	}
-	
-	private void init(){
-        LinkedList<String[]> members = selectMember();
-        String[] memberNum = new String[members.size()];
-        String[] memberName  = new String[members.size()];
 
-        for(int i = 0; i < members.size();i++){
-            memberNum[i] = members.get(i)[0];
-            memberName[i] = members.get(i)[1];
-        }
+	private void init() {
+		LinkedList<String[]> members = selectMember();
+		String[] memberNum = new String[members.size()];
+		String[] memberName = new String[members.size()];
 
-        member.put("memberNum", memberNum);
-        member.put("memberName", memberName);
-        combo_customerId.setModel(new javax.swing.DefaultComboBoxModel<>(memberNum));
+		for (int i = 0; i < members.size(); i++) {
+			memberNum[i] = members.get(i)[0];
+			memberName[i] = members.get(i)[1];
+
+		}
+
+		member.put("memberNum", memberNum);
+		member.put("memberName", memberName);
+		combo_customerId.setModel(new javax.swing.DefaultComboBoxModel<>(memberNum));
+		label_customName.setText(member.get("memberName")[0]);
 	}
-	//判斷input有無空白
+
+	// 判斷input有無空白
 	private boolean getUserInputParm() {
 		boolean isRightData = false;
-		if (combo_customerId.getSelectedItem().toString().equals("") 
-				|| text_complaint.getText().equals("")
-				|| text_price.getText().equals("")
-				|| text_note.getText().equals("")) {
+		if (combo_customerId.getSelectedItem().toString().equals("") || text_complaint.getText().equals("")
+				|| text_price.getText().equals("")) {
 			isRightData = false;
 		} else {
 			isRightData = true;
 		}
 		return isRightData;
 	}
-	
-	//增
-    protected int insertData(){
-    	
-    	int isInsert = 0;	//紀錄資料有沒有insert成功
-    	if (getUserInputParm() == true) {
-	        try{
-	            pstmt = conn.prepareStatement(
-	                    "INSERT INTO issue(customerId,complaint,price,note) VALUES('"
-	                            + ""+combo_customerId.getSelectedItem().toString()+"','"
-	                            + ""+text_complaint.getText()+"','"
-	                            + ""+text_price.getText()+"','"
-	                            + ""+text_note.getText()+"')");
-	            isInsert = pstmt.executeUpdate();
-	            
 
-	            
-	            pstmt.close();
-	        }catch(Exception e){
-	            e.printStackTrace();
-	        }
-    	}
-    	
-    	return isInsert;
-    }
-    
-	protected int delData(){
+	// 增
+	protected int insertData() {
+
+		int isInsert = 0; // 紀錄資料有沒有insert成功
+		if (getUserInputParm() == true) {
+			try {
+				pstmt = conn.prepareStatement("INSERT INTO issue(customerId,complaint,price,note) VALUES('" + ""
+						+ combo_customerId.getSelectedItem().toString() + "','" + "" + text_complaint.getText() + "','"
+						+ "" + text_price.getText() + "','" + "" + text_note.getText() + "')");
+				isInsert = pstmt.executeUpdate();
+
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return isInsert;
+	}
+
+	protected int delData() {
 		int isDel = 0;
-		if(!combo_customerId.getSelectedItem().toString().equals("")){
-			try{
+		if (!combo_customerId.getSelectedItem().toString().equals("")) {
+			try {
 				pstmt = conn.prepareStatement("DELETE FROM issue WHERE customerId = ?");
 				pstmt.setString(1, combo_customerId.getSelectedItem().toString());
 				isDel = pstmt.executeUpdate();
-			}
-			catch(SQLException ee){
+				
+				
+				clearInput();
+			} catch (SQLException ee) {
 				System.out.println(ee.toString());
 			}
 		}
-		
+
 		return isDel;
 	}
-    
-    //修
+
+	// 修
 	protected int updateData() {
 		String strCustomerNum = combo_customerId.getSelectedItem().toString();
 		int isUpdate = 0;
 		if (getUserInputParm() == true) {
 			try {
-				pstmt = conn.prepareStatement(
-						"UPDATE issue SET complaint=?,price=?,note=? WHERE customerId=?" );
+				pstmt = conn.prepareStatement("UPDATE issue SET complaint=?,price=?,note=? WHERE customerId=?");
 				pstmt.setString(1, text_complaint.getText());
 				pstmt.setString(2, text_price.getText());
 				pstmt.setString(3, text_note.getText());
@@ -125,70 +127,71 @@ public class Issue extends javax.swing.JPanel {
 				isUpdate = pstmt.executeUpdate();
 				
 				
+				
+				clearInput();
 			} catch (SQLException ee) {
 				System.out.println(ee.toString());
 			}
 		}
 		return isUpdate;
 	}
-    
-    //查
-    protected LinkedList<String[]> queryData(){
-    	LinkedList<String[]> rows = new LinkedList<String[]>();
-        try{
-            pstmt = conn.prepareStatement("SELECT * FROM issue");
-            rs =  pstmt.executeQuery();
-   
-            while(rs.next()){
-                String[] row = new String[4];
-                row[0] = rs.getString("customerId");
-                row[1] = rs.getString("complaint");
-                row[2] = rs.getString("price");
-                row[3] = rs.getString("note");
 
-                rows.add(row);
-            }
+	// 查
+	protected LinkedList<String[]> queryData() {
+		LinkedList<String[]> rows = new LinkedList<String[]>();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM issue");
+			rs = pstmt.executeQuery();
 
-            pstmt.close();
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return rows;
-    }
-    private LinkedList selectMember(){
-        try{
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM member");
-            ResultSet result =  pstmt.executeQuery();                    
-            LinkedList<String[]> rows = new LinkedList<String[]>();
-           
-            while(result.next()){
-                String[] member = new String[2];
-                member[0] = result.getString("customerId");
-                member[1] = result.getString("memberName");
-                rows.add(member);
-            }
-            pstmt.close();
-            return rows;
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    
-    protected String[] getColumn(){ 
-        String[] columnName = new String[]{"customerId","complaint","price","note",};
-        return columnName;
-    }
-    
-	protected  LinkedList<String[]> search(String value){
+			while (rs.next()) {
+				String[] row = new String[4];
+				row[0] = rs.getString("customerId");
+				row[1] = rs.getString("complaint");
+				row[2] = rs.getString("price");
+				row[3] = rs.getString("note");
+				rows.add(row);
+			}
+			
+			
+			clearInput();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rows;
+	}
+
+	private LinkedList<String[]> selectMember() {
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM member");
+			ResultSet result = pstmt.executeQuery();
+			LinkedList<String[]> rows = new LinkedList<String[]>();
+
+			while (result.next()) {
+				String[] member = new String[2];
+				member[0] = result.getString("customerId");
+				member[1] = result.getString("memberName");
+				rows.add(member);
+			}
+			
+			return rows;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	protected String[] getColumn() {
+		String[] columnName = new String[] { "customerId", "complaint", "price", "note", };
+		return columnName;
+	}
+
+	protected LinkedList<String[]> search(String value) {
 		LinkedList<String[]> data = new LinkedList<>();
 		try {
 			pstmt = conn.prepareStatement(
 					"SELECT * FROM issue WHERE customerId LIKE ? OR complaint LIKE? OR price LIKE ? OR note LIKE ?");
-			String query = "%" + value +"%";
-			for(int i=1 ; i<5; i++){
+			String query = "%" + value + "%";
+			for (int i = 1; i < 5; i++) {
 				pstmt.setString(i, query);
 			}
 			rs = pstmt.executeQuery();
@@ -205,39 +208,38 @@ public class Issue extends javax.swing.JPanel {
 		}
 		return data;
 	}
-  
+
 	protected void setInputValue(HashMap<Integer, String> data) {
 		combo_customerId.setSelectedItem(data.get(0));
 		text_complaint.setText(data.get(1));
-		text_price.setText(data.get(2));	
+		text_price.setText(data.get(2));
 		text_note.setText(data.get(3));
 	}
-	
-	
-	protected void clearInput(){
+
+	protected void clearInput() {
 		combo_customerId.setSelectedItem("");
-        label_customName.setText("");
-        text_complaint.setText("");
-        text_price.setText("");
-        text_note.setText("");
-    }
-	
-	
-    private void combo_customerIdActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
-        String slt = combo_customerId.getSelectedItem().toString();
-        for(int i = 0; i < member.get("memberNum").length;i++){
-            if(member.get("memberNum")[i].equals(slt)){
-                label_customName.setText(member.get("memberName")[i]);
-            }
-        }
-    }       
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+		label_customName.setText(member.get("memberName")[0]);
+		text_complaint.setText("");
+		text_price.setText("");
+		text_note.setText("");
+	}
+
+	private void combo_customerIdActionPerformed(java.awt.event.ActionEvent evt) {
+		String slt = combo_customerId.getSelectedItem().toString();
+		for (int i = 0; i < member.get("memberNum").length; i++) {
+			if (member.get("memberNum")[i].equals(slt)) {
+				label_customName.setText(member.get("memberName")[i]);
+			}
+		}
+	}
+    
+    private void text_priceKeyReleased(java.awt.event.KeyEvent evt) {                                       
+    	String re = "[1-9]\\d*?";
+        if(!text_price.getText().matches(re))
+            	text_price.setText(""); 
+    }   
+
+	@SuppressWarnings("unchecked")
     private void initComponents() {
 
         label_customerId = new javax.swing.JLabel();
@@ -273,14 +275,19 @@ public class Issue extends javax.swing.JPanel {
         add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, -1, -1));
 
         text_price.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
-        add(text_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 150, 25));
+        text_price.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                text_priceKeyReleased(evt);
+            }
+        });
+        add(text_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 75, 200, 35));
 
         text_complaint.setColumns(20);
         text_complaint.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         text_complaint.setRows(5);
         scroll_complaint.setViewportView(text_complaint);
 
-        add(scroll_complaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 600, 150));
+        add(scroll_complaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 620, 150));
 
         scroll_note.setToolTipText("");
         scroll_note.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -290,30 +297,29 @@ public class Issue extends javax.swing.JPanel {
         text_note.setRows(5);
         scroll_note.setViewportView(text_note);
 
-        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 346, 600, 80));
+        add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 346, 620, 80));
 
         combo_customerId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 combo_customerIdActionPerformed(evt);
             }
         });
-        add(combo_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, -1, -1));
+        add(combo_customerId, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 75, 80, 35));
 
         label_customName.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
-        add(label_customName, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 100, 40));
-    }// </editor-fold>               
+        add(label_customName, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 100, 40));
+    }// </editor-fold>                      
 
-  
-    private javax.swing.JComboBox<String> combo_customerId;
-    private javax.swing.JLabel label_complaint;
-    private javax.swing.JLabel label_customName;
-    private javax.swing.JLabel label_customerId;
-    private javax.swing.JLabel label_note;
-    private javax.swing.JLabel label_price;
-    private javax.swing.JScrollPane scroll_complaint;
-    private javax.swing.JScrollPane scroll_note;
-    private javax.swing.JTextArea text_complaint;
-    private javax.swing.JTextArea text_note;
-    private javax.swing.JTextField text_price;
+	private javax.swing.JComboBox<String> combo_customerId;
+	private javax.swing.JLabel label_complaint;
+	private javax.swing.JLabel label_customName;
+	private javax.swing.JLabel label_customerId;
+	private javax.swing.JLabel label_note;
+	private javax.swing.JLabel label_price;
+	private javax.swing.JScrollPane scroll_complaint;
+	private javax.swing.JScrollPane scroll_note;
+	private javax.swing.JTextArea text_complaint;
+	private javax.swing.JTextArea text_note;
+	private javax.swing.JTextField text_price;
 
 }

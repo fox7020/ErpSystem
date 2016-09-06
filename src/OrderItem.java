@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,17 +26,23 @@ public class OrderItem extends javax.swing.JPanel {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
     HashMap <String,String[]> products = new HashMap<>();
+    private String nowProductNum;
     
     public OrderItem() {
         initComponents();
         setDBProp();
         init();
     }
+    public OrderItem(Connection conn) {
+        initComponents();
+        this.conn = conn;
+        init();
+    }
     private void init(){
         LinkedList<String[]> prods = selectProduct();
        String[] prodNum = new String[prods.size()];
        String[] prodName  = new String[prods.size()];
-
+       nowProductNum = new String();
        for(int i = 0; i < prods.size();i++){
            prodNum[i] = prods.get(i)[0];
            prodName[i] = prods.get(i)[1];
@@ -63,8 +71,7 @@ public class OrderItem extends javax.swing.JPanel {
 		boolean isRightData = false;
 		if (text_orderNum.getText().equals("") 
 				|| combo_productNum.getSelectedItem().toString().equals("")
-				|| text_qty.getText().equals("")
-				|| text_note.getText().equals("")) {
+				|| text_qty.getText().equals("")) {
 			isRightData = false;
 		} else {
 			isRightData = true;
@@ -84,8 +91,8 @@ public class OrderItem extends javax.swing.JPanel {
                             + ""+text_note.getText()+"')");
             isInsert = pstmt.executeUpdate();
             
+            clearInput();
             
-            pstmt.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -101,6 +108,7 @@ public class OrderItem extends javax.swing.JPanel {
 				pstmt.setString(1, text_orderNum.getText());
 				pstmt.setString(2, combo_productNum.getSelectedItem().toString());
 				isDel = pstmt.executeUpdate();
+				clearInput();
 			}
 			catch(SQLException ee){
 				System.out.println(ee.toString());
@@ -117,14 +125,15 @@ public class OrderItem extends javax.swing.JPanel {
 		if (getUserInputParm() == true) {
 			try {
 				pstmt = conn.prepareStatement(
-						"UPDATE orderItem SET qty=?,note=?  WHERE orderNum = ? AND productNum = ?" );
-				pstmt.setString(1, text_qty.getText());
-				pstmt.setString(2, text_note.getText());
-				pstmt.setString(3, strorderNum);
-				pstmt.setString(4, strproductNum);
+						"UPDATE orderItem SET productNum=?,qty=?,note=? WHERE orderNum =? AND productNum=?" );
+				pstmt.setString(1, strproductNum);
+				pstmt.setString(2, text_qty.getText());
+				pstmt.setString(3, text_note.getText());
+				pstmt.setString(4, strorderNum);
+				pstmt.setString(5, nowProductNum);
 				isUpdate = pstmt.executeUpdate();
-				
-				
+				nowProductNum = strproductNum;
+				clearInput();
 			} catch (SQLException ee) {
 				System.out.println(ee.toString());
 			}
@@ -146,11 +155,11 @@ public class OrderItem extends javax.swing.JPanel {
                 row[1] = rs.getString("productNum");
                 row[2] = rs.getString("qty");
                 row[3] = rs.getString("note");
-
+                clearInput();
                 rows.add(row);
             }
 
-            pstmt.close();
+            
             
         }catch(Exception e){
             e.printStackTrace();
@@ -158,7 +167,6 @@ public class OrderItem extends javax.swing.JPanel {
         }
         return rows;
     }
-    
     
 	protected  LinkedList<String[]> search(String value){
 		LinkedList<String[]> data = new LinkedList<>();
@@ -187,6 +195,7 @@ public class OrderItem extends javax.swing.JPanel {
 	protected void setInputValue(HashMap<Integer, String> data) {
 		text_orderNum.setText(data.get(0));
 		combo_productNum.setSelectedItem(data.get(1));
+		nowProductNum = data.get(1);
 		text_qty.setText(data.get(2));	
 		text_note.setText(data.get(3));
 	}
@@ -205,7 +214,7 @@ public class OrderItem extends javax.swing.JPanel {
     }
     private LinkedList selectProduct(){
         try{
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM product");
+            pstmt = conn.prepareStatement("SELECT * FROM product");
             ResultSet result =  pstmt.executeQuery();                    
             LinkedList<String[]> rows = new LinkedList<String[]>();
            
@@ -215,13 +224,30 @@ public class OrderItem extends javax.swing.JPanel {
                 product[1] = result.getString("productName");
                 rows.add(product);
             }
-            pstmt.close();
+            
             return rows;
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
     }
+    
+    private void text_qtyKeyReleased(java.awt.event.KeyEvent evt) {                                     
+        // TODO add your handling code here:
+        String re = "[1-9]\\d*?";
+        if(!text_qty.getText().matches(re))
+        	 text_qty.setText("");
+    }                                    
+
+    private void text_orderNumKeyReleased(java.awt.event.KeyEvent evt) {                                          
+        // TODO add your handling code here:
+         String re = "\\d*?";
+        if(!text_orderNum.getText().matches(re))
+        	 text_orderNum.setText("");
+    }     
+    
+    
+    
 
     @SuppressWarnings("unchecked")
  // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
@@ -259,10 +285,20 @@ public class OrderItem extends javax.swing.JPanel {
         add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, -1, -1));
 
         text_orderNum.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
-        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 200, 40));
+        text_orderNum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                text_orderNumKeyReleased(evt);
+            }
+        });
+        add(text_orderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 75, 200, 35));
 
         text_qty.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
-        add(text_qty, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 200, 40));
+        text_qty.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                text_qtyKeyReleased(evt);
+            }
+        });
+        add(text_qty, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 165, 200, 35));
 
         text_note.setColumns(20);
         text_note.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
@@ -277,9 +313,11 @@ public class OrderItem extends javax.swing.JPanel {
                 combo_productNumActionPerformed(evt);
             }
         });
-        add(combo_productNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 80, 40));
-        add(label_productName, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 80, 150, 40));
-    }// </editor-fold>    
+        add(combo_productNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 75, 80, 35));
+
+        label_productName.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
+        add(label_productName, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 75, 150, 40));
+    }// </editor-fold>           
     private void combo_productNumActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
         String slt = combo_productNum.getSelectedItem().toString();

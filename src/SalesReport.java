@@ -90,7 +90,7 @@ public class SalesReport extends javax.swing.JPanel {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/erp", prop);
 //            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 //            conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=erp;user=sa;password=00000000;");
-            System.out.println("salesReport.setDBProp()");
+//            System.out.println("salesReport.setDBProp()");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,7 +184,7 @@ public class SalesReport extends javax.swing.JPanel {
                 if(yearfields.indexOf(y) < 0)yearfields.add(y);                
                 rows.add(row);
                 
-                System.out.println(row[0] + ":" + row[1] + ":" + row[2]);
+//                System.out.println(row[0] + ":" + row[1] + ":" + row[2]);
             }           
             //排序
             java.util.Collections.sort(yearfields);
@@ -249,7 +249,7 @@ public class SalesReport extends javax.swing.JPanel {
             for(int j = 0; j < productInfo.get(i).size();j++){
                 String prodNum = productInfo.get(i).get(j)[1];
                 if(prodNums.indexOf(prodNum) < 0){
-                    System.out.println("prodNum : " + prodNum);
+//                    System.out.println("prodNum : " + prodNum);
                     prodNums.add(prodNum);
                 }
             }
@@ -475,7 +475,7 @@ public class SalesReport extends javax.swing.JPanel {
                 row[1] = result.getString("work");  //上班打卡時間
                 row[2] = result.getString("offwork");//下班打卡時間              
                 rows.add(row);
-                System.out.println("work : " + row[1]);
+//                System.out.println("work : " + row[1]);
             }
 
             pstmt.close();
