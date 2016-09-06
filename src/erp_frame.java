@@ -30,7 +30,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  * @author 許哲浩
  */
 public class erp_frame extends JFrame {
-	private Connection conn;
 	// 宜宏
 	private CardLayout nowLayout;
 	private EmptyPanel empty;
@@ -159,7 +158,6 @@ public class erp_frame extends JFrame {
 		userID = loginID;
 		initComponents();
 		init();
-		this.conn = conn;
 		table_firmData.setRowHeight(30);
 		// 宜宏
 		empty = new EmptyPanel();
@@ -173,10 +171,10 @@ public class erp_frame extends JFrame {
 		product = new Product();
 		member = new Member();
 		// 哲浩
-		orderlist = new OrderList(conn);
-		orderitem = new OrderItem(conn);
-		issue = new Issue(conn);
-		vendor = new Vendor(conn);
+		orderlist = new OrderList();
+		orderitem = new OrderItem();
+		issue = new Issue();
+		vendor = new Vendor();
 		salesReport = new SalesReport();
 		// Veronica edit
 		admin = new Admin();
@@ -2163,14 +2161,14 @@ public class erp_frame extends JFrame {
 			case "廠商資料表":
 				if (text_search.getText() != "") {
 					data.clear();
-					data = vendor.search(text_search.getText());			
+					data = vendor.search(text_search.getText());
 					tableModel.fireTableDataChanged();
 				} else {
 					data.clear();
-					data = vendor.queryData();			
+					data = vendor.queryData();
 					tableModel.fireTableDataChanged();
 				}
-				break;
+
 			case "帳號管理表":
 				if (text_search.getText() != "") {
 					data.clear();

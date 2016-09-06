@@ -28,10 +28,6 @@ public class Vendor extends javax.swing.JPanel {
         initComponents();
         setDBProp();
     }
-    public Vendor(Connection conn) {
-        initComponents();
-        this.conn = conn;
-    }
 	private void setDBProp() {
 
 		prop = new Properties();
@@ -54,42 +50,35 @@ public class Vendor extends javax.swing.JPanel {
 				|| text_vendorAddr.getText().equals("")
 				|| text_taxId.getText().equals("")
 				|| text_contactPerson.getText().equals("")
-				|| text_paymentTerm.getText().equals("")) {
+				|| text_paymentTerm.getText().equals("")
+				|| text_note.getText().equals("")) {
 			isRightData = false;
 		} else {
 			isRightData = true;
 		}
 		return isRightData;
 	}
-    //廠商名稱重複不能insert
-    protected int insertData(){   	
-    	int isInsert = 0;		
-    	String strVendorName = text_vendorName.getText();
-    	String strVendorTel = text_vendorTel.getText();
-    	String strVendorAddr = text_vendorAddr.getText();
-    	String strTaxId = text_taxId.getText();
-    	String strContactPerson = text_contactPerson.getText();
-    	String strPaymentTerm = text_paymentTerm.getText();
-    	String strNote = text_note.getText();
+    
+    protected int insertData(){
     	
+    	int isInsert = 0;	
         try{
-	        	if(isNameCorrect(strVendorName)){
-			            pstmt = conn.prepareStatement(
-			                    "INSERT INTO vendor(vendorName,tel,address,taxId,contactPerson,paymentTerm,note)"
-			                    + " VALUES(?,?,?,?,?,?,?)");
-			            pstmt.setString(1, strVendorName);
-			            pstmt.setString(2, strVendorTel);
-			            pstmt.setString(3, strVendorAddr);
-			            pstmt.setString(4, strTaxId);
-			            pstmt.setString(5, strContactPerson);
-			            pstmt.setString(6, strPaymentTerm);
-			            pstmt.setString(7, strNote);
-			            isInsert = pstmt.executeUpdate();	
-						clearInput();
-	        	}
+            pstmt = conn.prepareStatement(
+                    "INSERT INTO vendor(vendorName,tel,address,taxId,contactPerson,paymentTerm,note) VALUES('"
+                            + ""+text_vendorName.getText()+"','"
+                            + ""+text_vendorTel.getText()+"','"
+                            + ""+text_vendorAddr.getText()+"','"
+                            + ""+text_taxId.getText()+"','"
+                            + ""+text_contactPerson.getText()+"','"
+                            + ""+text_paymentTerm.getText()+"','"
+                            + ""+text_note.getText()+"')");
+            isInsert = pstmt.executeUpdate();
+       
+            pstmt.close();
         }catch(Exception e){
             e.printStackTrace();
         }
+        
         return isInsert;
     }
     
@@ -98,12 +87,9 @@ public class Vendor extends javax.swing.JPanel {
 		int isDel = 0;
 		if(!text_vendorName.getText().equals("")){
 			try{
-				pstmt = conn.prepareStatement("DELETE FROM vendor WHERE vendorName = ?");
+				pstmt = conn.prepareStatement("DELETE FROM vendor WHERE text_vendorName = ?");
 				pstmt.setString(1, text_vendorName.getText());
 				isDel = pstmt.executeUpdate();
-				
-				
-				clearInput();
 			}
 			catch(SQLException ee){
 				System.out.println(ee.toString());
@@ -128,10 +114,9 @@ public class Vendor extends javax.swing.JPanel {
 				pstmt.setString(6, text_note.getText());
 				pstmt.setString(7, strVendorName);
 				
+				
 				isUpdate = pstmt.executeUpdate();
 				
-				
-				clearInput();
 				
 			} catch (SQLException ee) {
 				System.out.println(ee.toString());
@@ -164,8 +149,8 @@ public class Vendor extends javax.swing.JPanel {
                 rows.add(row);
             }
 
-            
-            clearInput();
+            pstmt.close();
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -176,26 +161,25 @@ public class Vendor extends javax.swing.JPanel {
 		LinkedList<String[]> data = new LinkedList<>();
 		try {
 			pstmt = conn.prepareStatement(
-					"SELECT * FROM vendor WHERE vendorNum LIKE ? OR vendorName LIKE ? OR tel LIKE?"
+					"SELECT * FROM vendor WHERE vendorName LIKE ? OR tel LIKE?"
 					+ " OR address LIKE ?  OR taxId LIKE ?  OR contactPerson LIKE ?  "
 					+ "OR paymentTerm LIKE ? OR note LIKE ?");
 			String query = "%" + value +"%";
-			for(int i=1 ; i<9; i++){
+			for(int i=1 ; i<8; i++){
 				pstmt.setString(i, query);
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String[] row = new String[8];
-				row[0] = rs.getString("vendorNum");
-				row[1] = rs.getString("vendorName");
-				row[2] = rs.getString("tel");
-				row[3] = rs.getString("address");
-				row[4] = rs.getString("taxId");
-				row[5] = rs.getString("contactPerson");
-				row[6] = rs.getString("paymentTerm");
-				row[7] = rs.getString("note");
+				String[] row = new String[7];
+				row[0] = rs.getString("vendorName");
+				row[1] = rs.getString("tel");
+				row[2] = rs.getString("address");
+				row[3] = rs.getString("taxId");
+				row[4] = rs.getString("contactPerson");
+				row[5] = rs.getString("paymentTerm");
+				row[6] = rs.getString("note");
 				data.add(row);
-			}			
+			}
 		} catch (SQLException ee) {
 			ee.toString();
 		}
@@ -228,39 +212,11 @@ public class Vendor extends javax.swing.JPanel {
         text_vendorAddr.setText("");
         text_taxId.setText("");
         text_contactPerson.setText("");
-        text_paymentTerm.setText("");        
+        text_paymentTerm.setText("");
+        
         text_note.setText("");
     }
-	//檢查廠商名稱有無重複
-    private boolean isNameCorrect(String vendorName){
-    	LinkedList<String[]> qdata = queryData();
-    	for(int i = 0; i < qdata.size();i++){
-    		if(qdata.get(i)[1].equals(vendorName))
-    			return false;
-    	}
-    	return true;
-    }
     
-    
-    private void text_taxIdKeyReleased(java.awt.event.KeyEvent evt) {                                       
-        // TODO add your handling code here:
-        String re = "\\d*?";
-        if(!text_taxId.getText().matches(re))
-            text_taxId.setText("");
-    }       
-    private void text_vendorTelKeyReleased(java.awt.event.KeyEvent evt) {                                           
-        // TODO add your handling code here:
-        String re = "\\d*?";
-        String phoneNum = "\\(0\\d+?\\)\\d*?";
-        String cellPhone = "^\\d{4}-\\d{6}\\d*?";
-        if(text_vendorTel.getText().matches(phoneNum)){
-            System.out.println("Phone Num : " + text_vendorTel.getText().length());
-        }
-        if(text_vendorTel.getText().matches(re))
-            System.out.println("RE : " + text_vendorTel.getText().length());
-        if(text_vendorTel.getText().matches(cellPhone))
-            System.out.println("Cell phone : " + text_vendorTel.getText().length());
-    } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -295,51 +251,41 @@ public class Vendor extends javax.swing.JPanel {
 
         label_vendorAddr.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_vendorAddr.setText("廠商地址");
-        add(label_vendorAddr, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 142, -1, 20));
+        add(label_vendorAddr, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, 20));
 
         label_taxId.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_taxId.setText("統編");
-        add(label_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 142, -1, -1));
+        add(label_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 140, -1, -1));
 
         label_contactPerson.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_contactPerson.setText("聯絡人");
-        add(label_contactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 205, -1, -1));
+        add(label_contactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, -1, -1));
 
         label_paymentTerm.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_paymentTerm.setText("付款條件");
-        add(label_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 205, -1, 20));
+        add(label_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, -1, 20));
 
         label_note.setFont(new java.awt.Font("微軟正黑體", 0, 15)); // NOI18N
         label_note.setText("備註");
         add(label_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, -1, -1));
 
         text_vendorName.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_vendorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 75, 200, 35));
+        add(text_vendorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 200, 40));
 
         text_vendorTel.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        text_vendorTel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                text_vendorTelKeyReleased(evt);
-            }
-        });
-        add(text_vendorTel, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 75, 200, 35));
+        add(text_vendorTel, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 80, 200, 40));
 
         text_vendorAddr.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_vendorAddr, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 137, 200, 35));
+        add(text_vendorAddr, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 200, 40));
 
         text_taxId.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        text_taxId.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                text_taxIdKeyReleased(evt);
-            }
-        });
-        add(text_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 137, 200, 35));
+        add(text_taxId, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, 200, 40));
 
         text_contactPerson.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_contactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 200, 35));
+        add(text_contactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 200, 40));
 
         text_paymentTerm.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
-        add(text_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 200, 35));
+        add(text_paymentTerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 200, 40));
 
         text_note.setColumns(20);
         text_note.setFont(new java.awt.Font("微軟正黑體", 0, 14)); // NOI18N
@@ -347,7 +293,7 @@ public class Vendor extends javax.swing.JPanel {
         scroll_note.setViewportView(text_note);
 
         add(scroll_note, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, 660, -1));
-    }// </editor-fold>                              
+    }// </editor-fold>                        
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
