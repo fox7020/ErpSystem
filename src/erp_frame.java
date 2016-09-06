@@ -633,7 +633,7 @@ public class erp_frame extends JFrame {
 			btnInsert.setVisible(false);
 			btnModify.setVisible(false);
 			btnClear.setToolTipText("顯示報表");
-			btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/table.png")));
+			btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/table.jpg")));
 		} else {
 			text_search.setVisible(true);
 			label_search.setVisible(true);
